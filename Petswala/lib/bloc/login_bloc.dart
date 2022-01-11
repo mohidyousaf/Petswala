@@ -9,8 +9,16 @@ class LoginBloc with Validator {
 // defining a dummy name and password
 
   // APi call
-  String name = 'mohid';
-  String pass = '123';
+  // String name = 'mohid';
+  // String pass = '123';
+  var users = [];
+  Future _doneInitialization;
+
+  // Constructor
+  LoginBloc(){
+    _doneInitialization = getUserData();
+  }
+
 
 // define controllers
   final _loginUserName = BehaviorSubject<String>();
@@ -30,20 +38,26 @@ class LoginBloc with Validator {
 
 // define setters
 
-  void test(String user) {
-    print('i am here');
-    _loginUserName.sink.add(user);
-  }
-
-  void test2(String password) {
-    print('i am here');
-    _loginPassword.sink.add(password);
-  }
+  // void test(String user) {
+  //   print('i am here');
+  //   _loginUserName.sink.add(user);
+  // }
+  //
+  // void test2(String password) {
+  //   print('i am here');
+  //   _loginPassword.sink.add(password);
+  // }
 
   Function(String) get changeUserName => _loginUserName.sink.add;
   Function(String) get changePassword => _loginPassword.sink.add;
 
 // password submission
+  Future getUserData() async{
+    var db = await DBConnection.getInstance();
+    users = await db.getUsers();
+  }
+
+  Future get initDone => _doneInitialization;
 
   Future<bool> submit() async {
     print(_loginPassword.value);
@@ -52,12 +66,10 @@ class LoginBloc with Validator {
     String testName = _loginUserName.value;
     String testPassword = _loginPassword.value;
 
-    var db = await DBConnection.getInstance();
-    var users = await db.getUsers();
     print(users[0].name);
 
     bool check = false;
-
+    await initDone;
     users.forEach((element) {
       if (element.name == testName) {
         if (element.password == testPassword) {
