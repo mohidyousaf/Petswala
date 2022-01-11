@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => AddPet2(),
+          '/': (context) => Login(),
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
