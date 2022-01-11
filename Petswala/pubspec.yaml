@@ -25,6 +25,7 @@ dependencies:
   dio: ^3.0.10
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
   http: ^0.12.0+1
   mongo_dart: ^0.4.3
   multiple_stream_builder: ^2.0.0

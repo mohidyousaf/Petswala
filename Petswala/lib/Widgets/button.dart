@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:petswala/Authentication/addPet.dart';
 
 Widget buildButton(String text) {
   return GestureDetector(
@@ -38,10 +40,11 @@ Widget buildButton(String text) {
   );
 }
 
-Widget buildButton2(String text, clr) {
+Widget buildButton2(String text, clr, context, destination) {
   return GestureDetector(
     onTap: () => {
-      //TODO : Login
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => destination))
     },
     child: Container(
       width: 300,

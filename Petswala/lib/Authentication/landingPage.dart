@@ -18,7 +18,7 @@ class _LandingPageState extends State<LandingPage> {
           image: AssetImage('assets/LandingPage.png'),
         )),
         child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          buildButton2('Join', Color.fromRGBO(255, 138, 128, 1)),
+          buildButton2('Join', Color.fromRGBO(255, 138, 128, 1), null, null),
           buildButton('skip')
         ]),
       ),
