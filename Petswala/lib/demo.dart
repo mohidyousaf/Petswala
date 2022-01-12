@@ -1,7 +1,10 @@
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 import 'package:petswala/Authentication/userClass.dart';
-import 'package:petswala/Widgets/productCard.dart';
+import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
+import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Widgets/productCard.dart';
 
 class DBConnection {
   static DBConnection _instance;
@@ -37,13 +40,17 @@ class DBConnection {
     }
     dynamic coll1 = _db.collection('Products');
     final products = await coll1.find().toList();
-    List<Product> finalList = [];
+    List<ProductItem> finalList = [];
     var poignant = products.forEach((element) {
-      finalList.add(Product(
-          productName: element['productname'],
-          price: int.parse(element['price']),
-          quantity: int.parse(element['quantity'])));
-    });
+      finalList.add(ProductItem(
+          name: element['productname'],
+          category: 'category',
+          price: double.parse(element['price']),
+          rating: double.parse(element['quantity']),
+          imageUrl: 'assets/cat.png')
+          );
+      });
+      print(finalList[0].category);
     return finalList;
   }
 
@@ -61,12 +68,15 @@ class DBConnection {
     }
     dynamic coll1 = _db.collection('Products');
     List products = await coll1.find({"storename": name}).toList();
-    List<Product> finalList = [];
+    List<ProductItem> finalList = [];
     var poignant = products.forEach((element) {
-      finalList.add(Product(
-          productName: element['productname'],
-          price: int.parse(element['price']),
-          quantity: int.parse(element['quantity'])));
+      finalList.add(ProductItem(
+          name: element['productname'],
+          category: 'category',
+          price: double.parse(element['price']),
+          rating: double.parse(element['quantity']),
+          imageUrl: 'assets/cat.png'
+          ));
     });
     return finalList;
   }
