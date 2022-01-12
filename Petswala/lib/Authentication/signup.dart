@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Widgets/textfield.dart';
 import 'package:petswala/Widgets/button.dart';
@@ -120,7 +121,9 @@ class _SignUpState extends State<SignUp> {
                               ? null
                               : () async {
                                   bloc.submit();
-                                  Navigator.pushNamed(context, '/login');
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) => AddPet()));
                                 },
                           child: Container(
                             width: 300,
@@ -142,7 +145,7 @@ class _SignUpState extends State<SignUp> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
-                                  'LET\'S GET STARTED',
+                                  'NEXT',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Color.fromRGBO(255, 255, 255, 1),

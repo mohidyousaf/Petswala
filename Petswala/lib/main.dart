@@ -4,6 +4,9 @@ import 'package:http/io_client.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:petswala/Authentication/addPet.dart';
+import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/bloc/pet_bloc.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -48,7 +51,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<LoginBloc>(create: (context) => LoginBloc()),
-        Provider<RegisterBLoc>(create: (context) => RegisterBLoc())
+        Provider<RegisterBLoc>(create: (context) => RegisterBLoc()),
+        Provider<PetBLoc>(create: (context) => PetBLoc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -67,7 +71,9 @@ class MyApp extends StatelessWidget {
           '/feed': (context) => newsFeed(),
           '/addItem': (context) => AddItem(),
           '/login': (context) => Login(),
-          '/boarding': (context) => Boarding()
+          '/boarding': (context) => Boarding(),
+          '/addpet1': (context) => AddPet(),
+          '/addpet2': (context) => AddPet2(),
         },
       ),
     );

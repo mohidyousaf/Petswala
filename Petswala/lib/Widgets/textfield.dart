@@ -14,16 +14,17 @@ Widget input_text_fields(String label, String hinttext) {
   );
 }
 
-Widget textField(String label, String hint) {
+Widget textField(String label, String hint, function) {
   return TextField(
     keyboardType: TextInputType.emailAddress,
     decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 30),
         fillColor: Colors.white,
         filled: true,
         hintText: hint,
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-    onChanged: (value) => {},
+    onChanged: (value) => {function(value)},
   );
 }
 

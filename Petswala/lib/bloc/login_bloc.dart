@@ -6,19 +6,14 @@ import 'package:petswala/demo.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validator {
-// defining a dummy name and password
-
   // APi call
-  // String name = 'mohid';
-  // String pass = '123';
   var users = [];
   Future _doneInitialization;
 
   // Constructor
-  LoginBloc(){
+  LoginBloc() {
     _doneInitialization = getUserData();
   }
-
 
 // define controllers
   final _loginUserName = BehaviorSubject<String>();
@@ -36,23 +31,13 @@ class LoginBloc with Validator {
   Stream<bool> get isValid =>
       Rx.combineLatest2(userName, password, (a, b) => true);
 
-// define setters
-
-  // void test(String user) {
-  //   print('i am here');
-  //   _loginUserName.sink.add(user);
-  // }
-  //
-  // void test2(String password) {
-  //   print('i am here');
-  //   _loginPassword.sink.add(password);
-  // }
+  // setters
 
   Function(String) get changeUserName => _loginUserName.sink.add;
   Function(String) get changePassword => _loginPassword.sink.add;
 
 // password submission
-  Future getUserData() async{
+  Future getUserData() async {
     var db = await DBConnection.getInstance();
     users = await db.getUsers();
   }

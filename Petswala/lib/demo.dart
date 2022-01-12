@@ -129,6 +129,16 @@ class DBConnection {
     return finalList;
   }
 
+  addPet(category, name, age) async {
+    if (_db == null) {
+      await getConnection();
+    }
+
+    await _db
+        .collection('Pets')
+        .insertOne({"name": name, "category": category, 'age': age});
+  }
+
   closeConnection() {
     _db.close();
   }

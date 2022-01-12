@@ -35,8 +35,6 @@ dependencies:
   sevr: ^1.0.4
   shared_preferences: ^2.0.5
   sqflite: null
-  material_floating_search_bar: ^0.3.3
-#  flutter_svg : ^0.17.4
 #  cloud_firestore: ^2.5.4
 #  firebase_auth: ^3.1.4
 dev_dependencies:
