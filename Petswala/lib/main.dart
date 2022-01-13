@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
-          '/profile': (context) => Profile(),
+          '/profile': (context) => UserProfile(),
           '/rescue': (context) => RescueMap(),
           '/maintenance': (context) => Maintenance(),
           '/shop': (context) => Shop(),
