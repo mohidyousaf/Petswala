@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/addPet2.dart';
 import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/homescreen_Casual.dart';
+import 'package:petswala/themes/colors.dart';
 
 class AddPet extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ Widget topbar(function) {
   return AppBar(
     leading:
         IconButton(icon: Image.asset('assets/back.png'), onPressed: function),
-    backgroundColor: Colors.white,
+    backgroundColor: AppColor.primary_light,
     title: Image.asset('assets/logo2.png', fit: BoxFit.cover),
     centerTitle: true,
     elevation: 0,

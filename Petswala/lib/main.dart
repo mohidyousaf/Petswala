@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/bloc/pet_bloc.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // '/': (context) => UserMarketplace(),
-          '/': (context) => Login(),
+          '/': (context) => UserProfile(),
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
