@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
-import 'package:petswala/CasualUser/blocs/userMarketplaceEvent.dart';
-import 'package:petswala/CasualUser/blocs/userMarketplaceState.dart';
+import 'package:petswala/CasualUser/events/userMarketplaceEvent.dart';
+import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
 import 'package:petswala/CasualUser/widgets/productCard.dart';
 import 'package:petswala/CasualUser/widgets/searchBar.dart';
 
@@ -15,7 +13,6 @@ import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
 
 class UserMarketplace extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -60,28 +57,29 @@ class PersonalisedProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: SizedBox(
-              height: 353,
-              child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                builder: (context, state) {
-                  return state.displayedProducts.length == 0 ? Text('No products'):
-                  ListView.separated(
-                      physics: BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => ProductCard(
-                            product: state.displayedProducts[index],
-                          ),
-                      separatorBuilder: (context, int) => SizedBox(
-                            width: 16,
-                          ),
-                      itemCount: state.displayedProducts.length);
-                },
-              ),
-            ),
-          );
+      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+      child: SizedBox(
+        height: 353,
+        child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+          builder: (context, state) {
+            return state.displayedProducts.length == 0
+                ? Text('No products')
+                : ListView.separated(
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => ProductCard(
+                          product: state.displayedProducts[index],
+                        ),
+                    separatorBuilder: (context, int) => SizedBox(
+                          width: 16,
+                        ),
+                    itemCount: state.displayedProducts.length);
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -108,7 +106,7 @@ class CategoryChips extends StatefulWidget {
 
 class _CategoryChipsState extends State<CategoryChips> {
   int selectedIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
