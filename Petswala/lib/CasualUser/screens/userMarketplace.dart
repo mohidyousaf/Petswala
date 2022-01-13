@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/events/userMarketplaceEvent.dart';
 import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
+import 'package:petswala/CasualUser/widgets/navBars.dart';
 import 'package:petswala/CasualUser/widgets/productCard.dart';
 import 'package:petswala/CasualUser/widgets/searchBar.dart';
 
@@ -22,6 +23,7 @@ class UserMarketplace extends StatelessWidget {
         ),
       ],
       child: Scaffold(
+        bottomNavigationBar: BottomNavBar(context),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
@@ -39,7 +41,7 @@ class UserMarketplace extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                     child: Text(
                       'Featured Products',
-                      style: AppFont.h4Light(AppColor.black),
+                      style: AppFont.h4Light(AppColor.color_font_dark),
                     ),
                   ),
                 ),

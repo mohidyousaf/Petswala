@@ -6,7 +6,7 @@ class AppFont {
 
   static TextStyle logo(color) => GoogleFonts.getFont(
       'Bubblegum Sans',
-      fontSize: 20,
+      fontSize: 30,
       color: color,
       fontWeight: FontWeight.w200);
   // Headings

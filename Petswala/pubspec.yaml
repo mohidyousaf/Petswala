@@ -21,7 +21,8 @@ environment:
   sdk: ">=2.9.0 <3.0.0"
 
 dependencies:
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.4
+  material_design_icons_flutter: 5.0.6595
   dio: ^3.0.10
   flutter:
     sdk: flutter
@@ -60,7 +61,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
-    - assets/daycare-center.png
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
