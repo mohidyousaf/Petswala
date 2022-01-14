@@ -7,12 +7,13 @@ import 'dart:io';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
 import 'package:petswala/bloc/pet_bloc.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
-// import 'dart:async';
-// import 'dart:convert';
+import 'dart:async';
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/boardingScreen.dart';
@@ -58,12 +59,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => UserMarketplace(),
-          // '/': (context) => Login(),
+          // '/': (context) => UserMarketplace(),
+          '/': (context) => UserProfile(),
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
-          '/profile': (context) => Profile(),
+          '/profile': (context) => UserProfile(),
           '/rescue': (context) => RescueMap(),
           '/maintenance': (context) => Maintenance(),
           '/shop': (context) => Shop(),
