@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petswala/homescreen_Casual.dart';
 
 // void main() async{
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,6 @@ import 'package:google_fonts/google_fonts.dart';
 //   ));
 // }
 
-
 class Boarding extends StatefulWidget {
   @override
   _BoardingState createState() => _BoardingState();
@@ -22,7 +22,6 @@ class Boarding extends StatefulWidget {
 class _BoardingState extends State<Boarding> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -31,19 +30,24 @@ class _BoardingState extends State<Boarding> {
           Container(
             padding: EdgeInsets.all(100),
           ),
-
           Center(
-            child: Text('Are you', style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0),fontSize: 25, fontWeight: FontWeight.bold )),
+            child: Text(
+              'Are you',
+              style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                      color: Color.fromRGBO(11, 71, 109, 1.0),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold)),
             ),
           ),
-
-          SizedBox(height:50),
+          SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/name', arguments: {'type':'user'});
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                 }, // handle your image tap here
                 child: Image.asset(
                   'assets/User.png',
@@ -54,7 +58,8 @@ class _BoardingState extends State<Boarding> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/name', arguments: {'type':'shop'});
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                 }, // handle your image tap here
                 child: Image.asset(
                   'assets/Owner.png',
@@ -66,19 +71,24 @@ class _BoardingState extends State<Boarding> {
               ),
             ],
           ),
-
-          Row(
-            children : <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(105, 20, 10, 0),
-                child: Text('User', style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0),fontSize: 15 ))),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(105, 20, 10, 0),
-                child: Text('Shop Owner', style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0),fontSize: 15 ))),
-              ),
-           ]
-          )
+          Row(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(105, 20, 10, 0),
+              child: Text('User',
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                          fontSize: 15))),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(105, 20, 10, 0),
+              child: Text('Shop Owner',
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                          fontSize: 15))),
+            ),
+          ])
         ],
       ),
     );

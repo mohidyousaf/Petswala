@@ -3,6 +3,7 @@ import 'package:petswala/CasualUser/screens/settings.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class UserProfile extends StatefulWidget {
@@ -13,6 +14,22 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   double containerHeight = 150;
   double avatarHeight = 100;
+
+  String name;
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString("name");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSharedPrefs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +140,7 @@ class _UserProfileState extends State<UserProfile> {
                 child: Row(
               children: [
                 Text(
-                  "ADIL ASLAM",
+                  '  ' + name,
                   style: AppFont.h5(AppColor.black),
                 ),
                 // IconButton(
