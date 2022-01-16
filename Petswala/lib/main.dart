@@ -58,9 +58,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: {
-          // '/': (context) => UserMarketplace(),
-          '/': (context) => Login(),
-          // '/': (context) => Boarding(),
+          '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
