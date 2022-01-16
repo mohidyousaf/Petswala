@@ -1,12 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-//import 'package:toggle_bar/toggle_bar.dart';
-// import 'package:http/io_client.dart';
-import 'dart:io';
-// import 'package:flutter/services.dart';
-// import 'package:http/http.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
@@ -22,10 +16,7 @@ import 'package:petswala/underMaintenance.dart';
 import 'package:petswala/Seller/screens/shopInventory.dart';
 import 'package:petswala/SearchPage.dart';
 import 'package:petswala/addItem.dart';
-// import 'package:petswala/newsFeed.dart';
 import 'package:petswala/name.dart';
-// import 'package:petswala/DataBase.dart';
-// import 'package:petswala/demo.dart';
 import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Authentication/landingPage.dart';
 import 'package:petswala/CasualUser/screens/newsFeed.dart';
