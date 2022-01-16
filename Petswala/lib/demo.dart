@@ -47,10 +47,9 @@ class DBConnection {
           category: 'category',
           price: double.parse(element['price']),
           rating: double.parse(element['quantity']),
-          imageUrl: 'assets/cat.png')
-          );
-      });
-      print(finalList[0].category);
+          imageUrl: 'assets/cat.png'));
+    });
+    print(finalList[0].category);
     return finalList;
   }
 
@@ -75,8 +74,7 @@ class DBConnection {
           category: 'category',
           price: double.parse(element['price']),
           rating: double.parse(element['quantity']),
-          imageUrl: 'assets/cat.png'
-          ));
+          imageUrl: 'assets/cat.png'));
     });
     return finalList;
   }
@@ -137,6 +135,47 @@ class DBConnection {
     await _db
         .collection('Pets')
         .insertOne({"name": name, "category": category, 'age': age});
+  }
+
+  changeUsername(curentName, newName) async {
+    if (_db == null) {
+      await getConnection();
+    }
+
+    dynamic coll = _db.collection('Users');
+
+    var u = await coll.findOne({"name": curentName});
+    u["name"] = newName;
+    await coll.save(u);
+
+    print('user name updated');
+  }
+
+  changePassword(curentName, newPassword) async {
+    if (_db == null) {
+      await getConnection();
+    }
+
+    dynamic coll = _db.collection('Users');
+
+    var u = await coll.findOne({"name": curentName});
+    u["password"] = newPassword;
+    await coll.save(u);
+
+    print('password updated');
+  }
+
+  changeEmail(currentName, newEmail) async {
+    if (_db == null) {
+      await getConnection();
+    }
+
+    dynamic coll = _db.collection('Users');
+
+    var u = await coll.findOne({"name": currentName});
+    u["email"] = newEmail;
+    await coll.save(u);
+    print('email updated');
   }
 
   closeConnection() {

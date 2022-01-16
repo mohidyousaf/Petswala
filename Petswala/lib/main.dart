@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // '/': (context) => UserMarketplace(),
-          '/': (context) => UserProfile(),
+          '/': (context) => Login(),
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),

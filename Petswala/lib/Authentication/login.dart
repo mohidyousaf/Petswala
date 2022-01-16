@@ -1,10 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/Authentication/signup.dart';
-import 'package:petswala/Widgets/textfield.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -62,7 +61,14 @@ class _LoginState extends State<Login> {
                               errorText: snapshot.error,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          onChanged: (value) => {bloc.changeUserName(value)},
+                          onChanged: (value) async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString('name', value);
+                            print('user name updated ');
+                            print(prefs.getString('name'));
+                            bloc.changeUserName(value);
+                          },
                         );
                       }),
                   SizedBox(height: 20),
