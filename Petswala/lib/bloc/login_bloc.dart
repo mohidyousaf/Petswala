@@ -3,6 +3,9 @@ import 'package:petswala/bloc/validation.dart';
 import 'package:petswala/demo.dart';
 import 'package:rxdart/rxdart.dart';
 
+// This is login bloc of our application where all the login logic is implemented that triggers updates in the states and fetch information from the backend and verify if
+// it is a authentic user.
+
 class LoginBloc with Validator {
   // APi call
   var users = [];

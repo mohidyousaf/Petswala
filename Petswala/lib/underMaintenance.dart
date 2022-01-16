@@ -19,9 +19,7 @@ class Maintenance extends StatelessWidget {
             nextScreen: HomeScreen(),
             splashTransition: SplashTransition.fadeTransition,
             // pageTransitionType: PageTransitionType.scale,
-            backgroundColor: Colors.white
-        )
-    );
+            backgroundColor: Colors.white));
   }
 }
 

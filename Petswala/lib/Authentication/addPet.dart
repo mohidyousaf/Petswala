@@ -4,6 +4,8 @@ import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
 
+// This is the UI part of add pet functionality where user can add his/her pet deatils, that is connected with BLoc that has the logic and updates the backend.
+
 class AddPet extends StatefulWidget {
   @override
   _AddPetState createState() => _AddPetState();

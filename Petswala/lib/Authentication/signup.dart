@@ -7,6 +7,8 @@ import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
 
+// Signup of our app has validations as well for the username, email and password.
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();

@@ -1,10 +1,9 @@
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 import 'package:petswala/Authentication/userClass.dart';
-import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Widgets/productCard.dart';
+// This is the code where we are requesting to connect to a mongodb atlas cluster and getting a instance, and requesting updates and changes according to our bloc logics.
 
 class DBConnection {
   static DBConnection _instance;

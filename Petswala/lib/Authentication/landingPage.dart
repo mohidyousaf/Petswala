@@ -5,6 +5,8 @@ import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
 
+// This is the landing page of our Application where we have the option to login, signup or skip to explore the app.
+
 class LandingPage extends StatefulWidget {
   @override
   _LandingPageState createState() => _LandingPageState();

@@ -5,6 +5,9 @@ import 'package:petswala/bloc/login_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// This is the login page of our app where validation is added in every field for instance email should be valid that is done by using regex and similarly other constraints,
+// the login button will be disabled unless all validations errors are solved and user name and password is correct.
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
