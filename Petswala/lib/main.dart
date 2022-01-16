@@ -20,17 +20,17 @@ import 'package:petswala/boardingScreen.dart';
 import 'package:petswala/profile.dart';
 import 'package:petswala/map.dart';
 import 'package:petswala/underMaintenance.dart';
-import 'package:petswala/homescreen_Shop.dart';
-import 'package:petswala/userMarketPlace.dart';
+import 'package:petswala/Seller/screens/shopInventory.dart';
 import 'package:petswala/SearchPage.dart';
 import 'package:petswala/addItem.dart';
-import 'package:petswala/newsFeed.dart';
+// import 'package:petswala/newsFeed.dart';
 import 'package:petswala/name.dart';
 // import 'package:petswala/DataBase.dart';
 // import 'package:petswala/demo.dart';
 import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Authentication/signup.dart';
 import 'package:petswala/Authentication/landingPage.dart';
+import 'package:petswala/CasualUser/screens/newsFeed.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 
 void main() async {
@@ -60,7 +60,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // '/': (context) => UserMarketplace(),
-          '/': (context) => Login(),
+          // '/': (context) => Login(),
+          '/': (context) => NewsFeed(),
           // '/': (context) => Boarding(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
@@ -68,9 +69,9 @@ class MyApp extends StatelessWidget {
           '/rescue': (context) => RescueMap(),
           '/maintenance': (context) => Maintenance(),
           '/shop': (context) => Shop(),
-          '/market': (context) => Shop2(),
+          '/market': (context) => UserMarketplace(),
           '/search': (context) => Search(),
-          '/feed': (context) => newsFeed(),
+          '/feed': (context) => NewsFeed(),
           '/addItem': (context) => AddItem(),
           '/login': (context) => Login(),
           '/boarding': (context) => Boarding(),
