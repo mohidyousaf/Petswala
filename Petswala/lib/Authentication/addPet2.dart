@@ -5,6 +5,8 @@ import 'package:petswala/CasualUser/blocs/petBloc.dart';
 import 'package:petswala/CasualUser/events/addPetEvent.dart';
 import 'package:petswala/homescreen_Casual.dart';
 
+// Add pet 2 is extended screen of Add pet .
+
 class AddPet2 extends StatefulWidget {
   @override
   _AddPet2State createState() => _AddPet2State();

@@ -1,6 +1,8 @@
 import 'package:petswala/demo.dart';
 import 'package:rxdart/rxdart.dart';
 
+// It contains stream controllers for adding pets that listen all the changes from the textfield and update the information in databse.
+
 class PetBLoc {
   final _category = BehaviorSubject<String>();
   final _name = BehaviorSubject<String>();

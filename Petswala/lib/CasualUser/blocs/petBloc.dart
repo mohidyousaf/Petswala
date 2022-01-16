@@ -3,6 +3,8 @@ import 'package:petswala/CasualUser/events/addPetEvent.dart';
 import 'package:petswala/CasualUser/states/addPetState.dart';
 import 'package:petswala/demo.dart';
 
+// It contains bloc logic for listening to the events eg adding pet name, category or age and then respond accordinig to the events and emit changes in the state.
+
 class AddPetBloc extends Bloc<AddPetEvent, AddPetState> {
   AddPetBloc() : super(AddPetState()) {
     on<ChangeCategoryEvent>((event, emit) {

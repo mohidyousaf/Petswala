@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'dart:developer';
+// Here i am doing all the validation for the text field that are transformed to the streams and all the errors are combined to give either true or false and unlock the
+// login button
 
 mixin Validator {
   var nameValidator = StreamTransformer<String, String>.fromHandlers(

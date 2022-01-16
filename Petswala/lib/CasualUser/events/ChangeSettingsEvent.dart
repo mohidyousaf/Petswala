@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// These are the possible events when user can call on changing settings
+
 abstract class ChangeSettingsEvent {}
 
 class ChangeUsernameEvent extends ChangeSettingsEvent {

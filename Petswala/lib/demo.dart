@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 import 'package:petswala/Authentication/userClass.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
-import 'package:petswala/Widgets/Post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'CasualUser/models/postInfo.dart';
 
+// This is the code where we are requesting to connect to a mongodb atlas cluster and getting a instance, and requesting updates and changes according to our bloc logics.
 
 class DBConnection {
   static DBConnection _instance;
@@ -81,7 +81,7 @@ class DBConnection {
       )
       );
     });
-        
+
     print(finalList[0].text);
     finalList.sort((b,a) => a.time.compareTo(b.time));
     return finalList;
@@ -272,7 +272,7 @@ class DBConnection {
     print(postId);
     await _db.collection('Posts').findAndModify(
       query:{'_id':postId},
-      update: {'\$set':{'likes':likes}, 
+      update: {'\$set':{'likes':likes},
               '\$pull':{'likeList':name}}
       );
   }

@@ -2,6 +2,8 @@ import 'package:petswala/bloc/validation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:petswala/demo.dart';
 
+// It contains stream controllers for registering users that listen all the changes from the textfield and update the information in databse.
+
 class RegisterBLoc with Validator {
   // stream controllers
   final _userName = BehaviorSubject<String>();

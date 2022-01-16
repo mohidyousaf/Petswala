@@ -1,13 +1,15 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:sevr/sevr.dart';
 
+// This is the code where we are requesting to connect to a mongodb atlas cluster and getting a instance, and requesting updates and changes according to our bloc logics.
+
 void start() async {
   // Log into database
   final db = await Db.create(
       'mongodb+srv://ayan:abcd1234@clusterzero.nxzak.mongodb.net/Users?retryWrites=true&w=majority');
   await db.open();
   final coll = db.collection('Users');
-  print (await coll.find().toList());
+  print(await coll.find().toList());
   // Create server
   const port = 8081;
   final serv = Sevr();
@@ -15,7 +17,7 @@ void start() async {
   final corsPaths = ['/', '/:id'];
   for (var route in corsPaths) {
     serv.options(route, [
-          (req, res) {
+      (req, res) {
         setCors(req, res);
         return res.status(200);
       }
@@ -24,7 +26,7 @@ void start() async {
 
   serv.get('/AllProducts/', [
     setCors,
-        (ServRequest req, ServResponse res) async {
+    (ServRequest req, ServResponse res) async {
       dynamic coll1 = db.collection('Products');
       final products = await coll1.find().toList();
       return res.status(200).json({'Products': products});
@@ -33,31 +35,40 @@ void start() async {
 
   serv.post('/PSProducts/', [
     setCors,
-        (ServRequest req, ServResponse res) async {
-      dynamic found  = await db.collection("Products").find({"storename":req.body['storename']}).toList();;
+    (ServRequest req, ServResponse res) async {
+      dynamic found = await db
+          .collection("Products")
+          .find({"storename": req.body['storename']}).toList();
+      ;
       return res.status(200).json({'Products': found});
     }
   ]);
 
   serv.post('/AddProduct', [
     setCors,
-        (ServRequest req, ServResponse res) async {
-      await db.collection('Products').insertOne({"productname":req.body['productname'], "storename":req.body['storename'],'price':req.body['price'],'quantity':req.body['quantity']}); //add storename and fix address capslock
+    (ServRequest req, ServResponse res) async {
+      await db.collection('Products').insertOne({
+        "productname": req.body['productname'],
+        "storename": req.body['storename'],
+        'price': req.body['price'],
+        'quantity': req.body['quantity']
+      }); //add storename and fix address capslock
       return res.json(
-        await db.collection('Products').findOne(where.eq('name', req.body['name'])),
+        await db
+            .collection('Products')
+            .findOne(where.eq('name', req.body['name'])),
       );
     }
   ]);
 
   serv.delete('/RemoveProduct/:name', [
     setCors,
-        (ServRequest req, ServResponse res) async {
-      await db.collection('Products').remove(where.eq('storename', ObjectId.fromHexString(req.params['name'])));
+    (ServRequest req, ServResponse res) async {
+      await db.collection('Products').remove(
+          where.eq('storename', ObjectId.fromHexString(req.params['name'])));
       return res.status(200);
     }
   ]);
-
-
 
   // Listen for connections
   serv.listen(port, callback: () {

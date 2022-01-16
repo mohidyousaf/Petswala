@@ -6,6 +6,8 @@ import 'package:petswala/themes/fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+// This is a user profile screen that is divided into posts, about and shopping and settings.
+
 class UserProfile extends StatefulWidget {
   @override
   _UserProfileState createState() => _UserProfileState();

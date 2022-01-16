@@ -1,5 +1,7 @@
 abstract class AddPetEvent {}
 
+// These are the possible events when user add pets
+
 class ChangeCategoryEvent extends AddPetEvent {
   String category;
 
