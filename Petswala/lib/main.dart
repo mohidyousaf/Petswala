@@ -21,6 +21,8 @@ import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Authentication/landingPage.dart';
 import 'package:petswala/CasualUser/screens/newsFeed.dart';
 import 'package:petswala/bloc/login_bloc.dart';
+import 'package:petswala/Seller/screens/shop.dart';
+import 'package:petswala/Seller/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +52,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => LandingPage(),
+          // '/': (context) => LandingPage(),
+          // '/': (context) => UserMarketplace(),
+          //'/': (context) => Store(),
+          //'/': (context) => UserProfile(),
+          // '/': (context) => Boarding(),
+          '/': (context) => SellerHome(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
