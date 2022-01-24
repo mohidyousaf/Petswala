@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
@@ -55,7 +56,7 @@ class _AddPetState extends State<AddPet> {
                       context, AddPet2()),
                   SizedBox(height: 16),
                   buildButton2('I don\'t have a pet',
-                      Color.fromRGBO(200, 90, 84, 1), context, HomeScreen()),
+                      Color.fromRGBO(200, 90, 84, 1), context, Login()),
                 ],
               ),
             ),

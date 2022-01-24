@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
+import 'package:petswala/bloc/register_bloc.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -16,8 +18,10 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   double containerHeight = 150;
   double avatarHeight = 100;
-
   String name;
+  int type = 0;
+
+  List<String> labels = ['posts', 'about', 'hopping'];
 
   Future<Null> getSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,6 +39,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of<RegisterBLoc>(context);
     double top = containerHeight - avatarHeight / 2;
     return Scaffold(
       appBar: _topBar(context),
@@ -58,12 +63,114 @@ class _UserProfileState extends State<UserProfile> {
               labels: ['Posts', 'About', 'Shopping'],
               icons: [Icons.post_add, Icons.info, Icons.shopping_bag],
               onToggle: (index) {
-                print('switched to: $index');
+                type = index.toInt();
+                setState(() {});
+                // return Column(
+                //     children:
+                //         (index == 0) ? [Text('hello')] : [Text('not hello')]);
+                print("type is ${type}");
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              height: 100,
+              color: AppColor.gray_transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  symmetry('upload', '2', Icons.upload),
+                  VerticalDivider(color: AppColor.gray_dark),
+                  symmetry('favourites', '0', Icons.favorite),
+                  VerticalDivider(thickness: 1, color: AppColor.gray_dark),
+                  symmetry('comments', '0', Icons.comment)
+                ],
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: AppColor.gray_transparent,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'EMAIL',
+                  style: AppFont.button(AppColor.black),
+                ),
+                StreamBuilder<String>(
+                    stream: bloc.email,
+                    builder: (context, snapshot) {
+                      return snapshot.hasData
+                          ? Text(
+                              snapshot.data,
+                              style: AppFont.button(AppColor.black),
+                            )
+                          : Text(
+                              'starrocket23@gmail.com',
+                              style: AppFont.bodySmall(AppColor.black),
+                            );
+                    }),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: AppColor.gray_transparent,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Password',
+                  style: AppFont.button(AppColor.black),
+                ),
+                StreamBuilder<String>(
+                    stream: bloc.password,
+                    builder: (context, snapshot) {
+                      return snapshot.hasData
+                          ? Text(
+                              snapshot.data,
+                              style: AppFont.button(AppColor.black),
+                            )
+                          : Text(
+                              '12345',
+                              style: AppFont.bodySmall(AppColor.black),
+                            );
+                    }),
+              ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Column symmetry(text1, text2, icon) {
+    return Column(
+      children: [
+        Icon(
+          icon,
+          color: AppColor.primary_dark,
+        ),
+        SizedBox(height: 12),
+        Text(text1, style: AppFont.bodySmall(AppColor.accent)),
+        Text(text2, style: AppFont.bodyLarge(AppColor.accent))
+      ],
     );
   }
 
@@ -168,3 +275,17 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 }
+
+// Column(
+//   children: (type == 1)
+//       ? [
+//           Row(
+//             children: [
+//               Container(
+//                 child: Text('Posts'),
+//               )
+//             ],
+//           )
+//         ]
+//       : [Text(labels[type])],
+// )

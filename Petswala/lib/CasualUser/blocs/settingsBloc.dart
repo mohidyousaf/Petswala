@@ -4,6 +4,8 @@ import 'package:petswala/CasualUser/states/ChangeSettingsState.dart';
 import 'package:petswala/demo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// It contains bloc logic for listening to the events eg changing name, password or email and then respond accordinig to the events and emit changes in the state.
+
 class ChangeSettingsBloc
     extends Bloc<ChangeSettingsEvent, ChangeSettingsState> {
   ChangeSettingsBloc() : super(ChangeSettingsState()) {

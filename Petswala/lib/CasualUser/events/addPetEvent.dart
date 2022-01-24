@@ -1,6 +1,6 @@
 abstract class AddPetEvent {}
 
-// These are the possible events when user add pets
+// These are the possible events when user can call on adding pets
 
 class ChangeCategoryEvent extends AddPetEvent {
   String category;
