@@ -19,7 +19,7 @@ class Logo extends StatelessWidget {
             angle: -math.pi / 5,
             child: Icon(
               Icons.pets_outlined,
-              size: 20,
+              size: 24,
               color: AppColor.primary,
             ),
           ),

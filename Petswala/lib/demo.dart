@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 import 'package:petswala/Authentication/userClass.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'CasualUser/models/postInfo.dart';
 
 // This is the code where we are requesting to connect to a mongodb atlas cluster and getting a instance, and requesting updates and changes according to our bloc logics.
 
@@ -52,6 +56,37 @@ class DBConnection {
     return finalList;
   }
 
+  Future getAllPosts() async {
+    if (_db == null) {
+      await getConnection();
+    }
+    dynamic coll1 = _db.collection('Posts');
+    final posts = await coll1.find().toList();
+    List<PostInfo> finalList = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+    }
+    var poignant = posts.forEach((element) {
+      finalList.add(PostInfo(
+          postID: element['_id'],
+          posterName: element['posterName'],
+          posterType: element['posterType'],
+          time: element['time'],
+          text : element['text'],
+          likes: element['likes'],
+          likeList: element['likeList'],
+          liked: element['likeList'].contains(name),
+      )
+      );
+    });
+
+    print(finalList[0].text);
+    finalList.sort((b,a) => a.time.compareTo(b.time));
+    return finalList;
+  }
+
   Future getShopProducts() async {
     if (_db == null) {
       await getConnection();
@@ -96,6 +131,50 @@ class DBConnection {
       'price': price,
       'quantity': quantity
     }); //add storename and fix address capslock
+  }
+
+  addPost(postText) async {
+    if (_db == null) {
+      await getConnection();
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    String type = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+      type = prefs.getString('type');
+      print(name);
+      print(type);
+    }
+    await _db.collection('Posts').insertOne({
+      "posterName": name,
+      "posterType": type,
+      'text': postText,
+      'time': DateTime.now(),
+      'likes': 0,
+      'likeList':[]
+    });
+  }
+
+  addLike(postId, likes) async {
+    if (_db == null) {
+      await getConnection();
+    }
+    print(postId);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    String type = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+      type = prefs.getString('type');
+      print(name);
+      print(type);
+    }
+    await _db.collection('Posts').findAndModify(
+      query:{'_id':postId},
+      update: {'\$set':{'likes':likes},
+               '\$push':{'likeList':name}}
+      );
   }
 
   addUser(name, email, password) async {
@@ -177,6 +256,26 @@ class DBConnection {
     print('email updated');
   }
 
+  removeLike(postId, likes) async {
+    if (_db == null) {
+      await getConnection();
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    String type = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+      type = prefs.getString('type');
+      print(name);
+      print(type);
+    }
+    print(postId);
+    await _db.collection('Posts').findAndModify(
+      query:{'_id':postId},
+      update: {'\$set':{'likes':likes},
+              '\$pull':{'likeList':name}}
+      );
+  }
   closeConnection() {
     _db.close();
   }

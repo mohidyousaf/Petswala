@@ -24,12 +24,12 @@ class AppColor {
 
   // Monochrome Colors
   static const Color black = Color.fromRGBO(33,33,33,1);
-  static const Color white = Color.fromRGBO(250,250,250,1);
+  static const Color white = Color.fromRGBO(255,255,255,1);
   static const Color gray_light = Color.fromRGBO(189,189,189,1);
   static const Color gray_dark = Color.fromRGBO(117,117,117,1);
   static const Color gray_transparent = Color.fromRGBO(189,189,189,.15);
 
   // Font Colors
-  static const Color color_font_dark = Color.fromRGBO(91,104,122,1);
+  static const Color color_font_dark = Color.fromRGBO(78, 93, 115,1);
   static const Color color_font_light = Color.fromRGBO(255,238,222,1);
 }
