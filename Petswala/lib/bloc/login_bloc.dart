@@ -52,7 +52,7 @@ class LoginBloc with Validator {
     String testName = _loginUserName.value;
     String testPassword = _loginPassword.value;
 
-    print(users[0].name);
+    // print(users[0].name);
 
     bool check = false;
     await initDone;

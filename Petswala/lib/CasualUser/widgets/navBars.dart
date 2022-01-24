@@ -23,7 +23,7 @@ class BottomNavBar extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                // Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/home');
               }
           ),
           TextButton(
@@ -43,7 +43,7 @@ class BottomNavBar extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                // Navigator.pushNamed(context, '/market');
+                Navigator.pushNamed(context, '/market');
               }
           ),
           TextButton(
@@ -56,7 +56,7 @@ class BottomNavBar extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                // Navigator.pushNamed(context, '/reportsHome');
+                Navigator.pushNamed(context, '/reportsHome');
               }
           ),
           TextButton(
@@ -78,7 +78,7 @@ class BottomNavBar extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              // Navigator.pushNamed(context, '/profile');
+              Navigator.pushNamed(context, '/profile');
             },
           ),
         ]

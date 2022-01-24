@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petswala/Seller/screens/shopInventory.dart';
 import 'package:petswala/homescreen_Casual.dart';
 
 // void main() async{
@@ -59,7 +60,7 @@ class _BoardingState extends State<Boarding> {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                      MaterialPageRoute(builder: (context) => ShopProvider()));
                 }, // handle your image tap here
                 child: Image.asset(
                   'assets/Owner.png',

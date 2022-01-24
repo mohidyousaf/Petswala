@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/Authentication/addPet.dart';
+import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/CasualUser/blocs/petBloc.dart';
 import 'package:petswala/CasualUser/events/addPetEvent.dart';
 import 'package:petswala/homescreen_Casual.dart';
@@ -169,7 +170,7 @@ class _AddPet2State extends State<AddPet2> {
                                   .add(SubmitEvent());
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen()));
+                                      builder: (context) => Login()));
                             },
                             child: Container(
                               width: 300,

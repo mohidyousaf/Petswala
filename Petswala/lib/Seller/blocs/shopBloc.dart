@@ -5,7 +5,7 @@ import 'package:petswala/Seller/models/shopProductItem.dart';
 import 'package:petswala/demo.dart';
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
-  List<ShopProductItem> list = [];
+  
   ShopBloc() : super(ShopState.initial()) {
     on<ProductSearchEvent>((event, emit) {
       var text = event.searchString.toLowerCase();
@@ -20,6 +20,8 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       emit(ShopState.initial(
           products: products, displayedProducts: products));
     });
+    
+
   }
   Future getShopProducts() async {
     var db = await DBConnection.getInstance();
