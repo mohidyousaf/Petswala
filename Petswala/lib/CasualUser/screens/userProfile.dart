@@ -81,7 +81,7 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  symmetry('upload', '2', Icons.upload),
+                  symmetry('upload', '2', Icons.upload_file),
                   VerticalDivider(color: AppColor.gray_dark),
                   symmetry('favourites', '0', Icons.favorite),
                   VerticalDivider(thickness: 1, color: AppColor.gray_dark),
