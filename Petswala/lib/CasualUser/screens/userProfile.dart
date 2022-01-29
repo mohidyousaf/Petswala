@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
+import 'package:petswala/Seller/screens/home.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
@@ -208,7 +209,7 @@ class _UserProfileState extends State<UserProfile> {
                   onTap: () {
                     'pressed';
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => SellerHome()));
                   }),
             ],
           );
