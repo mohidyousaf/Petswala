@@ -45,8 +45,21 @@ class _UserProfileState extends State<UserProfile> {
       appBar: _topBar(context),
       body: Column(
         children: [
-          _profile(top),
-          SizedBox(height: 135),
+          _profile(top, context),
+          SizedBox(height: 25),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              // switch the profile
+              bottomDrawer(context);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              alignment: Alignment.topRight,
+              child: new Image.asset('assets/switch button.png'),
+            ),
+          ),
+          SizedBox(height: 70),
           Container(
             // width: MediaQuery.of(context).size.width,
             child: ToggleSwitch(
@@ -160,6 +173,48 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
+  Future<dynamic> bottomDrawer(BuildContext context) {
+    return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        backgroundColor: AppColor.primary_dark,
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            children: [
+              SizedBox(height: 20),
+              ListTile(
+                  leading: Icon(
+                    Icons.account_circle_rounded,
+                    color: AppColor.white,
+                  ),
+                  dense: true,
+                  // tileColor: AppColor.primary,
+                  title: Text('User', style: AppFont.bodySmall(AppColor.white)),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }),
+              ListTile(
+                  leading: Icon(
+                    Icons.monetization_on,
+                    color: AppColor.white,
+                  ),
+                  dense: true,
+                  // tileColor: AppColor.primary,
+                  title:
+                      Text('Seller', style: AppFont.bodySmall(AppColor.white)),
+                  onTap: () {
+                    'pressed';
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }),
+            ],
+          );
+        });
+  }
+
   Column symmetry(text1, text2, icon) {
     return Column(
       children: [
@@ -200,7 +255,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  Widget _profile(double top) {
+  Widget _profile(double top, context) {
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -259,18 +314,6 @@ class _UserProfileState extends State<UserProfile> {
                 //      icon: Icon(Icons.edit)),
               ],
             ))),
-        Positioned(
-          top: top + 80,
-          right: 16,
-          child: GestureDetector(
-            onTap: () {
-              // switch the profile
-            },
-            child: Container(
-              child: new Image.asset('assets/switch button.png'),
-            ),
-          ),
-        )
       ],
     );
   }

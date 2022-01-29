@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => LandingPage(),
+          '/': (context) => UserProfile(),
           // '/': (context) => Shop(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
