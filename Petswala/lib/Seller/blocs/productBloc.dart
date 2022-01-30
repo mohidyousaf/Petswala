@@ -42,13 +42,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
     on<ChangePriceEvent>((event, emit) {
       ShopProductItem product = state.product;
-      product.price = event.price;
+      product.price = double.parse(event.price);
       emit(ProductState.initial(
           product: product, id: state.id, editable: true));
     });
     on<ChangeQuantityEvent>((event, emit) {
       ShopProductItem product = state.product;
-      product.quantity = event.quantity;
+      product.quantity = int.parse(event.quantity);
       emit(ProductState.initial(
           product: product, id: state.id, editable: true));
     });

@@ -47,6 +47,7 @@ class DBConnection {
     List<ProductItem> finalList = [];
     var poignant = products.forEach((element) {
       finalList.add(ProductItem(
+          id: element['_id'],
           name: element['productname'],
           category: element['productcategory'],
           price: element['price'],

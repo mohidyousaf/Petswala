@@ -7,3 +7,6 @@ class ProductSearchEvent extends ShopEvent {
 class InitializeListEvent extends ShopEvent {
   InitializeListEvent();
 }
+class RefreshListEvent extends ShopEvent {
+  RefreshListEvent();
+}

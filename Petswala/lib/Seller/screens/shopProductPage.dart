@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
+import 'package:petswala/Seller/blocs/shopBloc.dart';
+import 'package:petswala/Seller/events/shopEvent.dart';
 import 'package:petswala/Seller/widgets/sellerNavBars.dart';
 import 'package:petswala/Seller/blocs/productBloc.dart';
 import 'package:petswala/Seller/events/productEvent.dart';
@@ -15,6 +17,7 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mongo.ObjectId id = ModalRoute.of(context).settings.arguments;
+    ShopBloc bloc = BlocProvider.of<ShopBloc>(context);
     return BlocProvider(
       create: (context) => ProductBloc()..add(InitProductEvent(id: id)),
       child: Builder(
@@ -25,25 +28,19 @@ class ProductPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, '/shop');
+                              bloc.add(RefreshListEvent());
+                              Navigator.pop(context);
                             },
                             child: Container(
                                 height: 50,
                                 width: 50,
-                                decoration: BoxDecoration(
-                                    color: AppColor.primary,
-                                    borderRadius: AppBorderRadius.all_25),
-                                child: Center(
-                                    child: Icon(
-                                  CupertinoIcons.back,
-                                  color: AppColor.white,
-                                  size: 30,
+                                decoration: BoxDecoration(color: AppColor.primary,borderRadius: AppBorderRadius.all_25),
+                                child: Center(child: Icon(CupertinoIcons.back,color: AppColor.white,size: 30,
                                 ))),
                           ),
                           Padding(
@@ -78,74 +75,35 @@ class ProductPage extends StatelessWidget {
                                   children: [
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text('Name:  ',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.gray_dark)),
-                                        state.editable == null
-                                            ? Text('name')
-                                            : state.editable
-                                                ? Flexible(
-                                                    fit: FlexFit.loose,
-                                                    child: BlocBuilder<
-                                                        ProductBloc,
-                                                        ProductState>(
-                                                      builder:
-                                                          (context, state) {
-                                                        return TextField(
-                                                          controller:
-                                                              TextEditingController()
-                                                                ..text = state
-                                                                    .product
-                                                                    .name,
-                                                          onChanged: (text) {
-                                                            // print(text);
-                                                            BlocProvider.of<
-                                                                        ProductBloc>(
-                                                                    context)
-                                                                .add(ChangeNameEvent(
-                                                                    name:
-                                                                        text));
-                                                          },
-                                                          decoration:
-                                                              InputDecoration(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    20),
-                                                            fillColor: AppColor
-                                                                .gray_transparent,
-                                                            filled: true,
-                                                            hintText:
-                                                                'New Post',
-                                                            hintStyle: AppFont
-                                                                .bodyLarge(AppColor
-                                                                    .gray_light),
-                                                            border: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .primary),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .gray_transparent),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                : Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 20),
-                                                    child: Text(state.product.name,
-                                                        style:AppFont.bodyLarge(AppColor.black)),
-                                                  ),
+                                        Text('Name:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
+                                        state.editable == null ? Text('name')
+                                        :state.editable ? 
+                                        CustomTextField(hintText:'name', func: AddProductFuncs.changeName)
+                                        :Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            child: Text('${state.product.name}',
+                                              style:AppFont.bodyLarge(AppColor.black)),
+                                          ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                   Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text('Category:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
+                                        state.editable == null ? Text('name')
+                                        :state.editable ? 
+                                        CustomTextField(hintText:'category', func: AddProductFuncs.changeCategory)
+                                        :Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            child: Text('${state.product.category}',
+                                              style:AppFont.bodyLarge(AppColor.black)),
+                                          ),
                                       ],
                                     ),
                                     SizedBox(
@@ -153,80 +111,17 @@ class ProductPage extends StatelessWidget {
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text('Category:  ',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.gray_dark)),
-                                        state.editable == null
-                                            ? Text('name')
-                                            : state.editable
-                                                ? Flexible(
-                                                    fit: FlexFit.loose,
-                                                    child: BlocBuilder<
-                                                        ProductBloc,
-                                                        ProductState>(
-                                                      builder:
-                                                          (context, state) {
-                                                        return TextField(
-                                                          controller:
-                                                              TextEditingController()
-                                                                ..text = state
-                                                                    .product
-                                                                    .category,
-                                                          onChanged: (text) {
-                                                            // print(text);
-                                                            BlocProvider.of<
-                                                                        ProductBloc>(
-                                                                    context)
-                                                                .add(ChangeCategoryEvent(
-                                                                    category:
-                                                                        text));
-                                                          },
-                                                          decoration:
-                                                              InputDecoration(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    20),
-                                                            fillColor: AppColor
-                                                                .gray_transparent,
-                                                            filled: true,
-                                                            hintText:
-                                                                'New Post',
-                                                            hintStyle: AppFont
-                                                                .bodyLarge(AppColor
-                                                                    .gray_light),
-                                                            border: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .primary),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .gray_transparent),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                : Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 20),
-                                                    child: Text(
-                                                        state.product.category,
-                                                        style:
-                                                            AppFont.bodyLarge(
-                                                                AppColor
-                                                                    .black)),
-                                                  ),
+                                        Text('Price:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
+                                        state.editable == null ? Text('name')
+                                        :state.editable ? 
+                                        CustomTextField(hintText:'price (rs)', func: AddProductFuncs.changePrice)
+                                        :Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            child: Text('${state.product.price}',
+                                              style:AppFont.bodyLarge(AppColor.black)),
+                                          ),
                                       ],
                                     ),
                                     SizedBox(
@@ -234,80 +129,17 @@ class ProductPage extends StatelessWidget {
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text('Price: Rs.  ',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.gray_dark)),
-                                        state.editable == null
-                                            ? Text('name')
-                                            : state.editable
-                                                ? Flexible(
-                                                    fit: FlexFit.loose,
-                                                    child: BlocBuilder<
-                                                        ProductBloc,
-                                                        ProductState>(
-                                                      builder:
-                                                          (context, state) {
-                                                        return TextField(
-                                                          controller:
-                                                              TextEditingController()
-                                                                ..text = '${state
-                                                                    .product
-                                                                    .price}',
-                                                          onChanged: (text) {
-                                                            // print(text);
-                                                            BlocProvider.of<
-                                                                        ProductBloc>(
-                                                                    context)
-                                                                .add(ChangePriceEvent(
-                                                                    price:
-                                                                        double.parse(text)));
-                                                          },
-                                                          decoration:
-                                                              InputDecoration(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    20),
-                                                            fillColor: AppColor
-                                                                .gray_transparent,
-                                                            filled: true,
-                                                            hintText:
-                                                                'New Post',
-                                                            hintStyle: AppFont
-                                                                .bodyLarge(AppColor
-                                                                    .gray_light),
-                                                            border: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .primary),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .gray_transparent),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                : Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 20),
-                                                    child: Text(
-                                                        '${state.product.price}',
-                                                        style:
-                                                            AppFont.bodyLarge(
-                                                                AppColor
-                                                                    .black)),
-                                                  ),
+                                        Text('Quantity:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
+                                        state.editable == null ? Text('name')
+                                        :state.editable ? 
+                                        CustomTextField(hintText:'quantity', func: AddProductFuncs.changeQuantity)
+                                        :Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 20),
+                                            child: Text('${state.product.quantity}',
+                                              style:AppFont.bodyLarge(AppColor.black)),
+                                          ),
                                       ],
                                     ),
                                     SizedBox(
@@ -315,96 +147,10 @@ class ProductPage extends StatelessWidget {
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      mainAxisAlignment:MainAxisAlignment.start,
                                       children: [
-                                        Text('Quantity:  ',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.gray_dark)),
-                                        state.editable == null
-                                            ? Text('name')
-                                            : state.editable
-                                                ? Flexible(
-                                                    fit: FlexFit.loose,
-                                                    child: BlocBuilder<
-                                                        ProductBloc,
-                                                        ProductState>(
-                                                      builder:
-                                                          (context, state) {
-                                                        return TextField(
-                                                          controller:
-                                                              TextEditingController()
-                                                                ..text = '${state
-                                                                    .product
-                                                                    .quantity}',
-                                                          onChanged: (text) {
-                                                            // print(text);
-                                                            BlocProvider.of<
-                                                                        ProductBloc>(
-                                                                    context)
-                                                                .add(ChangeQuantityEvent(
-                                                                    quantity:
-                                                                        int.parse(text)));
-                                                          },
-                                                          decoration:
-                                                              InputDecoration(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    20),
-                                                            fillColor: AppColor
-                                                                .gray_transparent,
-                                                            filled: true,
-                                                            hintText:
-                                                                'New Post',
-                                                            hintStyle: AppFont
-                                                                .bodyLarge(AppColor
-                                                                    .gray_light),
-                                                            border: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .primary),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: AppColor
-                                                                        .gray_transparent),
-                                                                borderRadius:
-                                                                    AppBorderRadius
-                                                                        .all_20),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                : Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 20),
-                                                    child: Text(
-                                                        '${state.product.quantity}',
-                                                        style:
-                                                            AppFont.bodyLarge(
-                                                                AppColor
-                                                                    .black)),
-                                                  ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text('Rating:  ',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.gray_dark)),
-                                        Text('${state.product.rating}',
-                                            style: AppFont.bodyLarge(
-                                                AppColor.black)),
+                                        Text('Rating:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
+                                        Text('${state.product.rating}', style: AppFont.bodyLarge(AppColor.black)),
                                       ],
                                     )
                                   ],
@@ -424,14 +170,10 @@ class ProductPage extends StatelessWidget {
                         child: Container(
                           width: 350,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: AppBorderRadius.all_20,
-                              color: AppColor.primary),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                          decoration: BoxDecoration(borderRadius: AppBorderRadius.all_20, color: AppColor.primary),
+                          padding:EdgeInsets.symmetric(horizontal: 0, vertical: 20),
                           child: Center(
-                            child: Text('Done',
-                                style: AppFont.button(AppColor.white)),
+                            child: Text('Done',style: AppFont.button(AppColor.white)),
                           ),
                         ),
                       ):
@@ -443,14 +185,9 @@ class ProductPage extends StatelessWidget {
                         child: Container(
                           width: 350,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: AppBorderRadius.all_20,
-                              color: AppColor.primary),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                          child: Center(
-                            child: Text('Edit Item',
-                                style: AppFont.button(AppColor.white)),
+                          decoration: BoxDecoration(borderRadius: AppBorderRadius.all_20,color: AppColor.primary),
+                          padding:EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                          child: Center(child: Text('Edit Item', style: AppFont.button(AppColor.white)),
                           ),
                         ),
                       ):Text('hello');
@@ -461,5 +198,55 @@ class ProductPage extends StatelessWidget {
             )),
       ),
     );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final Function func;
+  final hintText;
+  const CustomTextField({Key key,this.hintText, this.func}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      fit: FlexFit.loose,
+      child: BlocBuilder<ProductBloc,ProductState>(
+        builder:(context, state) {
+          return TextField(
+            onChanged: (text) {
+              func(context, text);
+            },
+            decoration:InputDecoration(
+              contentPadding:EdgeInsets.all(20),
+              fillColor: AppColor.gray_transparent,
+              filled: true,
+              hintText:hintText,
+              hintStyle: AppFont.bodyLarge(AppColor.gray_light),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.primary),
+                  borderRadius:AppBorderRadius.all_20),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.gray_transparent),
+                  borderRadius: AppBorderRadius.all_20),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AddProductFuncs{
+  static void changeName(context, text){
+    BlocProvider.of<ProductBloc>(context).add(ChangeNameEvent(name:text));
+  }
+   static void changeCategory(context, text){
+    BlocProvider.of<ProductBloc>(context).add(ChangeCategoryEvent(category: text));
+  }
+  static void changePrice(context, text){
+    BlocProvider.of<ProductBloc>(context).add(ChangePriceEvent(price: text));
+  }
+   static void changeQuantity(context, text){
+    BlocProvider.of<ProductBloc>(context).add(ChangeQuantityEvent(quantity: text));
   }
 }

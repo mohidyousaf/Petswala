@@ -20,6 +20,11 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       emit(ShopState.initial(
           products: products, displayedProducts: products));
     });
+    on<RefreshListEvent>((event, emit) async {
+      List<ShopProductItem> products = await getShopProducts();
+      emit(ShopState.initial(
+          products: products, displayedProducts: products));
+    });
     
 
   }

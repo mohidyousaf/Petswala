@@ -18,11 +18,11 @@ class ChangeCategoryEvent extends ProductEvent {
   ChangeCategoryEvent({this.category});
 }
 class ChangePriceEvent extends ProductEvent {
-  final double price;
+  final String price;
   ChangePriceEvent({this.price});
 }
 class ChangeQuantityEvent extends ProductEvent {
-  final int quantity;
+  final String quantity;
   ChangeQuantityEvent({this.quantity});
 }
 class IncQuantityEvent extends ProductEvent {
