@@ -61,23 +61,53 @@ class ShoppingCart extends StatelessWidget {
             ),
           ),
           Expanded(child: Products()),
-          GestureDetector(
-            onTap: () async {
-              MarketPlaceBloc bloc = BlocProvider.of<MarketPlaceBloc>(context);
-              bloc.add(CheckoutEvent());
-            },
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Container(
-              width: 350,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: AppBorderRadius.all_20,
-                  color: AppColor.primary),
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-              child: Center(
-                child: Text('Checkout', style: AppFont.button(AppColor.white)),
-              ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: AppBorderRadius.all_25,
+                        color: AppColor.secondary_light),
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: Column(
+                children: [
+                  BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+                  builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Cart Total:', style: AppFont.h5(AppColor.color_font_dark),),
+                            Text('Rs.${state.getCartTotal}', style: AppFont.h5(AppColor.color_font_dark),),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      // MarketPlaceBloc bloc = BlocProvider.of<MarketPlaceBloc>(context);
+                      Navigator.of(context).pushNamed('/checkout1');
+
+
+                    },
+                    child:Container(
+                      width: 350,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: AppBorderRadius.all_20,
+                          color: AppColor.primary),
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                      child: Center(
+                        child: Text('Checkout', style: AppFont.button(AppColor.white)),
+                      ),
+                    ),
+                  ),
+                  ],
+                ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -104,13 +134,13 @@ class Products extends StatelessWidget {
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) => CartProductCard(
-                              product: state.cartItems[index],
+                              product: state.order.cartItems[index],
                               index: index,
                             ),
                         separatorBuilder: (context, int) => SizedBox(
                               height: 16,
                             ),
-                        itemCount: state.cartItems.length),
+                        itemCount: state.order.cartItems.length),
                   );
           },
         ),

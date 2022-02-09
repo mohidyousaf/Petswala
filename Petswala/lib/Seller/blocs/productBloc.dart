@@ -31,6 +31,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ChangeNameEvent>((event, emit) {
       ShopProductItem product = state.product;
       product.name = event.name;
+
       emit(ProductState.initial(
           product: product, id: state.id, editable: true));
     });

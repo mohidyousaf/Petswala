@@ -10,3 +10,7 @@ class InitializeListEvent extends ShopEvent {
 class RefreshListEvent extends ShopEvent {
   RefreshListEvent();
 }
+class DeleteProductEvent extends ShopEvent {
+  int index;
+  DeleteProductEvent({this.index});
+}

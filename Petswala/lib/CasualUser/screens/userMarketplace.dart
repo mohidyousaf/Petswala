@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petswala/CasualUser/blocs/checkoutBloc.dart';
 
 import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/events/userMarketplaceEvent.dart';
+import 'package:petswala/CasualUser/screens/checkout.dart';
 import 'package:petswala/CasualUser/screens/productPage.dart';
 import 'package:petswala/CasualUser/screens/shoppingCart.dart';
 import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
@@ -25,6 +27,9 @@ class UserMarketplace extends StatelessWidget {
         BlocProvider(
           create: (context) => MarketPlaceBloc()..add(InitializeListEvent()),
         ),
+        BlocProvider(
+          create: (context) => CheckoutBloc(),
+        ),
       ],
       child: Navigator(
         initialRoute: '/',
@@ -35,6 +40,9 @@ class UserMarketplace extends StatelessWidget {
               case '/catalog': page = CatalogPage();break;
               case '/productPage': page = ProductPage();break;
               case '/shoppingCart': page = ShoppingCart();break;
+              case '/checkout1':  page = Checkout1();break;
+              case '/checkout2':  page = Checkout2();break;
+
             }
             return MaterialPageRoute(builder: (context) => page, settings: settings);
           },
@@ -90,7 +98,7 @@ class CatalogPage extends StatelessWidget {
   }
 }
 class PersonalisedProducts extends StatelessWidget {
-  RefreshController _refreshController =
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   @override
   Widget build(BuildContext context) {

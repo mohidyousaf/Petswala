@@ -91,18 +91,22 @@ class NewsFeed extends StatelessWidget {
                   BlocBuilder<PostBloc, PostState>(
                     builder: (context, state) {
                       return state.posts.length < 1 ? Text('loading'): 
-                      ListView.separated(
-                            shrinkWrap: true,
-                            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                            scrollDirection: Axis.vertical,
-                            itemCount: state.posts.length,
-                            separatorBuilder: (BuildContext context, int index) {
-                              return SizedBox(height: 16,);
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return PostCard(post:state.posts[index], index: index,);
-                            },
-                          );
+                      MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              scrollDirection: Axis.vertical,
+                              itemCount: state.posts.length,
+                              separatorBuilder: (BuildContext context, int index) {
+                                return SizedBox(height: 16,);
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return PostCard(post:state.posts[index], index: index,);
+                              },
+                            ),
+                      );
                     },
                   ),
                 ],

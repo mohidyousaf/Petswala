@@ -94,6 +94,7 @@ class MyProducts extends StatelessWidget {
             return state.displayedProducts.length == 0
                 ? Text('Loading ... ')
                 : MediaQuery.removePadding(
+                  removeTop: true,
                   context: context,
                   child: ListView.separated(
                       physics: BouncingScrollPhysics(
@@ -101,7 +102,7 @@ class MyProducts extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) => ShopProductCard(
-                            product: state.displayedProducts[index],
+                            product: state.displayedProducts[index], index: index,
                           ),
                       separatorBuilder: (context, int) => SizedBox(
                             height: 16,
