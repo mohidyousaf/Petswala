@@ -6,6 +6,7 @@ class ShopState extends Equatable {
   final List<ShopProductItem> products;
   final List<ShopProductItem> displayedProducts;
 
+
   @override
   List<Object> get props => [selected, displayedProducts];
 

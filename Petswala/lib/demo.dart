@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection, ObjectId;
 import 'package:petswala/Authentication/userClass.dart';
+import 'package:petswala/CasualUser/models/orderInfo.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:petswala/Seller/models/shopProductItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -237,6 +238,26 @@ class DBConnection {
         .collection('Pets')
         .insertOne({"name": name, "category": category, 'age': age});
   }
+  addOrder(OrderItem order) async{
+    if (_db == null) {
+      await getConnection();
+    }
+    print(order.name);
+    List<ObjectId> ids = [];
+    order.cartItems.forEach((element) {
+      ids.add(element.id);
+    });
+    await _db.collection('Orders').insertOne({"userID": order.userID,
+        "userName":order.name,
+        "orderTime": order.time, 
+        "orderStatus":order.status,
+        "address":order.address,
+        "city":order.city,
+        "country":order.country,
+        "orderItems": ids,
+    });
+
+  }
 
   changeUsername(curentName, newName) async {
     if (_db == null) {
@@ -324,6 +345,12 @@ class DBConnection {
       },
       }
       );
+  }
+  deleteShopProduct(ObjectId productID) async{
+    if (_db == null) {
+      await getConnection();
+    }
+    await _db.collection('Products').remove({'_id':productID});
   }
   closeConnection() {
     _db.close();

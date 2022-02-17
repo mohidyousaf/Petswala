@@ -25,8 +25,8 @@ class RemoveFromCartEvent extends MarketPlaceEvent {
   int index;
   RemoveFromCartEvent({this.index});
 }
-class CheckoutEvent extends MarketPlaceEvent{
-  CheckoutEvent();
+class AddOrderEvent extends MarketPlaceEvent{
+  AddOrderEvent();
 }
 class IncQuantityEvent extends MarketPlaceEvent {
   int index;
@@ -35,4 +35,12 @@ class IncQuantityEvent extends MarketPlaceEvent {
 class DecQuantityEvent extends MarketPlaceEvent {
   int index;
   DecQuantityEvent({this.index});
+}
+class ConfirmOrderEvent extends MarketPlaceEvent {
+  String firstName;
+  String lastName;
+  String address;
+  String city;
+  String country;
+  ConfirmOrderEvent({this.firstName, this.lastName, this.address, this.city, this.country});
 }

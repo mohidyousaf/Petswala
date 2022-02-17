@@ -71,7 +71,7 @@ class AddProduct extends StatelessWidget {
                             mainAxisAlignment:MainAxisAlignment.start,
                             children: [
                               Text('Name:  ', style: AppFont.bodyLarge(AppColor.gray_dark)),
-                              CustomTextField(hintText:'name', func: AddProductFuncs.changeName)
+                              ProductInput(hintText:'name', func: AddProductFuncs.changeName)
                             ],
                           ),
                           SizedBox(
@@ -82,7 +82,7 @@ class AddProduct extends StatelessWidget {
                             mainAxisAlignment:MainAxisAlignment.start,
                             children: [
                               Text('Category:  ', style: AppFont.bodyLarge(AppColor.gray_dark)),
-                              CustomTextField(hintText:'category', func: AddProductFuncs.changeCategory)
+                              ProductInput(hintText:'category', func: AddProductFuncs.changeCategory)
                             ],
                           ),
                           SizedBox(
@@ -93,7 +93,7 @@ class AddProduct extends StatelessWidget {
                             mainAxisAlignment:MainAxisAlignment.start,
                             children: [
                               Text('Price:  ', style: AppFont.bodyLarge(AppColor.gray_dark)),
-                              CustomTextField(hintText:'price(rs)', func: AddProductFuncs.changePrice)
+                              ProductInput(hintText:'price(rs)', func: AddProductFuncs.changePrice)
                             ],
                           ),
                           SizedBox(
@@ -104,7 +104,7 @@ class AddProduct extends StatelessWidget {
                             mainAxisAlignment:MainAxisAlignment.start,
                             children: [
                               Text('Quzntity:  ', style: AppFont.bodyLarge(AppColor.gray_dark)),
-                              CustomTextField(hintText:'quantity', func: AddProductFuncs.changeQuantity)
+                              ProductInput(hintText:'quantity', func: AddProductFuncs.changeQuantity)
                             ],
                           ),
                           SizedBox(
@@ -141,36 +141,53 @@ class AddProduct extends StatelessWidget {
   }
 }
 
-class CustomTextField extends StatelessWidget {
+class ProductInput extends StatelessWidget {
   final Function func;
   final hintText;
-  const CustomTextField({Key key,this.hintText, this.func}) : super(key: key);
+  const ProductInput({Key key,this.hintText, this.func}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductBloc,ProductState>(
+      builder:(context, state) {
+        return CustomTextFormField(func: func, hintText: hintText, isValid: state,);
+      },
+    );
+  }
+}
+
+class CustomTextFormField extends StatelessWidget {
+  const CustomTextFormField({
+    Key key, this.func, this.hintText, this.isValid
+  }) : super(key: key);
+
+  final Function func;
+  final hintText;
+  final isValid;
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       fit: FlexFit.loose,
-      child: BlocBuilder<ProductBloc,ProductState>(
-        builder:(context, state) {
-          return TextField(
-            onChanged: (text) {
-              func(context, text);
-            },
-            decoration:InputDecoration(
-              contentPadding:EdgeInsets.all(20),
-              fillColor: AppColor.gray_transparent,
-              filled: true,
-              hintText:hintText,
-              hintStyle: AppFont.bodyLarge(AppColor.gray_light),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColor.primary),
-                  borderRadius:AppBorderRadius.all_20),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColor.gray_transparent),
-                  borderRadius: AppBorderRadius.all_20),
-            ),
-          );
+      child: TextFormField(
+        onChanged: (text) {
+          print(isValid.passIsValid);
+          func(context, text);
         },
+        decoration:InputDecoration(
+          contentPadding:EdgeInsets.all(20),
+          fillColor: AppColor.gray_transparent,
+          filled: true,
+          hintText:hintText,
+          errorText: isValid.passIsValid ? null:'Wrong Input',
+          hintStyle: AppFont.bodyLarge(AppColor.gray_light),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColor.primary),
+              borderRadius:AppBorderRadius.all_20),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColor.gray_transparent),
+              borderRadius: AppBorderRadius.all_20),
+        ),
       ),
     );
   }

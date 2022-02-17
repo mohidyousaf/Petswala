@@ -9,13 +9,17 @@ class ProductState extends Equatable {
 
 
   @override
-  List<Object> get props => [id, product, editable];
+  List<Object> get props => [id, product, editable, isValid];
 
-  ProductState._({this.id, this.product, this.editable:false});
+  ProductState._({this.id, this.product, this.editable:false, this.isValid:true});
+
+  bool get passIsValid => product != null ? product.name.length > 3: true;
+
+  final bool isValid;
 
   factory ProductState.initial(
       {ObjectId id, ShopProductItem product, bool editable}) {
     return ProductState._(
-        id: id, product:product, editable: editable);
+        id: id, product:product, editable: editable, isValid: product == null ? true :product.name.length > 3);
   }
 }

@@ -27,6 +27,4 @@ class ProductItem{
       this.rating,
       this.quantity:0,
       this.imageUrl: 'assets/cat.png'});
-
-
 }

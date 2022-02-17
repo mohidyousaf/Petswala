@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/Seller/events/shopEvent.dart';
 import 'package:petswala/Seller/states/shopState.dart';
 import 'package:petswala/Seller/models/shopProductItem.dart';
@@ -25,8 +26,17 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       emit(ShopState.initial(
           products: products, displayedProducts: products));
     });
+    on<DeleteProductEvent>((event, emit) async {
+      ObjectId productID = state.displayedProducts[event.index].id;
+      await deleteShopProduct(productID);
+      add(RefreshListEvent());
+    });
     
 
+  }
+  Future  deleteShopProduct(ObjectId productID) async{
+      var db = await DBConnection.getInstance();
+      await db.deleteShopProduct(productID);
   }
   Future getShopProducts() async {
     var db = await DBConnection.getInstance();
