@@ -69,7 +69,7 @@ class BottomNavBar extends StatelessWidget {
                 // ),
                 Icon(
                     Icons.account_circle_outlined,
-                    // color: Color.fromRGBO(84, 84, 84, .6),
+                    color: Color.fromRGBO(84, 84, 84, .6),
                     size: 28
                   ),
                 // Text('Profile', style:
@@ -78,7 +78,7 @@ class BottomNavBar extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              // Navigator.pushNamed(context, '/profile');
+              Navigator.pushNamed(context, '/profile');
             },
           ),
         ]

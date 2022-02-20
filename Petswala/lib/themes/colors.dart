@@ -9,6 +9,7 @@ class AppColor {
   // Secondary Color
   static const Color secondary = Color.fromRGBO(255,204,188,1);
   static const Color secondary_light = Color.fromRGBO(255,238,222,1);
+  static const Color secondary_extraLight = Color.fromRGBO(255,252,251,1);
   static const Color secondary_dark = Color.fromRGBO(203,155,140,1);
 
   // Dark Accent where contrast is required
@@ -17,7 +18,7 @@ class AppColor {
   static const Color accent_dark = Color.fromRGBO(1,1,1,1);
 
   // Primaries
-  static const Color red = Color.fromRGBO(1,1,1,1);
+  static const Color red = Color.fromRGBO(255, 70, 70, 1);
   static const Color green = Color.fromRGBO(1,1,1,1);
   static const Color yellow = Color.fromRGBO(255,189,92,1);
   static const Color blue = Color.fromRGBO(1,1,1,1);

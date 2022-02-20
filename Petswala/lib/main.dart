@@ -5,6 +5,8 @@ import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
+import 'package:petswala/Seller/screens/addProduct.dart';
+import 'package:petswala/Seller/screens/shopProductPage.dart';
 import 'package:petswala/bloc/pet_bloc.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,8 @@ import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Authentication/landingPage.dart';
 import 'package:petswala/CasualUser/screens/newsFeed.dart';
 import 'package:petswala/bloc/login_bloc.dart';
+import 'package:petswala/Seller/screens/shop.dart';
+import 'package:petswala/Seller/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,16 +55,22 @@ class MyApp extends StatelessWidget {
         routes: {
           // These are all the routes , which will used in navigation
           '/': (context) => LandingPage(),
+          // '/': (context) => UserMarketplace(),
+          //'/': (context) => Store(),
+          //'/': (context) => UserProfile(),
+          // '/': (context) => Boarding(),
+          // '/': (context) => SellerHome(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
           '/rescue': (context) => RescueMap(),
           '/maintenance': (context) => Maintenance(),
-          '/shop': (context) => Shop(),
+          '/shop': (context) => ShopProvider(),
+          '/productPage': (context) => ProductPage(),
           '/market': (context) => UserMarketplace(),
           '/search': (context) => Search(),
           '/feed': (context) => NewsFeed(),
-          '/addItem': (context) => AddItem(),
+          '/addProduct': (context) => AddProduct(),
           '/login': (context) => Login(),
           '/boarding': (context) => Boarding(),
           '/addpet1': (context) => AddPet(),

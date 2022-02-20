@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
+import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection, ObjectId;
 import 'package:petswala/Authentication/userClass.dart';
+import 'package:petswala/CasualUser/models/orderInfo.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
+import 'package:petswala/Seller/models/shopProductItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'CasualUser/models/postInfo.dart';
@@ -46,13 +48,14 @@ class DBConnection {
     List<ProductItem> finalList = [];
     var poignant = products.forEach((element) {
       finalList.add(ProductItem(
+          id: element['_id'],
           name: element['productname'],
-          category: 'category',
-          price: double.parse(element['price']),
-          rating: double.parse(element['quantity']),
+          category: element['productcategory'],
+          price: element['price'],
+          rating: element['rating'],
           imageUrl: 'assets/cat.png'));
     });
-    print(finalList[0].category);
+    // print(finalList[0].category);
     return finalList;
   }
 
@@ -86,6 +89,25 @@ class DBConnection {
     finalList.sort((b,a) => a.time.compareTo(b.time));
     return finalList;
   }
+  Future getProduct(id) async {
+    if (_db == null) {
+      await getConnection();
+    }
+    dynamic coll1 = _db.collection('Products');
+    final products = await coll1.find({"_id":id}).toList();
+    ShopProductItem product;
+    var poignant = products.forEach((element) {
+      product = ShopProductItem(
+          quantity: element['quantity'],
+          id: element["_id"],
+          name: element['productname'],
+          category: element['productcategory'],
+          price: element['price'],
+          rating: element['rating'],
+          imageUrl: 'assets/cat.png');
+    });
+    return product;
+  }
 
   Future getShopProducts() async {
     if (_db == null) {
@@ -94,42 +116,44 @@ class DBConnection {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = '';
     if (prefs.containsKey('name')) {
-      var name = prefs.getString('name');
+      name = prefs.getString('name');
       var type = prefs.getString('type');
       print(name);
       print(type);
     }
     dynamic coll1 = _db.collection('Products');
     List products = await coll1.find({"storename": name}).toList();
-    List<ProductItem> finalList = [];
+    List<ShopProductItem> finalList = [];
     var poignant = products.forEach((element) {
-      finalList.add(ProductItem(
+      finalList.add(ShopProductItem(
+          quantity: element['quantity'],
+          id: element["_id"],
           name: element['productname'],
-          category: 'category',
-          price: double.parse(element['price']),
-          rating: double.parse(element['quantity']),
+          category: element['productcategory'],
+          price: element['price'],
+          rating: element['rating'],
           imageUrl: 'assets/cat.png'));
     });
     return finalList;
   }
 
-  addProduct(productName, price, quantity) async {
+  addProduct(ShopProductItem product) async {
     if (_db == null) {
       await getConnection();
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = '';
     if (prefs.containsKey('name')) {
-      var name = prefs.getString('name');
-      var type = prefs.getString('type');
+      name = prefs.getString('name');
       print(name);
-      print(type);
     }
     await _db.collection('Products').insertOne({
-      "productname": productName,
+      "productname": product.name,
+      'productcategory': product.category,
       "storename": name,
-      'price': price,
-      'quantity': quantity
+      'price': product.price,
+      'quantity': product.quantity,
+      'rating':0.0,
     }); //add storename and fix address capslock
   }
 
@@ -214,6 +238,26 @@ class DBConnection {
         .collection('Pets')
         .insertOne({"name": name, "category": category, 'age': age});
   }
+  addOrder(OrderItem order) async{
+    if (_db == null) {
+      await getConnection();
+    }
+    print(order.name);
+    List<ObjectId> ids = [];
+    order.cartItems.forEach((element) {
+      ids.add(element.id);
+    });
+    await _db.collection('Orders').insertOne({"userID": order.userID,
+        "userName":order.name,
+        "orderTime": order.time, 
+        "orderStatus":order.status,
+        "address":order.address,
+        "city":order.city,
+        "country":order.country,
+        "orderItems": ids,
+    });
+
+  }
 
   changeUsername(curentName, newName) async {
     if (_db == null) {
@@ -275,6 +319,38 @@ class DBConnection {
       update: {'\$set':{'likes':likes},
               '\$pull':{'likeList':name}}
       );
+  }
+  editProduct(ObjectId id, ShopProductItem product) async {
+    if (_db == null) {
+      await getConnection();
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    String type = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+      type = prefs.getString('type');
+      print(name);
+      print(type);
+    }
+    await _db.collection('Products').findAndModify(
+      query:{'_id':id},
+      update: {'\$set':
+      {
+        "productname": product.name,
+        'productcategory': product.category,
+        "storename": name,
+        'price': product.price,
+        'quantity': product.quantity,
+      },
+      }
+      );
+  }
+  deleteShopProduct(ObjectId productID) async{
+    if (_db == null) {
+      await getConnection();
+    }
+    await _db.collection('Products').remove({'_id':productID});
   }
   closeConnection() {
     _db.close();

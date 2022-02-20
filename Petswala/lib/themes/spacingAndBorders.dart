@@ -8,6 +8,7 @@ class AppBorderRadius{
   static const BorderRadius all_20 = BorderRadius.all(Radius.circular(20.0));
   static const BorderRadius all_25 = BorderRadius.all(Radius.circular(25.0));
   static const BorderRadius all_30 = BorderRadius.all(Radius.circular(30.0));
+  static const BorderRadius all_50 = BorderRadius.all(Radius.circular(50.0));
 
   // Top Only
   static const BorderRadius top_10 = BorderRadius.only(

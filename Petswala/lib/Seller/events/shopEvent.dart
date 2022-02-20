@@ -7,3 +7,10 @@ class ProductSearchEvent extends ShopEvent {
 class InitializeListEvent extends ShopEvent {
   InitializeListEvent();
 }
+class RefreshListEvent extends ShopEvent {
+  RefreshListEvent();
+}
+class DeleteProductEvent extends ShopEvent {
+  int index;
+  DeleteProductEvent({this.index});
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
+import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Seller/screens/home.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/colors.dart';
@@ -43,121 +45,179 @@ class _UserProfileState extends State<UserProfile> {
     double top = containerHeight - avatarHeight / 2;
     return Scaffold(
       appBar: _topBar(context),
-      body: Column(
-        children: [
-          _profile(top),
-          SizedBox(height: 135),
-          Container(
-            // width: MediaQuery.of(context).size.width,
-            child: ToggleSwitch(
-              minWidth: 110,
-              minHeight: 60.0,
-              fontSize: 16.0,
-              initialLabelIndex: 1,
-              activeBgColor: [AppColor.primary],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey[100],
-              inactiveFgColor: Colors.grey[900],
-              totalSwitches: 3,
-              cornerRadius: 20,
-              labels: ['Posts', 'About', 'Shopping'],
-              icons: [Icons.post_add, Icons.info, Icons.shopping_bag],
-              onToggle: (index) {
-                type = index.toInt();
-                setState(() {});
-                // return Column(
-                //     children:
-                //         (index == 0) ? [Text('hello')] : [Text('not hello')]);
-                print("type is ${type}");
+      bottomNavigationBar: BottomNavBar(context),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _profile(top, context),
+            SizedBox(height: 25),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                // switch the profile
+                bottomDrawer(context);
               },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                alignment: Alignment.topRight,
+                child: new Image.asset('assets/switch button.png'),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            SizedBox(height: 70),
+            Container(
+              // width: MediaQuery.of(context).size.width,
+              child: ToggleSwitch(
+                minWidth: 110,
+                minHeight: 60.0,
+                fontSize: 16.0,
+                initialLabelIndex: 1,
+                activeBgColor: [AppColor.primary],
+                activeFgColor: Colors.white,
+                inactiveBgColor: Colors.grey[100],
+                inactiveFgColor: Colors.grey[900],
+                totalSwitches: 3,
+                cornerRadius: 20,
+                labels: ['Posts', 'About', 'Shopping'],
+                icons: [Icons.post_add, Icons.info, Icons.shopping_bag],
+                onToggle: (index) {
+                  type = index.toInt();
+                  setState(() {});
+                  // return Column(
+                  //     children:
+                  //         (index == 0) ? [Text('hello')] : [Text('not hello')]);
+                  print("type is $type");
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                height: 100,
+                color: AppColor.gray_transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    symmetry('upload', '2', Icons.upload_file),
+                    VerticalDivider(color: AppColor.gray_dark),
+                    symmetry('favourites', '0', Icons.favorite),
+                    VerticalDivider(thickness: 1, color: AppColor.gray_dark),
+                    symmetry('comments', '0', Icons.comment)
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              width: MediaQuery.of(context).size.width,
               height: 100,
-              color: AppColor.gray_transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: AppColor.gray_transparent,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  symmetry('upload', '2', Icons.upload),
-                  VerticalDivider(color: AppColor.gray_dark),
-                  symmetry('favourites', '0', Icons.favorite),
-                  VerticalDivider(thickness: 1, color: AppColor.gray_dark),
-                  symmetry('comments', '0', Icons.comment)
+                  Text(
+                    'EMAIL',
+                    style: AppFont.button(AppColor.black),
+                  ),
+                  StreamBuilder<String>(
+                      stream: bloc.email,
+                      builder: (context, snapshot) {
+                        return snapshot.hasData
+                            ? Text(
+                                snapshot.data,
+                                style: AppFont.button(AppColor.black),
+                              )
+                            : Text(
+                                'starrocket23@gmail.com',
+                                style: AppFont.bodySmall(AppColor.black),
+                              );
+                      }),
                 ],
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: AppColor.gray_transparent,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'EMAIL',
-                  style: AppFont.button(AppColor.black),
-                ),
-                StreamBuilder<String>(
-                    stream: bloc.email,
-                    builder: (context, snapshot) {
-                      return snapshot.hasData
-                          ? Text(
-                              snapshot.data,
-                              style: AppFont.button(AppColor.black),
-                            )
-                          : Text(
-                              'starrocket23@gmail.com',
-                              style: AppFont.bodySmall(AppColor.black),
-                            );
-                    }),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: AppColor.gray_transparent,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Password',
-                  style: AppFont.button(AppColor.black),
-                ),
-                StreamBuilder<String>(
-                    stream: bloc.password,
-                    builder: (context, snapshot) {
-                      return snapshot.hasData
-                          ? Text(
-                              snapshot.data,
-                              style: AppFont.button(AppColor.black),
-                            )
-                          : Text(
-                              '12345',
-                              style: AppFont.bodySmall(AppColor.black),
-                            );
-                    }),
-              ],
-            ),
-          )
-        ],
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: AppColor.gray_transparent,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Password',
+                    style: AppFont.button(AppColor.black),
+                  ),
+                  StreamBuilder<String>(
+                      stream: bloc.password,
+                      builder: (context, snapshot) {
+                        return snapshot.hasData
+                            ? Text(
+                                snapshot.data,
+                                style: AppFont.button(AppColor.black),
+                              )
+                            : Text(
+                                '12345',
+                                style: AppFont.bodySmall(AppColor.black),
+                              );
+                      }),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  Future<dynamic> bottomDrawer(BuildContext context) {
+    return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        backgroundColor: AppColor.primary_dark,
+        context: context,
+        builder: (BuildContext context) {
+          return Wrap(
+            children: [
+              SizedBox(height: 20),
+              ListTile(
+                  leading: Icon(
+                    Icons.account_circle_rounded,
+                    color: AppColor.white,
+                  ),
+                  dense: true,
+                  // tileColor: AppColor.primary,
+                  title: Text('User', style: AppFont.bodySmall(AppColor.white)),
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }),
+              ListTile(
+                  leading: Icon(
+                    Icons.monetization_on,
+                    color: AppColor.white,
+                  ),
+                  dense: true,
+                  // tileColor: AppColor.primary,
+                  title:
+                      Text('Seller', style: AppFont.bodySmall(AppColor.white)),
+                  onTap: () {
+                    'pressed';
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => SellerHome()));
+                  }),
+            ],
+          );
+        });
   }
 
   Column symmetry(text1, text2, icon) {
@@ -200,7 +260,7 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  Widget _profile(double top) {
+  Widget _profile(double top, context) {
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -247,9 +307,8 @@ class _UserProfileState extends State<UserProfile> {
             top: top + 120,
             child: Container(
                 child: Row(
-              children: [
-                Text(
-                  '  ' + name,
+              children: [name==null ? Text(' '):Text(
+                  '   $name',
                   style: AppFont.h5(AppColor.black),
                 ),
                 // IconButton(
@@ -259,18 +318,6 @@ class _UserProfileState extends State<UserProfile> {
                 //      icon: Icon(Icons.edit)),
               ],
             ))),
-        Positioned(
-          top: top + 80,
-          right: 16,
-          child: GestureDetector(
-            onTap: () {
-              // switch the profile
-            },
-            child: Container(
-              child: new Image.asset('assets/switch button.png'),
-            ),
-          ),
-        )
       ],
     );
   }

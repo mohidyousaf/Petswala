@@ -6,12 +6,13 @@ import 'package:petswala/themes/spacingAndBorders.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductItem product;
-  ProductCard({this.product});
+  final int index;
+  ProductCard({this.product, this.index});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-
+        Navigator.of(context).pushNamed('/productPage', arguments: index);
       },
       child: Container(
         width: 250,

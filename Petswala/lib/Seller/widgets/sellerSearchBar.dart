@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
+import 'package:petswala/Seller/blocs/shopBloc.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
@@ -24,7 +24,6 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    Bloc bloc = BlocProvider.of<MarketPlaceBloc>(context);
     return Container(
       decoration: BoxDecoration(
         borderRadius: AppBorderRadius.all_20,
@@ -33,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
       child: TextField(
         onChanged: (text) {
           // print(text);
-          bloc.add(widget.event(text));
+          BlocProvider.of<ShopBloc>(context).add(widget.event(text));
         },
         decoration: InputDecoration(
           suffixIcon: Icon(
