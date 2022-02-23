@@ -54,10 +54,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => LandingPage(),
+          //'/': (context) => LandingPage(),
           // '/': (context) => UserMarketplace(),
           //'/': (context) => Store(),
-          //'/': (context) => UserProfile(),
+          '/': (context) => UserProfile(),
           // '/': (context) => Boarding(),
           // '/': (context) => SellerHome(),
           '/name': (context) => Name(),
