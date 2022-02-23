@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/CasualUser/screens/rescue.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
 import 'package:petswala/Seller/screens/addProduct.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => LandingPage(),
+          '/': (context) => RescueHome(),
           // '/': (context) => UserMarketplace(),
           //'/': (context) => Store(),
           //'/': (context) => UserProfile(),

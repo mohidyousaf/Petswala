@@ -315,8 +315,16 @@ class Checkout2 extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Address:', style: AppFont.bodyLarge(AppColor.color_font_dark),),
-                                Text('${state.order.address}, ${state.order.city}, ${state.order.country}', style: AppFont.bodyLarge(AppColor.color_font_dark),),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text('Address:', style: AppFont.bodyLarge(AppColor.color_font_dark),)),
+                                Expanded(
+                                  child: Text('${state.order.address}, ${state.order.city}, ${state.order.country}', 
+                                      style: AppFont.bodyLarge(AppColor.color_font_dark),
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 2,
+                                      ),
+                                ),
                               ],
                             ),
                           ),
