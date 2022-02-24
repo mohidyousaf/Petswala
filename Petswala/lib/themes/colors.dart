@@ -19,7 +19,7 @@ class AppColor {
 
   // Primaries
   static const Color red = Color.fromRGBO(255, 70, 70, 1);
-  static const Color green = Color.fromRGBO(1,1,1,1);
+  static const Color green = Color.fromRGBO(221,251,224,1.0);
   static const Color yellow = Color.fromRGBO(255,189,92,1);
   static const Color blue = Color.fromRGBO(1,1,1,1);
 
