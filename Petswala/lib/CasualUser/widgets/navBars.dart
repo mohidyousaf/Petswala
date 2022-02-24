@@ -50,13 +50,26 @@ class BottomNavBar extends StatelessWidget {
               child:Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                Image.asset('assets/emergency-call.png',
+                height: 28,
+                width: 28,),
+                ],
+              ),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pushNamed('/rescueMenu');
+              }
+          ),
+          TextButton(
+              child:Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                 Image.asset('assets/icons/icons8-activity-feed-32.png',
                 height: 28,
                 width: 28,),
                 ],
               ),
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).pushNamed('/reportsHome');
+                Navigator.of(context, rootNavigator: true).pushNamed('/feed');
               }
           ),
           TextButton(
