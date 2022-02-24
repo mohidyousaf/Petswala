@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/signup.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:petswala/bloc/login_bloc.dart';
+import 'package:petswala/themes/colors.dart';
+import 'package:petswala/themes/fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -115,6 +117,29 @@ class _LoginState extends State<Login> {
                               : () async {
                                   if (await bloc.submit())
                                     Navigator.pushNamed(context, '/boarding');
+                                  else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            alignment: Alignment.bottomCenter,
+                                            backgroundColor: Colors.white24,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Container(
+                                              height: 70,
+                                              width: 50,
+                                              child: Center(
+                                                child: Text(
+                                                    'User Name or Password not correct',
+                                                    style: AppFont.bodySmall(
+                                                        AppColor.white)),
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  }
                                 },
                           child: Container(
                             width: 300,
