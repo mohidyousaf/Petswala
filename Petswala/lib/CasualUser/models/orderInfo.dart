@@ -1,6 +1,5 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
-import 'package:petswala/Seller/screens/addProduct.dart';
 
 class OrderItem {
   ObjectId id;

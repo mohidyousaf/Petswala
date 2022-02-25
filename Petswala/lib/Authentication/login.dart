@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return Dialog(
-                                            alignment: Alignment.bottomCenter,
+                                            // alignment: Alignment.bottomCenter,
                                             backgroundColor: Colors.white24,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:

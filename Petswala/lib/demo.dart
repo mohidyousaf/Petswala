@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection, ObjectId;
 import 'package:petswala/Authentication/userClass.dart';
 import 'package:petswala/CasualUser/models/orderInfo.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
+import 'package:petswala/CasualUser/models/rescueInfo.dart';
 import 'package:petswala/Seller/models/shopProductItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,6 +56,24 @@ class DBConnection {
           price: element['price'],
           rating: element['rating'],
           imageUrl: 'assets/cat.png'));
+    });
+    // print(finalList[0].category);
+    return finalList;
+  }
+    Future getAllRequests() async {
+    if (_db == null) {
+      await getConnection();
+    }
+    dynamic coll1 = _db.collection('Rescue');
+    final requests = await coll1.find().toList();
+    List<RescueInfo> finalList = [];
+    var poignant = requests.forEach((element) {
+      finalList.add(RescueInfo(
+          contact: element['contactNo'],
+          description: element['description'],
+          petType: element['petType'],
+          pos: LatLng(element['lat'], element['long']),
+          name: element['name']));
     });
     // print(finalList[0].category);
     return finalList;
@@ -237,6 +257,26 @@ class DBConnection {
     await _db
         .collection('Pets')
         .insertOne({"name": name, "category": category, 'age': age});
+  }
+  addRescueRequest(RescueInfo request) async{
+    if (_db == null) {
+      await getConnection();
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String name = '';
+    if (prefs.containsKey('name')) {
+      name = prefs.getString('name');
+    } 
+    await _db.collection('Rescue').insertOne(
+      {"name": name,
+        "contactNo":request.contact,
+        "lat": request.pos.latitude, 
+        "long": request.pos.longitude,
+        "petType":request.petType,
+        "description":request.description,
+        "time":DateTime.now()
+    });
+
   }
   addOrder(OrderItem order) async{
     if (_db == null) {

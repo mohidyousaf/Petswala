@@ -24,6 +24,9 @@ dependencies:
   cupertino_icons: ^1.0.4
   material_design_icons_flutter: 5.0.6595
   dio: ^3.0.10
+  google_maps_flutter: ^2.0.2
+  location: ^3.0.2
+  # flutter_polyline_points: ^1.0.0
   equatable: ^2.0.2
   flutter:
     sdk: flutter
