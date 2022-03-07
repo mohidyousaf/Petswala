@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/signup.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:petswala/themes/colors.dart';
@@ -18,6 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  NetworkHandler network = NetworkHandler();
   bool visible = true;
   bool a = false;
   @override
@@ -115,9 +117,10 @@ class _LoginState extends State<Login> {
                           onTap: snapshot.hasError
                               ? null
                               : () async {
-                                  if (await bloc.submit())
+                                  if (await bloc.submit()) {
                                     Navigator.pushNamed(context, '/boarding');
-                                  else {
+                                    network.get("product");
+                                  } else {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
