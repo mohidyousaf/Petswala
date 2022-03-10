@@ -6,6 +6,7 @@ import 'package:petswala/Authentication/addPet2.dart';
 import 'package:petswala/CasualUser/screens/rescue.dart';
 import 'package:petswala/CasualUser/screens/rescueMenu.dart';
 import 'package:petswala/CasualUser/screens/rescueRequests.dart';
+import 'package:petswala/CasualUser/screens/servicesHome.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
 import 'package:petswala/Seller/screens/addProduct.dart';
@@ -57,11 +58,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          // '/': (context) => UserMarketplace(),
-          //'/': (context) => Store(),
-          //'/': (context) => UserProfile(),
-          '/': (context) => LandingPage(),
-          // '/': (context) => SellerHome(),
+          '/': (context) => ServicesHome(),
+          // '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
