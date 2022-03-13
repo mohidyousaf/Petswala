@@ -39,7 +39,7 @@ class RegisterBLoc with Validator {
 
     print(data);
     var db = await DBConnection.getInstance();
-    nw.post('user', data);
+    nw.post('user/register', data);
     // var user = await db.addUser(_userName.value, _email.value, _password.value);
   }
 

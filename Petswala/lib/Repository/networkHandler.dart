@@ -9,22 +9,21 @@ class NetworkHandler {
 
   Future<dynamic> get(String url) async {
     url = formatter(url);
-
     var resp = await http.get(url);
-    log.i(resp.body);
+
+    if (resp.statusCode == 200 || resp.statusCode == 201) {
+      log.i(resp.body);
+      return json.decode(resp.body);
+    }
   }
 
-  Future<dynamic> post(String url, Map<String, String> body) async {
+  Future<http.Response> post(String url, Map<String, String> body) async {
     url = formatter(url);
     var response = await http.post(url,
         headers: {"Content-type": "application/json"}, body: json.encode(body));
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return response;
-    }
-
-    log.d(response.body);
-    log.d(response.statusCode);
+    print(response);
+    return response;
   }
 
   String formatter(url) {

@@ -1,12 +1,14 @@
+import 'dart:convert';
 import 'dart:core';
-import 'package:petswala/bloc/validation.dart';
+import 'package:petswala/Repository/networkHandler.dart';
+import 'package:petswala/bloc/validation_login.dart';
 import 'package:petswala/demo.dart';
 import 'package:rxdart/rxdart.dart';
 
 // This is login bloc of our application where all the login logic is implemented that triggers updates in the states and fetch information from the backend and verify if
 // it is a authentic user.
 
-class LoginBloc with Validator {
+class LoginBloc with Validator_login {
   // APi call
   var users = [];
   Future _doneInitialization;
@@ -44,35 +46,43 @@ class LoginBloc with Validator {
   }
 
   Future get initDone => _doneInitialization;
-
+  NetworkHandler nw = NetworkHandler();
   Future<bool> submit() async {
     print(_loginPassword.value);
     print(_loginUserName.value);
-
     String testName = _loginUserName.value;
     String testPassword = _loginPassword.value;
-
     // print(users[0].name);
-
-    bool check = false;
-    await initDone;
-    users.forEach((element) {
-      if (element.name == testName) {
-        if (element.password == testPassword) {
-          check = true;
-        }
-      }
-    });
-
-    if (check) {
-      _loginState.sink.add(true);
-      print("credentials verified");
+    Map<String, String> data = {'name': testName, 'password': testPassword};
+    var response = await nw.post('user/login', data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Map<String, dynamic> result = json.decode(response.body);
+      print(result['token']);
       return true;
     } else {
-      _loginState.sink.add(false);
-      print("credentials not verified");
+      var output = json.decode(response.body);
+      print(output);
       return false;
     }
+
+    // await initDone;
+    // users.forEach((element) {
+    //   if (element.name == testName) {
+    //     if (element.password == testPassword) {
+    //       check = true;
+    //     }
+    //   }
+    // });
+
+    // if (check) {
+    //   _loginState.sink.add(true);
+    //   print("credentials verified");
+    //   return true;
+    // } else {
+    //   _loginState.sink.add(false);
+    //   print("credentials not verified");
+    //   return false;
+    // }
   }
 
 // dispose
