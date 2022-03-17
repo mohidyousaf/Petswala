@@ -124,6 +124,7 @@ class ProductPage extends StatelessWidget {
             onTap: () async {
               MarketPlaceBloc bloc = BlocProvider.of<MarketPlaceBloc>(context);
               bloc.add(AddToCartEvent(index:index));
+              Navigator.of(context).pushReplacementNamed('/shoppingCart');
             },
             child: Container(
               width: 350,

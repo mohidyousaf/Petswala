@@ -6,6 +6,7 @@ import 'package:petswala/Authentication/addPet2.dart';
 import 'package:petswala/CasualUser/screens/rescue.dart';
 import 'package:petswala/CasualUser/screens/rescueMenu.dart';
 import 'package:petswala/CasualUser/screens/rescueRequests.dart';
+import 'package:petswala/CasualUser/screens/servicePage.dart';
 import 'package:petswala/CasualUser/screens/servicesHome.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
@@ -58,8 +59,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => ServicesHome(),
-          // '/': (context) => LandingPage(),
+          // '/': (context) => ServicesHome(),
+          '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
@@ -77,6 +78,8 @@ class MyApp extends StatelessWidget {
           '/boarding': (context) => Boarding(),
           '/addpet1': (context) => AddPet(),
           '/addpet2': (context) => AddPet2(),
+          '/serviceHome': (context) => ServicesHome(),
+          '/servicePage':  (context) => ServicePage(),
         },
       ),
     );
@@ -84,67 +87,67 @@ class MyApp extends StatelessWidget {
 }
 
 /// This is the stateless widget that the main application instantiates.
-class MyCardWidget extends StatelessWidget {
-  MyCardWidget({Key key}) : super(key: key);
+// class MyCardWidget extends StatelessWidget {
+//   MyCardWidget({Key key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-      width: 300,
-      height: 200,
-      padding: new EdgeInsets.all(10.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Colors.red[300],
-        elevation: 7,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              //ImagrOverLay: AssetImage('assets/dogcollor.jpg'),
-              //Image(image: AssetImage('assets/dogcollor.jpg'),
-              leading: Icon(Icons.pets, size: 60),
-              title: Text('Dog Collar', style: TextStyle(fontSize: 25.0)),
-              subtitle: Text(
-                  'size: M   '
-                  'quantity:10\n'
-                  'Price: Rs50\n ',
-                  style: TextStyle(fontSize: 18.0)),
-            ),
-            ButtonBar(
-              children: <Widget>[
-                ElevatedButton(
-                  child: const Text('Edit'),
-                  onPressed: () {/* ... */},
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                    child: const Text('Delete'),
-                    onPressed: () {/* ... */},
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    )),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//         child: Container(
+//       width: 300,
+//       height: 200,
+//       padding: new EdgeInsets.all(10.0),
+//       child: Card(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(15.0),
+//         ),
+//         color: Colors.red[300],
+//         elevation: 7,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: <Widget>[
+//             const ListTile(
+//               //ImagrOverLay: AssetImage('assets/dogcollor.jpg'),
+//               //Image(image: AssetImage('assets/dogcollor.jpg'),
+//               leading: Icon(Icons.pets, size: 60),
+//               title: Text('Dog Collar', style: TextStyle(fontSize: 25.0)),
+//               subtitle: Text(
+//                   'size: M   '
+//                   'quantity:10\n'
+//                   'Price: Rs50\n ',
+//                   style: TextStyle(fontSize: 18.0)),
+//             ),
+//             ButtonBar(
+//               children: <Widget>[
+//                 ElevatedButton(
+//                   child: const Text('Edit'),
+//                   onPressed: () {/* ... */},
+//                   style: ElevatedButton.styleFrom(
+//                     primary: Colors.white,
+//                     onPrimary: Colors.black,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(25),
+//                     ),
+//                   ),
+//                 ),
+//                 ElevatedButton(
+//                     child: const Text('Delete'),
+//                     onPressed: () {/* ... */},
+//                     style: ElevatedButton.styleFrom(
+//                       primary: Colors.white,
+//                       onPrimary: Colors.black,
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(25),
+//                       ),
+//                     )),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     ));
+//   }
+// }
 
 class DevHttpOverrides extends HttpOverrides {
   @override
