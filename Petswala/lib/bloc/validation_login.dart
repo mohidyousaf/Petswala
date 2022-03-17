@@ -6,24 +6,9 @@ import 'package:petswala/Repository/networkHandler.dart';
 // login button
 NetworkHandler nw = NetworkHandler();
 
-Future<bool> CheckName(name) async {
-  var response = await nw.get('user/checkUniqueUser/${name}');
-  print('i am here');
-  print(response['Status']);
-  return response['Status'];
-}
-
-mixin Validator {
+mixin Validator_login {
   var nameValidator = StreamTransformer<String, String>.fromHandlers(
     handleData: (name, sink) async {
-      if (await CheckName(name)) {
-        Future.delayed(
-          const Duration(milliseconds: 10),
-          () => sink.addError("User Name already exists"),
-        );
-        print('i am here 2');
-      }
-
       if (name.isEmpty) {
         sink.addError("Username can't be empty");
       }
