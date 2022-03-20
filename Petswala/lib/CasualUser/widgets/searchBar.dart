@@ -7,16 +7,20 @@ import 'package:petswala/themes/spacingAndBorders.dart';
 
 class SearchBarContainer extends StatelessWidget {
   final event;
-  SearchBarContainer({this.event});
+  final String text;
+  final bool focus;
+  SearchBarContainer({this.event, this.focus, this.text});
   @override
   Widget build(BuildContext context) {
-    return SearchBar(event: event);
+    return SearchBar(event: event, focus:focus, text:text,);
   }
 }
 
 class SearchBar extends StatefulWidget {
   final event;
-  SearchBar({this.event});
+  final String text;
+  final bool focus;
+  SearchBar({this.event, this.focus:false, this.text:''});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -35,6 +39,8 @@ class _SearchBarState extends State<SearchBar> {
           // print(text);
           bloc.add(widget.event(text));
         },
+        autofocus: widget.focus,
+        controller: TextEditingController()..text = widget.text == null ? '':widget.text,
         decoration: InputDecoration(
           suffixIcon: Icon(
             Icons.search,

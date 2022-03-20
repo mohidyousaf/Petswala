@@ -22,6 +22,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class UserMarketplace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    RouteSettings passedSettings = ModalRoute.of(context).settings;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -44,7 +45,8 @@ class UserMarketplace extends StatelessWidget {
               case '/checkout2':  page = Checkout2();break;
 
             }
-            return MaterialPageRoute(builder: (context) => page, settings: settings);
+            return MaterialPageRoute(builder: (context) => page, 
+                  settings: passedSettings.arguments != null ? passedSettings:settings);
           },
         ),
     );
@@ -56,6 +58,11 @@ class CatalogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String text = ModalRoute.of(context).settings.arguments;
+    bool focus = false;
+    if (text != null){
+        focus = true;
+    }
     return Scaffold(
         bottomNavigationBar: BottomNavBar(context),
         body: Padding(
@@ -65,6 +72,7 @@ class CatalogPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Logo(color: AppColor.primary),
                     GestureDetector(
@@ -77,6 +85,8 @@ class CatalogPage extends StatelessWidget {
                 ),
                 SearchBarContainer(
                   event: (text) => new ProductSearchEvent(searchString: text),
+                  focus: focus,
+                  text: text,
                 ),
                 CategoryChips(),
                 Align(
