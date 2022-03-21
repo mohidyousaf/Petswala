@@ -1,5 +1,7 @@
 //import 'dart:html';
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +31,9 @@ import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:petswala/Seller/widgets/sellerProductCard.dart';
 import 'package:petswala/CasualUser/states/postState.dart';
 import 'package:petswala/CasualUser/states/userProfileState.dart';
+import 'package:images_picker/images_picker.dart';
+// import 'package:multi_image_picker2/multi_image_picker2.dart';
+// import 'package:image_picker/image_picker.dart';
 // This is a user profile screen that is divided into posts, about and shopping and settings.
 
 // class UserProfile extends StatefulWidget {
@@ -197,47 +202,46 @@ import 'package:petswala/CasualUser/states/userProfileState.dart';
 //     );
 //   }
 //
-  Future<dynamic> bottomDrawer(BuildContext context) {
-    return showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        backgroundColor: AppColor.primary_dark,
-        context: context,
-        builder: (BuildContext context) {
-          return Wrap(
-            children: [
-              SizedBox(height: 20),
-              ListTile(
-                  leading: Icon(
-                    Icons.account_circle_rounded,
-                    color: AppColor.white,
-                  ),
-                  dense: true,
-                  // tileColor: AppColor.primary,
-                  title: Text('User', style: AppFont.bodySmall(AppColor.white)),
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
-                  }),
-              ListTile(
-                  leading: Icon(
-                    Icons.monetization_on,
-                    color: AppColor.white,
-                  ),
-                  dense: true,
-                  // tileColor: AppColor.primary,
-                  title:
-                      Text('Seller', style: AppFont.bodySmall(AppColor.white)),
-                  onTap: () {
-                    'pressed';
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => SellerHome()));
-                  }),
-            ],
-          );
-        });
-  }
+Future<dynamic> bottomDrawer(BuildContext context) {
+  return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      backgroundColor: AppColor.primary_dark,
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            SizedBox(height: 20),
+            ListTile(
+                leading: Icon(
+                  Icons.account_circle_rounded,
+                  color: AppColor.white,
+                ),
+                dense: true,
+                // tileColor: AppColor.primary,
+                title: Text('User', style: AppFont.bodySmall(AppColor.white)),
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                }),
+            ListTile(
+                leading: Icon(
+                  Icons.monetization_on,
+                  color: AppColor.white,
+                ),
+                dense: true,
+                // tileColor: AppColor.primary,
+                title: Text('Seller', style: AppFont.bodySmall(AppColor.white)),
+                onTap: () {
+                  'pressed';
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => SellerHome()));
+                }),
+          ],
+        );
+      });
+}
 //
 //   Column symmetry(text1, text2, icon) {
 //     return Column(
@@ -357,14 +361,15 @@ import 'package:petswala/CasualUser/states/userProfileState.dart';
 // )
 
 class UserProfile extends StatefulWidget {
-
   @override
   _UserProfileState createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
+  var _imageFile;
+  var path;
+  // final ImagePicker _picker = ImagePicker();
   @override
-
   Widget build(BuildContext context) {
     double phone_width = MediaQuery.of(context).size.width;
 
@@ -376,31 +381,42 @@ class _UserProfileState extends State<UserProfile> {
       rating: 4.5,
     );
     double phone_height = MediaQuery.of(context).size.height;
-    List<String> info_type = ['Contact','Email','Address'];
-    List<String> info_content = ['0320-5235453','mohidyousaf@gmail.com','255-Y,Phase 3, DHA, Lahore'];
+    List<String> info_type = ['Contact', 'Email', 'Address'];
+    List<String> info_content = [
+      '0320-5235453',
+      'mohidyousaf@gmail.com',
+      '255-Y,Phase 3, DHA, Lahore'
+    ];
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => PostBloc()..add(InitializationEvent()),
+          create: (context) => PostBloc()..add(InitializationEvent()),
         ),
         BlocProvider(
-            create: (context) => userProfileBloc()..add(InitializeUserInfo())
-        )
+            create: (context) => userProfileBloc()..add(InitializeUserInfo()))
       ],
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
           backgroundColor: AppColor.green,
           appBar: AppBar(
-            title: Logo(color: AppColor.primary,),
+            title: Logo(
+              color: AppColor.primary,
+            ),
             centerTitle: true,
             elevation: 0,
             backgroundColor: AppColor.green,
             actions: [
-              IconButton(onPressed: (){
+              IconButton(
+                  onPressed: () {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => Settings()));
-                  }, icon: Icon(Icons.settings,color: AppColor.primary,size: 30.0,))
+                  },
+                  icon: Icon(
+                    Icons.settings,
+                    color: AppColor.primary,
+                    size: 30.0,
+                  ))
             ],
           ),
           bottomNavigationBar: BottomNavBar(context),
@@ -410,14 +426,18 @@ class _UserProfileState extends State<UserProfile> {
                 children: [
                   Container(
                     width: phone_width,
-                    child: Image.asset('assets/coverphoto.png',),
+                    child: Image.asset(
+                      'assets/coverphoto.png',
+                    ),
                   ),
                   Container(
                     width: phone_width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 90.0,),
+                        SizedBox(
+                          height: 90.0,
+                        ),
                         // Container(
                         //   height: 80.0,
                         //   width: 80.0,
@@ -429,50 +449,79 @@ class _UserProfileState extends State<UserProfile> {
                         //   ),
                         //   //child:  Image.asset('assets/coverphoto.png'),
                         // ),
-                        FlatButton(
-                          onPressed: (){print('Picture Pressed');},
-                          child: Container(
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 50.0,
-                                  backgroundImage: AssetImage('assets/User.png'),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(top: 70.0, left: 70.0),
-                                  child: Container(
-                                    height: 30.0,
-                                    width: 30.0,
-                                    decoration: BoxDecoration(
+                        Container(
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 50.0,
+                                backgroundImage: path == null
+                                    ? AssetImage('assets/User.png')
+                                    : FileImage(File(path)),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 70.0, left: 70.0),
+                                child: Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.0)
-                                    ),
-                                    child: Icon(Icons.edit,color: AppColor.primary,),
-                                  ),
-                                )
-                              ],
-                            ),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  child: InkWell(
+                                      onTap: () {
+                                        print('pressed');
+                                        showModalBottomSheet(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(30),
+                                                    topRight:
+                                                        Radius.circular(30))),
+                                            context: context,
+                                            builder: ((builder) =>
+                                                bottom_sheet(context)));
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: AppColor.primary,
+                                      )),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.only(top: 30.0),
-                          child: Text('Mohid Yousaf', style: AppFont.h4(AppColor.black),),
+                          child: Text(
+                            'Mohid Yousaf',
+                            style: AppFont.h4(AppColor.black),
+                          ),
                         ),
                         Container(
-                          width: phone_width*0.65,
+                          width: phone_width * 0.65,
                           child: FlatButton(
-                              onPressed: (){
+                              onPressed: () {
                                 bottomDrawer(context);
                               },
                               child: Column(
                                 children: [
                                   Container(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text('mohidyousaf@gmail.com',style: AppFont.subtitle(AppColor.gray_light),),
+                                        Text(
+                                          'mohidyousaf@gmail.com',
+                                          style: AppFont.subtitle(
+                                              AppColor.gray_light),
+                                        ),
                                         Container(
-                                          child: Icon(CupertinoIcons.down_arrow,size: 15.0,color: AppColor.gray_light,),                                    )
+                                          child: Icon(
+                                            CupertinoIcons.down_arrow,
+                                            size: 15.0,
+                                            color: AppColor.gray_light,
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -486,31 +535,28 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         Container(
                           padding: EdgeInsets.only(top: 10.0),
-                          child: TabBar(
-                              indicatorColor: AppColor.primary,
-                              tabs: [
-                                Tab(
-                                  child: Text(
-                                    'Posts',
-                                    style: AppFont.subtitle(AppColor.black),
-                                  ),
-                                ),
-                                Tab(
-                                  child: Text(
-                                    'Shopping',
-                                    style: AppFont.subtitle(AppColor.black),
-                                  ),
-                                ),
-                                Tab(
-                                  child: Text(
-                                    'About',
-                                    style: AppFont.subtitle(AppColor.black),
-                                  ),
-                                )
-                              ]
-                          ),
+                          child:
+                              TabBar(indicatorColor: AppColor.primary, tabs: [
+                            Tab(
+                              child: Text(
+                                'Posts',
+                                style: AppFont.subtitle(AppColor.black),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                'Shopping',
+                                style: AppFont.subtitle(AppColor.black),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                'About',
+                                style: AppFont.subtitle(AppColor.black),
+                              ),
+                            )
+                          ]),
                         )
-
                       ],
                     ),
                   )
@@ -518,59 +564,63 @@ class _UserProfileState extends State<UserProfile> {
               ),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                  ),
-                  child: TabBarView(
-                    children: [
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(top: 30.0),
-                              child: BlocBuilder <PostBloc,PostState>(
-                                builder: (context,state) {
-                                  return state.posts.length < 1 ? Text("Loading"):
-                                  ListView.separated(
-                                    itemBuilder: (context, index) {
-                                      return PostCard(post:state.posts[index], index: index,);
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(height: 10.0,);
-                                    },
-                                    itemCount: state.posts.length,
-                                    shrinkWrap: true,
-                                    primary: false,
-                                  );
-                                }
-                              ),
-                            )
-                          ],
+                    decoration: BoxDecoration(
+                      color: AppColor.white,
+                    ),
+                    child: TabBarView(
+                      children: [
+                        SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(top: 30.0),
+                                child: BlocBuilder<PostBloc, PostState>(
+                                    builder: (context, state) {
+                                  return state.posts.length < 1
+                                      ? Text("Loading")
+                                      : ListView.separated(
+                                          itemBuilder: (context, index) {
+                                            return PostCard(
+                                              post: state.posts[index],
+                                              index: index,
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) {
+                                            return SizedBox(
+                                              height: 10.0,
+                                            );
+                                          },
+                                          itemCount: state.posts.length,
+                                          shrinkWrap: true,
+                                          primary: false,
+                                        );
+                                }),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            RecentDeliveries(context,phone_width),
-                            OrderHistory(context,phone_width,product)
-                          ],
+                        SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              RecentDeliveries(context, phone_width),
+                              OrderHistory(context, phone_width, product)
+                            ],
+                          ),
                         ),
-                      ),
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Pets(context,phone_width),
-                            Profileinfo(context,phone_width,info_type,info_content)
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-
-                ),
+                        SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              Pets(context, phone_width),
+                              Profileinfo(
+                                  context, phone_width, info_type, info_content)
+                            ],
+                          ),
+                        )
+                      ],
+                    )),
               )
             ],
           ),
@@ -578,55 +628,162 @@ class _UserProfileState extends State<UserProfile> {
       ),
     );
   }
+
+  void pickPhoto() async {
+    List<Media> res = await ImagesPicker.pick(
+      count: 1,
+      pickType: PickType.all,
+      language: Language.System,
+      maxTime: 30,
+      // maxSize: 500,
+      cropOpt: CropOption(
+        // aspectRatio: CropAspectRatio.wh16x9,
+        cropType: CropType.circle,
+      ),
+    );
+    print(res);
+    if (res != null) {
+      print(res.map((e) => e.path).toList());
+      setState(() {
+        path = res[0].thumbPath;
+      });
+      // bool status = await ImagesPicker.saveImageToAlbum(File(res[0]?.path));
+      // print(status);
+    }
+  }
+
+  void takePhoto() async {
+    List<Media> res = await ImagesPicker.openCamera(
+      // pickType: PickType.video,
+      pickType: PickType.image,
+      quality: 0.8,
+      maxSize: 800,
+      // cropOpt: CropOption(
+      //   aspectRatio: CropAspectRatio.wh16x9,
+      // ),
+      maxTime: 15,
+    );
+    print(res);
+    if (res != null) {
+      print(res[0].path);
+      setState(() {
+        path = res[0].thumbPath;
+      });
+    }
+  }
+
+  Widget bottom_sheet(context) {
+    return Container(
+      // color: AppColor.primary_light,
+      height: 90,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+      child: Column(
+        children: <Widget>[
+          Text('Choose profile picture',
+              style: AppFont.bodyLarge(AppColor.accent)),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextButton.icon(
+                  onPressed: () {
+                    takePhoto();
+                  },
+                  icon: Icon(
+                    Icons.camera,
+                    color: AppColor.primary_dark,
+                  ),
+                  label: Text(
+                    'Camera',
+                    style: TextStyle(color: AppColor.primary_dark),
+                  )),
+              TextButton.icon(
+                  onPressed: () async {
+                    // TakePhoto(ImageSource.gallery);
+                    pickPhoto();
+                  },
+                  icon: Icon(
+                    Icons.image,
+                    color: AppColor.primary_dark,
+                  ),
+                  label: Text('Gallery',
+                      style: TextStyle(color: AppColor.primary_dark)))
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
 
-Widget RecentDeliveries(context, phone_width){
+Widget RecentDeliveries(context, phone_width) {
   return Container(
-    padding: EdgeInsets.only(top: 30.0,left: 20.0),
+    padding: EdgeInsets.only(top: 30.0, left: 20.0),
     width: phone_width,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(padding: EdgeInsets.only(bottom: 20.0),child: Text('Recent Deliveries', style: AppFont.h5(AppColor.primary),)),
+        Container(
+            padding: EdgeInsets.only(bottom: 20.0),
+            child: Text(
+              'Recent Deliveries',
+              style: AppFont.h5(AppColor.primary),
+            )),
         Container(
           height: 353,
           child: ListView.separated(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              separatorBuilder: (context,index){
-                return SizedBox(width: 16.0,);
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  width: 16.0,
+                );
               },
               itemCount: 100,
-              itemBuilder: (context,index){
-                return ProductCard(product: ProductItem(name: 'Cats',category: 'Animal',price: 25.5,rating: 8.5));
-              }
-          ),
+              itemBuilder: (context, index) {
+                return ProductCard(
+                    product: ProductItem(
+                        name: 'Cats',
+                        category: 'Animal',
+                        price: 25.5,
+                        rating: 8.5));
+              }),
         ),
       ],
     ),
   );
 }
 
-Widget OrderHistory(context,phone_width,product){
+Widget OrderHistory(context, phone_width, product) {
   return Container(
-    padding: EdgeInsets.only(top: 30.0,left: 20.0),
+    padding: EdgeInsets.only(top: 30.0, left: 20.0),
     width: phone_width,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Order History',style: AppFont.h5(AppColor.primary),),
+        Text(
+          'Order History',
+          style: AppFont.h5(AppColor.primary),
+        ),
         Container(
           padding: EdgeInsets.only(top: 10.0),
           child: ListView.separated(
-              itemBuilder: (context,index){
-                return ShopProductCard(product: product,index: 5,);
-              },
-              separatorBuilder: (context,index){
-                return SizedBox(height: 10.0,);
-              },
-              itemCount: 10,
-              shrinkWrap: true,
-              primary: false,
+            itemBuilder: (context, index) {
+              return ShopProductCard(
+                product: product,
+                index: 5,
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 10.0,
+              );
+            },
+            itemCount: 10,
+            shrinkWrap: true,
+            primary: false,
           ),
         )
       ],
@@ -634,9 +791,9 @@ Widget OrderHistory(context,phone_width,product){
   );
 }
 
-Widget Pets(context,phone_width){
+Widget Pets(context, phone_width) {
   return Container(
-    padding: EdgeInsets.only(top: 30.0,left: 20.0),
+    padding: EdgeInsets.only(top: 30.0, left: 20.0),
     child: Column(
       children: [
         Container(
@@ -644,19 +801,26 @@ Widget Pets(context,phone_width){
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Pets',style: AppFont.h5(AppColor.primary),),
-              FlatButton(onPressed: (){print('Add Pets');},
+              Text(
+                'Pets',
+                style: AppFont.h5(AppColor.primary),
+              ),
+              FlatButton(
+                  onPressed: () {
+                    print('Add Pets');
+                  },
                   child: Container(
                     height: 41,
                     width: 118,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: AppColor.primary,
-
                     ),
-                    child: Icon(Icons.add,color: AppColor.white,),
-                  )
-              )
+                    child: Icon(
+                      Icons.add,
+                      color: AppColor.white,
+                    ),
+                  ))
             ],
           ),
         ),
@@ -665,88 +829,119 @@ Widget Pets(context,phone_width){
           child: ListView.separated(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              separatorBuilder: (context,index){
-                return SizedBox(width: 16.0,);
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  width: 16.0,
+                );
               },
               itemCount: 2,
-              itemBuilder: (context,index){
-                return ProductCard(product: ProductItem(name: 'Cats',category: 'Animal',price: 25.5,rating: 8.5));
-              }
-          ),
+              itemBuilder: (context, index) {
+                return ProductCard(
+                    product: ProductItem(
+                        name: 'Cats',
+                        category: 'Animal',
+                        price: 25.5,
+                        rating: 8.5));
+              }),
         ),
-
       ],
     ),
   );
 }
 
-Widget Profileinfo(context,phone_width,info_type,info_content){
+Widget Profileinfo(context, phone_width, info_type, info_content) {
   return Container(
-    padding: EdgeInsets.only(top: 30.0,left: 20.0,bottom: 10.0),
+    padding: EdgeInsets.only(top: 30.0, left: 20.0, bottom: 10.0),
     child: Column(
       children: [
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Profile Info',style: AppFont.h5(AppColor.primary),),
-              FlatButton(onPressed: (){print('Edit Personal Info');},
+              Text(
+                'Profile Info',
+                style: AppFont.h5(AppColor.primary),
+              ),
+              FlatButton(
+                  onPressed: () {
+                    print('Edit Personal Info');
+                  },
                   child: Container(
                     height: 41,
                     width: 118,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: AppColor.primary,
-
                     ),
-                    child: Icon(Icons.edit,color: AppColor.white,),
-                  )
-              )
+                    child: Icon(
+                      Icons.edit,
+                      color: AppColor.white,
+                    ),
+                  ))
             ],
           ),
         ),
         Container(
           width: phone_width,
-          child: BlocBuilder<userProfileBloc,UserInfoState>(
-            builder: (context,state) {
-
-              return state.user == null ? Text("") :
-                Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(padding: EdgeInsets.only(bottom: 5.0),child: Text(info_type[0],style: AppFont.subtitle(AppColor.black),)),
-                    Text("${state.user.contact_no}", style: AppFont.caption(AppColor.gray_dark),),
-                    Divider(
-                      indent: 3,
-                      endIndent: 3,
-                      thickness: 1.5,
+          child: BlocBuilder<userProfileBloc, UserInfoState>(
+              builder: (context, state) {
+            return state.user == null
+                ? Text("")
+                : Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              info_type[0],
+                              style: AppFont.subtitle(AppColor.black),
+                            )),
+                        Text(
+                          "${state.user.contact_no}",
+                          style: AppFont.caption(AppColor.gray_dark),
+                        ),
+                        Divider(
+                          indent: 3,
+                          endIndent: 3,
+                          thickness: 1.5,
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              info_type[1],
+                              style: AppFont.subtitle(AppColor.black),
+                            )),
+                        Text(
+                          "${state.user.email}",
+                          style: AppFont.caption(AppColor.gray_dark),
+                        ),
+                        Divider(
+                          indent: 3,
+                          endIndent: 3,
+                          thickness: 1.5,
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              info_type[2],
+                              style: AppFont.subtitle(AppColor.black),
+                            )),
+                        Text(
+                          "${state.user.Address}",
+                          style: AppFont.caption(AppColor.gray_dark),
+                        ),
+                        Divider(
+                          indent: 3,
+                          endIndent: 3,
+                          thickness: 1.5,
+                        )
+                      ],
                     ),
-                    Container(padding: EdgeInsets.only(bottom: 5.0), child: Text(info_type[1],style: AppFont.subtitle(AppColor.black),)),
-                    Text("${state.user.email}",style: AppFont.caption(AppColor.gray_dark),),
-                    Divider(
-                      indent: 3,
-                      endIndent: 3,
-                      thickness: 1.5,
-                    ),
-                    Container(padding: EdgeInsets.only(bottom: 5.0),child: Text(info_type[2],style: AppFont.subtitle(AppColor.black),)),
-                    Text("${state.user.Address}",style: AppFont.caption(AppColor.gray_dark),),
-                    Divider(
-                      indent: 3,
-                      endIndent: 3,
-                      thickness: 1.5,
-                    )
-                  ],
-                ),
-              );
-
-            }
-          ),
+                  );
+          }),
         )
       ],
     ),
   );
 }
-
-
-
