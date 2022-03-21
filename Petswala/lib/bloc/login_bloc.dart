@@ -2,22 +2,13 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/bloc/validation_login.dart';
-import 'package:petswala/demo.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // This is login bloc of our application where all the login logic is implemented that triggers updates in the states and fetch information from the backend and verify if
 // it is a authentic user.
 
 class LoginBloc with Validator_login {
-  // APi call
-  var users = [];
-  Future _doneInitialization;
-
-  // Constructor
-  LoginBloc() {
-    _doneInitialization = getUserData();
-  }
-
 // define controllers
   final _loginUserName = BehaviorSubject<String>();
   final _loginPassword = BehaviorSubject<String>();
@@ -40,13 +31,10 @@ class LoginBloc with Validator_login {
   Function(String) get changePassword => _loginPassword.sink.add;
 
 // password submission
-  Future getUserData() async {
-    var db = await DBConnection.getInstance();
-    users = await db.getUsers();
-  }
 
-  Future get initDone => _doneInitialization;
   NetworkHandler nw = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+
   Future<bool> submit() async {
     print(_loginPassword.value);
     print(_loginUserName.value);
@@ -54,35 +42,19 @@ class LoginBloc with Validator_login {
     String testPassword = _loginPassword.value;
     // print(users[0].name);
     Map<String, String> data = {'name': testName, 'password': testPassword};
+
+    //api call
     var response = await nw.post('user/login', data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> result = json.decode(response.body);
       print(result['token']);
+      await storage.write(key: 'token', value: result['token']);
       return true;
     } else {
       var output = json.decode(response.body);
       print(output);
       return false;
     }
-
-    // await initDone;
-    // users.forEach((element) {
-    //   if (element.name == testName) {
-    //     if (element.password == testPassword) {
-    //       check = true;
-    //     }
-    //   }
-    // });
-
-    // if (check) {
-    //   _loginState.sink.add(true);
-    //   print("credentials verified");
-    //   return true;
-    // } else {
-    //   _loginState.sink.add(false);
-    //   print("credentials not verified");
-    //   return false;
-    // }
   }
 
 // dispose
