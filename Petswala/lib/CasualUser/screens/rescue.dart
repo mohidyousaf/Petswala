@@ -39,7 +39,6 @@ class RescuePage extends StatefulWidget {
 
 class _RescuePageState extends State<RescuePage> {
   bool x = false;
-  GoogleMapController _googleMapController;
   @override
   Widget build(BuildContext context) {
     return BlocListener<RescueBloc, RescueState>(
@@ -62,7 +61,7 @@ class _RescuePageState extends State<RescuePage> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                GoogleMapScreen(googleMapController: _googleMapController),
+                GoogleMapScreen(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -198,8 +197,8 @@ class _RescuePageState extends State<RescuePage> {
 }
 
 class GoogleMapScreen extends StatefulWidget {
-  GoogleMapController googleMapController;
-  GoogleMapScreen({Key key, this.googleMapController}) : super(key: key);
+  // GoogleMapController googleMapController;
+  GoogleMapScreen({Key key}) : super(key: key);
 
   @override
   _GoogleMapScreenState createState() => _GoogleMapScreenState();
@@ -214,7 +213,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   @override
   void dispose() {
-    widget.googleMapController.dispose();
     super.dispose();
   }
 
@@ -234,7 +232,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       myLocationButtonEnabled: false,
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
-        widget.googleMapController = controller;
         BlocProvider.of<RescueBloc>(context).add(MapInitializationEvent(
             controller: controller,
             pos: LatLng(_initialPosition.target.latitude,
@@ -294,9 +291,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     LocationData current = await _location.getLocation();
     setState(() {
-      widget.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(current.latitude, current.longitude), zoom: 13)));
+      // widget.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+      //     CameraPosition(
+      //         target: LatLng(current.latitude, current.longitude), zoom: 13)));
       origin = Marker(
           draggable: true,
           markerId: MarkerId('origin'),
@@ -497,7 +494,7 @@ Future<BitmapDescriptor> getMarkerIcon(String imagePath, Size size) async {
     final ui.Image markerAsImage = await pictureRecorder.endRecording().toImage(
         size.width.toInt(),
         size.height.toInt()
-    );
+    );  
 
     // // Convert image to bytes
     final ByteData byteData = await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
