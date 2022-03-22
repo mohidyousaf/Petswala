@@ -60,7 +60,8 @@ class MyApp extends StatelessWidget {
         routes: {
           // These are all the routes , which will used in navigation
           // '/': (context) => ServicesHome(),
-          '/': (context) => LandingPage(),
+          '/': (context) => UserProfile(),
+          // '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
           '/addpet1': (context) => AddPet(),
           '/addpet2': (context) => AddPet2(),
           '/serviceHome': (context) => ServicesHome(),
-          '/servicePage':  (context) => ServicePage(),
+          '/servicePage': (context) => ServicePage(),
         },
       ),
     );
