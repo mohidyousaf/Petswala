@@ -13,6 +13,7 @@ import 'package:petswala/CasualUser/events/postEvent.dart';
 import 'package:petswala/CasualUser/events/userProfileEvent.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Seller/models/shopProductItem.dart';
 import 'package:petswala/Seller/screens/home.dart';
 import 'package:petswala/bloc/register_bloc.dart';
@@ -646,6 +647,8 @@ class _UserProfileState extends State<UserProfile> {
       print(res.map((e) => e.path).toList());
       setState(() {
         path = res[0].thumbPath;
+        NetworkHandler nw = NetworkHandler();
+        nw.patchImage('user/add/image', path);
       });
       // bool status = await ImagesPicker.saveImageToAlbum(File(res[0]?.path));
       // print(status);
@@ -668,6 +671,8 @@ class _UserProfileState extends State<UserProfile> {
       print(res[0].path);
       setState(() {
         path = res[0].thumbPath;
+        NetworkHandler nw = NetworkHandler();
+        nw.patchImage('user/add/image', path);
       });
     }
   }
@@ -690,6 +695,10 @@ class _UserProfileState extends State<UserProfile> {
               TextButton.icon(
                   onPressed: () {
                     takePhoto();
+                    // if (path != null) {
+                    //   NetworkHandler nw = NetworkHandler();
+                    //   nw.patchImage('add/image', path);
+                    // }
                   },
                   icon: Icon(
                     Icons.camera,
@@ -703,6 +712,10 @@ class _UserProfileState extends State<UserProfile> {
                   onPressed: () async {
                     // TakePhoto(ImageSource.gallery);
                     pickPhoto();
+                    // if (path != null) {
+                    //   NetworkHandler nw = NetworkHandler();
+                    //   nw.patchImage('add/image', path);
+                    // }
                   },
                   icon: Icon(
                     Icons.image,

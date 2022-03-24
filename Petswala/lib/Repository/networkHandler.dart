@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
   String baseurl = 'https://intense-badlands-24863.herokuapp.com/';
   var log = Logger();
+  FlutterSecureStorage storage = FlutterSecureStorage();
 
   Future<dynamic> get(String url) async {
     url = formatter(url);
@@ -22,6 +25,20 @@ class NetworkHandler {
     var response = await http.post(url,
         headers: {"Content-type": "application/json"}, body: json.encode(body));
 
+    print(response);
+    return response;
+  }
+
+  Future<http.StreamedResponse> patchImage(String url, String filepath) async {
+    url = formatter(url);
+    String token = await storage.read(key: 'token');
+    var request = http.MultipartRequest('PATCH', Uri.parse(url));
+    request.files.add(await http.MultipartFile.fromPath("img", filepath));
+    request.headers.addAll({
+      "Content-type": "multipart/form-data",
+      "Authorization": "Bearer $token"
+    });
+    var response = request.send();
     print(response);
     return response;
   }
