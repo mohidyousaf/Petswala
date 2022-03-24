@@ -19,6 +19,9 @@ class RescueBloc extends Bloc<RescueEvent, RescueState> {
     });
     on<ChangeLocationEvent>((event, emit) {
       print('${event.lat}, ${event.long}');
+      state.controller.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(event.lat, event.long), zoom: 13)));
       emit(RescueState.initial(pos: LatLng(event.lat, event.long), controller: state.controller));
       
     });

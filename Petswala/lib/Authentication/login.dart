@@ -141,14 +141,14 @@ class _LoginState extends State<Login> {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
-                                            return Dialog(
-                                              alignment: Alignment.bottomCenter,
+                                            return   Dialog(    
+                                              alignment: Alignment.bottomCenter,                                       
                                               backgroundColor: Colors.white24,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20)),
-                                              child: Container(
+                                              child:Container(
                                                 height: 70,
                                                 width: 50,
                                                 child: Center(

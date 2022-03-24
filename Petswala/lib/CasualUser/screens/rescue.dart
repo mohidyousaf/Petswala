@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,10 @@ import 'package:location/location.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
+
+import 'dart:ui' as ui;
+import 'dart:typed_data';
+import 'dart:io';
 
 class RescueHome extends StatelessWidget {
   const RescueHome({Key key}) : super(key: key);
@@ -33,7 +39,6 @@ class RescuePage extends StatefulWidget {
 
 class _RescuePageState extends State<RescuePage> {
   bool x = false;
-  GoogleMapController _googleMapController;
   @override
   Widget build(BuildContext context) {
     return BlocListener<RescueBloc, RescueState>(
@@ -56,7 +61,7 @@ class _RescuePageState extends State<RescuePage> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                GoogleMapScreen(googleMapController: _googleMapController),
+                GoogleMapScreen(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -192,8 +197,8 @@ class _RescuePageState extends State<RescuePage> {
 }
 
 class GoogleMapScreen extends StatefulWidget {
-  GoogleMapController googleMapController;
-  GoogleMapScreen({Key key, this.googleMapController}) : super(key: key);
+  // GoogleMapController googleMapController;
+  GoogleMapScreen({Key key}) : super(key: key);
 
   @override
   _GoogleMapScreenState createState() => _GoogleMapScreenState();
@@ -208,7 +213,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   @override
   void dispose() {
-    widget.googleMapController.dispose();
     super.dispose();
   }
 
@@ -228,7 +232,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       myLocationButtonEnabled: false,
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
-        widget.googleMapController = controller;
         BlocProvider.of<RescueBloc>(context).add(MapInitializationEvent(
             controller: controller,
             pos: LatLng(_initialPosition.target.latitude,
@@ -246,12 +249,14 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       // Origin is not set OR Origin/Destination are both set
       // Set origin
       print(pos.latitude);
+      Image i = Image.asset('assets/transparent_paw.png');
+      BitmapDescriptor icon = await getMarkerIcon('assets/transparent_paw.png', Size(150.0, 150.0));
       setState(() {
         origin = Marker(
             draggable: true,
             markerId: MarkerId('origin'),
             infoWindow: const InfoWindow(title: 'Rescue Location'),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: icon,
             position: pos,
             onDragEnd: (pos) {
               _addMarker(pos);
@@ -286,9 +291,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
     LocationData current = await _location.getLocation();
     setState(() {
-      widget.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(current.latitude, current.longitude), zoom: 13)));
+      // widget.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+      //     CameraPosition(
+      //         target: LatLng(current.latitude, current.longitude), zoom: 13)));
       origin = Marker(
           draggable: true,
           markerId: MarkerId('origin'),
@@ -384,4 +389,129 @@ class RescueFuncs {
     BlocProvider.of<RescueBloc>(context)
         .add(ChangeDescriptionEvent(text: text));
   }
+}
+
+     
+
+Future<BitmapDescriptor> getMarkerIcon(String imagePath, Size size) async {
+    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+
+    final Radius radius = Radius.circular(size.width / 2);
+
+    final Paint tagPaint = Paint()..color = Colors.blue;
+    final double tagWidth = 40.0;
+
+    final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
+    final double shadowWidth = 15.0;
+
+    final Paint borderPaint = Paint()..color = Colors.white;
+    final double borderWidth = 3.0;
+
+    final double imageOffset = shadowWidth + borderWidth;
+
+    // Add shadow circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+              0.0,
+              0.0,
+              size.width,
+              size.height
+          ),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        shadowPaint);
+
+    // Add border circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+              shadowWidth,
+              shadowWidth,
+              size.width - (shadowWidth * 2),
+              size.height - (shadowWidth * 2)
+          ),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        borderPaint);
+
+    // Add tag circle
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+              size.width - tagWidth,
+              0.0,
+              tagWidth,
+              tagWidth
+          ),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        tagPaint);
+
+    // Add tag text
+    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+      text: '1',
+      style: TextStyle(fontSize: 20.0, color: Colors.white),
+    );
+
+    textPainter.layout();
+    textPainter.paint(
+        canvas,
+        Offset(
+            size.width - tagWidth / 2 - textPainter.width / 2,
+            tagWidth / 2 - textPainter.height / 2
+        )
+    );
+
+    // Oval for the image
+    Rect oval = Rect.fromLTWH(
+        imageOffset,
+        imageOffset,
+        size.width - (imageOffset * 2),
+        size.height - (imageOffset * 2)
+    );
+
+    // Add path for oval image
+    canvas.clipPath(Path()
+      ..addOval(oval));
+
+    // Add image
+    // ui.Image image = await getImageFromPath(imagePath); // Alternatively use your own method to get the image
+    // paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
+
+    // Convert canvas to image
+    final ui.Image markerAsImage = await pictureRecorder.endRecording().toImage(
+        size.width.toInt(),
+        size.height.toInt()
+    );  
+
+    // // Convert image to bytes
+    final ByteData byteData = await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List uint8List = byteData.buffer.asUint8List();
+
+    return BitmapDescriptor.fromBytes(uint8List);
+}
+
+Future<ui.Image> getImageFromPath(String imagePath) async {
+    File imageFile = File(imagePath);
+
+    var imageBytes = imageFile.readAsBytesSync();
+
+    final Completer<ui.Image> completer = new Completer();
+
+    ui.decodeImageFromList(imageBytes, (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
 }
