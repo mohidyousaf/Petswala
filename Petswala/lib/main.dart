@@ -60,8 +60,8 @@ class MyApp extends StatelessWidget {
         routes: {
           // These are all the routes , which will used in navigation
           // '/': (context) => ServicesHome(),
-          '/': (context) => UserProfile(),
-          // '/': (context) => LandingPage(),
+          // '/': (context) => UserProfile(),
+          '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),

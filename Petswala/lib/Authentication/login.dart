@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:petswala/Authentication/signup.dart';
 import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/bloc/login_bloc.dart';
@@ -133,7 +134,6 @@ class _LoginState extends State<Login> {
                                         circular = true;
                                       });
                                       Navigator.pushNamed(context, '/boarding');
-                                      network.get("product");
                                     } else {
                                       setState(() {
                                         circular = true;
@@ -141,14 +141,14 @@ class _LoginState extends State<Login> {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
-                                            return   Dialog(    
-                                              alignment: Alignment.bottomCenter,                                       
+                                            return Dialog(
+                                              alignment: Alignment.bottomCenter,
                                               backgroundColor: Colors.white24,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20)),
-                                              child:Container(
+                                              child: Container(
                                                 height: 70,
                                                 width: 50,
                                                 child: Center(
@@ -216,7 +216,22 @@ class _LoginState extends State<Login> {
                                   MaterialPageRoute(
                                       builder: (context) => SignUp()));
                             })
-                    ]))
+                    ])),
+                    SizedBox(height: 36),
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            primary: AppColor.primary_light,
+                            onPrimary: AppColor.black,
+                            minimumSize: Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
+                        onPressed: () async {
+                          var user = await signIn();
+                          if (user != null)
+                            Navigator.pushNamed(context, '/boarding');
+                        },
+                        icon: Image.asset('assets/Google.png'),
+                        label: Text('Sign up with Google'))
                   ],
                 ),
               ),
@@ -226,4 +241,26 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+Future signIn() async {
+  final user = await GoogleSignInApi.login();
+  print(user.displayName);
+  Map<String, String> data = {
+    'name': user.displayName,
+    'email': user.email,
+    'password': ''
+  };
+
+  print(data);
+  NetworkHandler nw = NetworkHandler();
+  nw.post('user/register', data);
+  await GoogleSignInApi.logout();
+  return user;
+}
+
+class GoogleSignInApi {
+  static final _googleSignIn = GoogleSignIn();
+  static Future<GoogleSignInAccount> login() => _googleSignIn.signIn();
+  static Future logout() => _googleSignIn.disconnect();
 }
