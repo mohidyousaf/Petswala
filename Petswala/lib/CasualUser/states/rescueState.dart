@@ -9,12 +9,13 @@ class RescueState extends Equatable {
   final String description;
   final bool requestSubmitted;
   final GoogleMapController controller;
+  final bool loading;
   @override
-  List<Object> get props => [pos, controller, requestSubmitted, description, petType, contact]; 
+  List<Object> get props => [loading, pos, controller, requestSubmitted, description, petType, contact]; 
 
-  RescueState._({this.pos, this.controller, this.contact, this.description, this.petType, this.requestSubmitted:false});
+  RescueState._({this.loading:false,this.pos, this.controller, this.contact, this.description, this.petType, this.requestSubmitted:false});
 
-  factory RescueState.initial({LatLng pos, GoogleMapController controller, String contact, String description, String petType, bool request:false}) {
-    return RescueState._(pos: pos, controller: controller, contact: contact, description: description, petType: petType, requestSubmitted: request);
+  factory RescueState.initial({bool loading:false, LatLng pos, GoogleMapController controller, String contact, String description, String petType, bool request:false}) {
+    return RescueState._(loading:loading,pos: pos, controller: controller, contact: contact, description: description, petType: petType, requestSubmitted: request);
   }
 }

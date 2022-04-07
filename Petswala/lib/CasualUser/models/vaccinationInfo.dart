@@ -4,5 +4,4 @@ class VaccinationInfo{
   String doctorName;
   DateTime date;
   DateTime expiryDate;
-
 }

@@ -43,10 +43,9 @@ class _RescuePageState extends State<RescuePage> {
   Widget build(BuildContext context) {
     return BlocListener<RescueBloc, RescueState>(
       listener: (context, state) {
-        if (state.requestSubmitted){
+        if (state.requestSubmitted) {
           Navigator.of(context).pushNamed('/home');
         }
-
       },
       child: Scaffold(
           bottomNavigationBar: BottomNavBar(context),
@@ -112,10 +111,19 @@ class _RescuePageState extends State<RescuePage> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 0, vertical: 20),
                                         child: Center(
-                                          child: Text('Post Rescue Request',
-                                              style: AppFont.button(
-                                                  AppColor.white)),
-                                        ),
+                                          child: BlocBuilder<RescueBloc,RescueState>(
+                                            builder: (context, state) {
+                                              return state != null ? 
+                                              state.loading ?                                              
+                                                  CircularProgressIndicator()
+                                                  : Text('Post Rescue Request',
+                                                      style: AppFont.button(
+                                                          AppColor.white))
+                                              : Text('Post Rescue Request',
+                                                  style: AppFont.button(
+                                                      AppColor.white));
+                                            
+                                        })),
                                       ),
                                     ),
                                   ),
@@ -250,7 +258,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       // Set origin
       print(pos.latitude);
       Image i = Image.asset('assets/transparent_paw.png');
-      BitmapDescriptor icon = await getMarkerIcon('assets/transparent_paw.png', Size(150.0, 150.0));
+      BitmapDescriptor icon =
+          await getMarkerIcon('assets/transparent_paw.png', Size(150.0, 150.0));
       setState(() {
         origin = Marker(
             draggable: true,
@@ -391,127 +400,103 @@ class RescueFuncs {
   }
 }
 
-     
-
 Future<BitmapDescriptor> getMarkerIcon(String imagePath, Size size) async {
-    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
 
-    final Radius radius = Radius.circular(size.width / 2);
+  final Radius radius = Radius.circular(size.width / 2);
 
-    final Paint tagPaint = Paint()..color = Colors.blue;
-    final double tagWidth = 40.0;
+  final Paint tagPaint = Paint()..color = Colors.blue;
+  final double tagWidth = 40.0;
 
-    final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
-    final double shadowWidth = 15.0;
+  final Paint shadowPaint = Paint()..color = Colors.blue.withAlpha(100);
+  final double shadowWidth = 15.0;
 
-    final Paint borderPaint = Paint()..color = Colors.white;
-    final double borderWidth = 3.0;
+  final Paint borderPaint = Paint()..color = Colors.white;
+  final double borderWidth = 3.0;
 
-    final double imageOffset = shadowWidth + borderWidth;
+  final double imageOffset = shadowWidth + borderWidth;
 
-    // Add shadow circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(
-              0.0,
-              0.0,
-              size.width,
-              size.height
-          ),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        shadowPaint);
+  // Add shadow circle
+  canvas.drawRRect(
+      RRect.fromRectAndCorners(
+        Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius,
+      ),
+      shadowPaint);
 
-    // Add border circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(
-              shadowWidth,
-              shadowWidth,
-              size.width - (shadowWidth * 2),
-              size.height - (shadowWidth * 2)
-          ),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        borderPaint);
+  // Add border circle
+  canvas.drawRRect(
+      RRect.fromRectAndCorners(
+        Rect.fromLTWH(shadowWidth, shadowWidth, size.width - (shadowWidth * 2),
+            size.height - (shadowWidth * 2)),
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius,
+      ),
+      borderPaint);
 
-    // Add tag circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(
-              size.width - tagWidth,
-              0.0,
-              tagWidth,
-              tagWidth
-          ),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        tagPaint);
+  // Add tag circle
+  canvas.drawRRect(
+      RRect.fromRectAndCorners(
+        Rect.fromLTWH(size.width - tagWidth, 0.0, tagWidth, tagWidth),
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius,
+      ),
+      tagPaint);
 
-    // Add tag text
-    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
-    textPainter.text = TextSpan(
-      text: '1',
-      style: TextStyle(fontSize: 20.0, color: Colors.white),
-    );
+  // Add tag text
+  TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+  textPainter.text = TextSpan(
+    text: '1',
+    style: TextStyle(fontSize: 20.0, color: Colors.white),
+  );
 
-    textPainter.layout();
-    textPainter.paint(
-        canvas,
-        Offset(
-            size.width - tagWidth / 2 - textPainter.width / 2,
-            tagWidth / 2 - textPainter.height / 2
-        )
-    );
+  textPainter.layout();
+  textPainter.paint(
+      canvas,
+      Offset(size.width - tagWidth / 2 - textPainter.width / 2,
+          tagWidth / 2 - textPainter.height / 2));
 
-    // Oval for the image
-    Rect oval = Rect.fromLTWH(
-        imageOffset,
-        imageOffset,
-        size.width - (imageOffset * 2),
-        size.height - (imageOffset * 2)
-    );
+  // Oval for the image
+  Rect oval = Rect.fromLTWH(imageOffset, imageOffset,
+      size.width - (imageOffset * 2), size.height - (imageOffset * 2));
 
-    // Add path for oval image
-    canvas.clipPath(Path()
-      ..addOval(oval));
+  // Add path for oval image
+  canvas.clipPath(Path()..addOval(oval));
 
-    // Add image
-    // ui.Image image = await getImageFromPath(imagePath); // Alternatively use your own method to get the image
-    // paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
+  // Add image
+  // ui.Image image = await getImageFromPath(imagePath); // Alternatively use your own method to get the image
+  // paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
 
-    // Convert canvas to image
-    final ui.Image markerAsImage = await pictureRecorder.endRecording().toImage(
-        size.width.toInt(),
-        size.height.toInt()
-    );  
+  // Convert canvas to image
+  final ui.Image markerAsImage = await pictureRecorder
+      .endRecording()
+      .toImage(size.width.toInt(), size.height.toInt());
 
-    // // Convert image to bytes
-    final ByteData byteData = await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
-    final Uint8List uint8List = byteData.buffer.asUint8List();
+  // // Convert image to bytes
+  final ByteData byteData =
+      await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+  final Uint8List uint8List = byteData.buffer.asUint8List();
 
-    return BitmapDescriptor.fromBytes(uint8List);
+  return BitmapDescriptor.fromBytes(uint8List);
 }
 
 Future<ui.Image> getImageFromPath(String imagePath) async {
-    File imageFile = File(imagePath);
+  File imageFile = File(imagePath);
 
-    var imageBytes = imageFile.readAsBytesSync();
+  var imageBytes = imageFile.readAsBytesSync();
 
-    final Completer<ui.Image> completer = new Completer();
+  final Completer<ui.Image> completer = new Completer();
 
-    ui.decodeImageFromList(imageBytes, (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
+  ui.decodeImageFromList(imageBytes, (ui.Image img) {
+    return completer.complete(img);
+  });
+  return completer.future;
 }

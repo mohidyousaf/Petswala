@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection, ObjectId;
 import 'package:petswala/Authentication/userClass.dart';
 import 'package:petswala/CasualUser/models/orderInfo.dart';
+import 'package:petswala/CasualUser/models/petInfo.dart';
 import 'package:petswala/CasualUser/models/productItem.dart';
 import 'package:petswala/CasualUser/models/rescueInfo.dart';
 import 'package:petswala/Seller/models/shopProductItem.dart';
@@ -56,6 +57,23 @@ class DBConnection {
           price: element['price'],
           rating: element['rating'],
           imageUrl: 'assets/cat.png'));
+    });
+    // print(finalList[0].category);
+    return finalList;
+  }
+  Future getAllAdoptionPets() async {
+    if (_db == null) {
+      await getConnection();
+    }
+    dynamic coll1 = _db.collection('Pets');
+    final pets = await coll1.find({"adoption":true}).toList();
+    List<PetInfo> finalList = [];
+    var poignant = pets.forEach((element) {
+      finalList.add(PetInfo(
+          petId: element['_id'],
+          name: element['name'],
+          category: element['category'],
+      ));
     });
     // print(finalList[0].category);
     return finalList;

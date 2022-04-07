@@ -32,7 +32,10 @@ class HomeScreen extends StatelessWidget {
         bottomNavigationBar: BottomNavBar(context),
         body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
             Widget>[
-              Logo(color:AppColor.primary),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:70.0),
+                child: Logo(color:AppColor.primary),
+              ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Builder(builder: (context) {
@@ -44,9 +47,8 @@ class HomeScreen extends StatelessWidget {
                                 minLines: 1,
                                 maxLines: 3,
                                 onChanged: (text) {
-                                  print('before' + text);
                                   if (text.length >= 3){
-                                    Navigator.pushNamed(context, '/market', arguments: text);
+                                    Navigator.pushNamed(context, '/adoption', arguments: text);
                                     
                                   }
                                   // print(text);
@@ -56,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                                   contentPadding: EdgeInsets.all(20),
                                   fillColor: AppColor.gray_transparent,
                                   filled: true,
-                                  hintText: 'search for products',
+                                  hintText: 'Adopt a new friend',
                                   hintStyle: AppFont.bodyLarge(AppColor.gray_light),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(color: AppColor.primary),

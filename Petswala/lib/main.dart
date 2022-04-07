@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/Authentication/addPet2.dart';
+import 'package:petswala/CasualUser/screens/adoption.dart';
 import 'package:petswala/CasualUser/screens/rescue.dart';
 import 'package:petswala/CasualUser/screens/rescueMenu.dart';
 import 'package:petswala/CasualUser/screens/rescueRequests.dart';
@@ -33,13 +35,14 @@ import 'package:petswala/Seller/screens/home.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
+  log('ffd');
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   HttpOverrides.global = new DevHttpOverrides();
   if (prefs.containsKey('name')) {
     var name = prefs.getString('name');
     var type = prefs.getString('type');
-    print(name);
+    debugPrint(name);
     print(type);
   }
   runApp(MyApp());
@@ -92,6 +95,7 @@ class _MyAppState extends State<MyApp> {
           '/addpet2': (context) => AddPet2(),
           '/serviceHome': (context) => ServicesHome(),
           '/servicePage': (context) => ServicePage(),
+          '/adoption':(context) => AdoptionRouter()
         },
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'adoption_event.dart';
-part 'adoption_state.dart';
+part '../../events/adoption_event.dart';
+part '../../states/adoption_state.dart';
 
 class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
   AdoptionBloc() : super(AdoptionInitial()) {

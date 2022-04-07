@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
@@ -12,7 +12,7 @@ class NetworkHandler {
 
   Future<dynamic> get(String url) async {
     url = formatter(url);
-    var resp = await http.get(url);
+    var resp = await http.get(Uri.parse(url));
 
     if (resp.statusCode == 200 || resp.statusCode == 201) {
       log.i(resp.body);
@@ -22,7 +22,7 @@ class NetworkHandler {
 
   Future<http.Response> post(String url, Map<String, String> body) async {
     url = formatter(url);
-    var response = await http.post(url,
+    var response = await http.post(Uri.parse(url),
         headers: {"Content-type": "application/json"}, body: json.encode(body));
 
     print(response);

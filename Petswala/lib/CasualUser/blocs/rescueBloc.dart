@@ -47,6 +47,13 @@ class RescueBloc extends Bloc<RescueEvent, RescueState> {
       add(ChangeLocationEvent(lat:event.pos.latitude, long: event.pos.longitude));
     });
     on<PostRescueEvent>((event, emit) async{
+      emit(RescueState.initial(
+        contact:state.contact,
+        petType: state.petType, 
+        description: state.description, 
+        pos: state.pos, 
+        controller: state.controller,
+        loading:true));
       await addRescueRequest(state.contact, state.pos, state.description, state.petType);
       emit(RescueState.initial(
         request: true,
