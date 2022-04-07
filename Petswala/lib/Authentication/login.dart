@@ -1,14 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:petswala/Authentication/signup.dart';
 import 'package:petswala/Repository/networkHandler.dart';
+import 'package:petswala/Repository/users_list_page.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:petswala/bloc/login_bloc.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 // This is the login page of our app where validation is added in every field for instance email should be valid that is done by using regex and similarly other constraints,
 // the login button will be disabled unless all validations errors are solved and user name and password is correct.
@@ -20,6 +25,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _client = StreamChatClient('pz93j7x2ygtm', logLevel: Level.INFO);
   NetworkHandler network = NetworkHandler();
   bool visible = true;
   bool a = false;
@@ -133,7 +139,53 @@ class _LoginState extends State<Login> {
                                       setState(() {
                                         circular = true;
                                       });
-                                      Navigator.pushNamed(context, '/boarding');
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      String userID = prefs.getString('name');
+
+                                      Map<String, String> body = {
+                                        'userId': userID
+                                      };
+                                      NetworkHandler nw = NetworkHandler();
+                                      var tokenResponse = await nw.post(
+                                          'streamClient/token', body);
+                                      var userToken = jsonDecode(
+                                          tokenResponse.body)['token'];
+
+                                      await _client
+                                          .connectUser(
+                                              User(id: userID), userToken)
+                                          .then((response) {
+                                        print(response);
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => StreamChat(
+                                                    client: _client,
+                                                    child: UsersListPage(),
+                                                    streamChatThemeData: StreamChatThemeData(
+                                                        ownMessageTheme: StreamMessageThemeData(
+                                                            messageTextStyle: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: AppColor
+                                                                    .primary,
+                                                                fontSize: 20),
+                                                            avatarTheme: StreamAvatarThemeData(
+                                                                constraints:
+                                                                    BoxConstraints(
+                                                                        maxHeight:
+                                                                            80,
+                                                                        maxWidth:
+                                                                            80),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)))),
+                                                  )),
+                                        );
+                                      });
+                                      // Navigator.pushNamed(context, '/boarding');
                                     } else {
                                       setState(() {
                                         circular = true;
