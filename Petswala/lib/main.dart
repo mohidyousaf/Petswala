@@ -12,6 +12,7 @@ import 'package:petswala/CasualUser/screens/servicePage.dart';
 import 'package:petswala/CasualUser/screens/servicesHome.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Seller/screens/addProduct.dart';
 import 'package:petswala/Seller/screens/shopProductPage.dart';
 import 'package:petswala/bloc/pet_bloc.dart';
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatform();
+    sendnotification();
   }
 
   Widget build(BuildContext context) {
@@ -107,6 +109,11 @@ Future<void> initPlatform() async {
   await OneSignal.shared
       .getDeviceState()
       .then((value) => {print(value.userId)});
+}
+
+sendnotification() async {
+  NetworkHandler nw = NetworkHandler();
+  nw.get('notification/SendNotification');
 }
 
 class DevHttpOverrides extends HttpOverrides {
