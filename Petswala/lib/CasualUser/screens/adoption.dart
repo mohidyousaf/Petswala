@@ -153,10 +153,14 @@ class _AdoptionState extends State<Adoption> {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: CategoryChips(),
               ),
-              Expanded(
-                child: BlocBuilder<AdoptionBloc, AdoptionState>(
-                  builder: (context, state) {
-                    return ListView.separated(
+              BlocBuilder<AdoptionBloc, AdoptionState>(
+                builder: (context, state) {
+                  return state.loading ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical:16.0),
+                    child: CircularProgressIndicator(color: AppColor.primary,),
+                  )
+                  :Expanded(
+                    child: ListView.separated(
                         controller: controller,
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(
@@ -165,9 +169,9 @@ class _AdoptionState extends State<Adoption> {
                         separatorBuilder: (context, index) => SizedBox(
                               height: 16,
                             ),
-                        itemCount: state.displayedPets.length);
-                  },
-                ),
+                        itemCount: state.displayedPets.length),
+                  );
+                },
               ),
             ],
           ),

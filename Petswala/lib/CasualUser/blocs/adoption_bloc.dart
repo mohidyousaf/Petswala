@@ -33,6 +33,8 @@ class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
     });
     on<InitializeListEvent>((event, emit) async {
       print('fdfdfffd');
+      emit(AdoptionState.initial(
+          loading: true));
       List<PetInfo> pets = await getAllPets();
       emit(AdoptionState.initial(
           pets: pets, displayedPets: pets));

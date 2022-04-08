@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:petswala/CasualUser/widgets/navBars.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
 
 class PetPage extends StatefulWidget {
-  const PetPage({ Key key }) : super(key: key);
+  final mongo.ObjectId petID;
+  const PetPage({ Key key, this.petID }) : super(key: key);
 
   @override
   State<PetPage> createState() => _PetPageState();
