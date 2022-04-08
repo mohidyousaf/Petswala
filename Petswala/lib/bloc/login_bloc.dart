@@ -4,6 +4,8 @@ import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/bloc/validation_login.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 // This is login bloc of our application where all the login logic is implemented that triggers updates in the states and fetch information from the backend and verify if
 // it is a authentic user.
@@ -13,7 +15,7 @@ class LoginBloc with Validator_login {
   final _loginUserName = BehaviorSubject<String>();
   final _loginPassword = BehaviorSubject<String>();
   final _loginState = BehaviorSubject<bool>();
-
+  // final _client = StreamChatClient('pz93j7x2ygtm', logLevel: Level.INFO);
 // define getters
 
   Stream<String> get userName => _loginUserName.stream.transform(nameValidator);
@@ -36,8 +38,20 @@ class LoginBloc with Validator_login {
   final storage = new FlutterSecureStorage();
 
   Future<bool> submit() async {
+    // final userID = _loginUserName.value;
+
+    // Map<String, String> body = {'userId': userID};
+    // var tokenResponse = await nw.post('streamClient/token', body);
+    // var userToken = jsonDecode(tokenResponse.body)['token'];
+
+    // await _client.connectUser(User(id: userID), userToken).then((response) {
+    //   print(response);
+    // });
+
     print(_loginPassword.value);
     print(_loginUserName.value);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', _loginUserName.value);
     String testName = _loginUserName.value;
     String testPassword = _loginPassword.value;
     // print(users[0].name);
