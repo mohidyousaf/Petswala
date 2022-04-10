@@ -132,6 +132,10 @@ class _LoginState extends State<Login> {
                             onTap: snapshot.hasError
                                 ? null
                                 : () async {
+                                  FocusNode currentfocus = FocusScope.of(context);
+                                    if (!currentfocus.hasPrimaryFocus) {
+                                      currentfocus.unfocus();
+                                    }
                                     setState(() {
                                       circular = false;
                                     });
@@ -159,30 +163,9 @@ class _LoginState extends State<Login> {
                                         print(response);
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => StreamChat(
-                                                    client: _client,
-                                                    child: UsersListPage(),
-                                                    streamChatThemeData: StreamChatThemeData(
-                                                        ownMessageTheme: StreamMessageThemeData(
-                                                            messageTextStyle: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: AppColor
-                                                                    .primary,
-                                                                fontSize: 20),
-                                                            avatarTheme: StreamAvatarThemeData(
-                                                                constraints:
-                                                                    BoxConstraints(
-                                                                        maxHeight:
-                                                                            80,
-                                                                        maxWidth:
-                                                                            80),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20)))),
-                                                  )),
+                                              builder: (context) => ChatNavigator(client: _client,),
+                                              ),
+                                              
                                         );
                                       });
                                       // Navigator.pushNamed(context, '/boarding');

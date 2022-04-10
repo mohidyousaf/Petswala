@@ -37,7 +37,7 @@ class AdoptionRouter extends StatelessWidget {
           return MaterialPageRoute(
               builder: (context) => page,
               settings:
-                  passedSettings.arguments != null ? passedSettings : settings);
+                  settings.arguments != null ? settings : passedSettings);
         },
       ),
     );
@@ -257,6 +257,7 @@ class PetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(pet.petId);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GestureDetector(
@@ -327,7 +328,7 @@ class CategoryChips extends StatefulWidget {
   final Color activeTextColor;
   final Color activeColor;
   final event;
-  final List categories = ['All', 'Dogs', 'Cats', 'Rabbits', 'Birds'];
+  final List categories = ['All', 'Dog', 'Cat', 'Rabbit', 'Bird'];
 
   CategoryChips(
       {this.text,

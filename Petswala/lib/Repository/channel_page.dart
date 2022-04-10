@@ -9,15 +9,19 @@ class ChannelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: StreamChannelHeader(),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: StreamMessageListView(),
-          ),
-          StreamMessageInput(),
-        ],
+    Channel channel = ModalRoute.of(context).settings.arguments as Channel;
+    return StreamChannel(
+      channel: channel,
+      child: Scaffold(
+        appBar: StreamChannelHeader(),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: StreamMessageListView(),
+            ),
+            StreamMessageInput(),
+          ],
+        ),
       ),
     );
   }
