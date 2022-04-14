@@ -1,4 +1,4 @@
-part of '../screens/bloc/adoption_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 abstract class AdoptionState extends Equatable {
   const AdoptionState();

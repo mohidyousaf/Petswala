@@ -1,22 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'channel_page.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 
-class ChatNavigator extends StatelessWidget {
+class ChatNavigator extends StatefulWidget {
   final StreamChatClient client;
   const ChatNavigator({ Key key, this.client}) : super(key: key);
 
   @override
+  State<ChatNavigator> createState() => _ChatNavigatorState();
+}
+
+class _ChatNavigatorState extends State<ChatNavigator> {
+
+  
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
+  @override
   Widget build(BuildContext context) {
     RouteSettings passedSettings = ModalRoute.of(context).settings;
     return StreamChat(
-      client: client,
+      client: widget.client,
       streamChatThemeData: StreamChatThemeData(
       ownMessageTheme: StreamMessageThemeData(
       messageTextStyle: TextStyle(
@@ -114,7 +131,7 @@ class _UsersListPageState extends State<UsersListPage> {
             // ignore: deprecated_member_use
             child: ChannelListView(
               padding: EdgeInsets.all(16),
-              filter: Filter.in_('members',[StreamChat.of(context).currentUser.id]),
+              filter: StreamChat.of(context).currentUser != null ? Filter.in_('members',[StreamChat.of(context).currentUser.id]):null,
               sort: const [SortOption('last_message_at')],
               limit: 20,
               onChannelTap: (Channel channel, Widget channelWidget){
@@ -178,3 +195,22 @@ class _UsersListPageState extends State<UsersListPage> {
   //   }
   // }
 }
+
+
+Future<StreamChatClient> getChatClient() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    StreamChatClient client;
+    String userID = prefs.getString('name');
+    Map<String, String> body = {
+      'userId': userID
+    };
+    NetworkHandler nw = NetworkHandler();
+    var tokenResponse = await nw.post(
+        'streamClient/token', body);
+    var userToken = jsonDecode(
+        tokenResponse.body)['token'];
+    client = StreamChatClient('pz93j7x2ygtm', logLevel: Level.INFO);
+    print('dsds');
+    await client.connectUser(User(id: userID), userToken);
+    return client;
+  }
