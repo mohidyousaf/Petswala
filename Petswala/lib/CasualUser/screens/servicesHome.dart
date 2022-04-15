@@ -9,105 +9,147 @@ import 'package:petswala/themes/spacingAndBorders.dart';
 // import 'dart:math' as math;
 
 class ServicesHome extends StatelessWidget {
-  const ServicesHome({ Key key }) : super(key: key);
+  const ServicesHome({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final categoryList = CategoryData().categoryList;
-    final ServiceInfo service = ServiceInfo(
-      name: 'Adil', 
-      rate: 120, 
-      description: 'fdfdfdfdfdfdffdfdfdf',
-      type: 'Vet',
-      imLink: 'assets/5506680.jpg');
+    final List<ServiceInfo> service = [
+      ServiceInfo(
+          name: 'Rehan',
+          rate: 120,
+          description:
+              "Dedicated veterinarian seeking positions in the Seattle area. Skilled in treating animals, working in high-pressure environments and problem-solving. Passionate about educating pet owners on their pets' health and well-being, as well as advocating for animal rights.",
+          type: 'Vet',
+          imLink: 'assets/5506680.jpg',
+          contact: '03462177528',
+          rating: 2),
+      ServiceInfo(
+          name: 'Mohid',
+          rate: 250,
+          description:
+              "We are the best veterinary in the Seattle area. Skilled in treating animals, working in high-pressure environments and problem-solving. Passionate about educating pet owners on their pets' health and well-being, as well as advocating for animal rights.",
+          type: 'Vet',
+          imLink: 'assets/5506680.jpg',
+          contact: '03203543535',
+          rating: 4),
+      ServiceInfo(
+          name: 'Shiffa',
+          rate: 150,
+          description:
+              "Finding the best in the place? Skilled in treating animals, working in high-pressure environments and problem-solving. Passionate about educating pet owners on their pets' health and well-being, as well as advocating for animal rights.",
+          type: 'Vet',
+          imLink: 'assets/5506680.jpg',
+          contact: '03364213881',
+          rating: 1)
+    ];
     return GestureDetector(
-        onTap: (){
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-            currentFocus.focusedChild.unfocus();
-        }},
-        child: SafeArea(
-          child: Scaffold(
-            bottomNavigationBar: BottomNavBar(context),
-            body:Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          currentFocus.focusedChild.unfocus();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          bottomNavigationBar: BottomNavBar(context),
+          body: Container(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(color: AppColor.primary,borderRadius: AppBorderRadius.all_25),
-                        child: Center(child: Icon(CupertinoIcons.back,color: AppColor.white,size: 30,
-                        ))),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    color: AppColor.primary,
+                                    borderRadius: AppBorderRadius.all_25),
+                                child: Center(
+                                    child: Icon(
+                                  CupertinoIcons.back,
+                                  color: AppColor.white,
+                                  size: 30,
+                                ))),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 50),
+                              child: Logo(color: AppColor.primary)),
+                        ],
+                      ),
+                    ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(left: 50),
-                      child: Logo(color: AppColor.primary)),
-                ],
-              ),
-            ),
-          ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Builder(builder: (context) {
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: TextField(
-                                minLines: 1,
-                                maxLines: 3,
-                                onChanged: (text) {
-                                  // print(text);
-                                  // BlocProvider.of<PostBloc>(context).add(ChangeNewPostTextEvent(text:text));
-                                },
-                                decoration: InputDecoration(   
-                                  contentPadding: EdgeInsets.all(20),
-                                  fillColor: AppColor.gray_transparent,
-                                  filled: true,
-                                  hintText: 'Search services',
-                                  hintStyle: AppFont.bodyLarge(AppColor.gray_light),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: AppColor.primary),
-                                      borderRadius: AppBorderRadius.all_20),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: AppColor.gray_transparent),
-                                      borderRadius: AppBorderRadius.all_20),
-                                ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Builder(builder: (context) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              minLines: 1,
+                              maxLines: 3,
+                              onChanged: (text) {
+                                // print(text);
+                                // BlocProvider.of<PostBloc>(context).add(ChangeNewPostTextEvent(text:text));
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(20),
+                                fillColor: AppColor.gray_transparent,
+                                filled: true,
+                                hintText: 'Search services',
+                                hintStyle:
+                                    AppFont.bodyLarge(AppColor.gray_light),
+                                border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: AppColor.primary),
+                                    borderRadius: AppBorderRadius.all_20),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: AppColor.gray_transparent),
+                                    borderRadius: AppBorderRadius.all_20),
                               ),
                             ),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left:16),
+                            padding: const EdgeInsets.only(left: 16),
                             child: InkWell(
                               onTap: () {
                                 // BlocProvider.of<PostBloc>(context).add(AddPostEvent());
-                                FocusScopeNode currentFocus = FocusScope.of(context);
-                                if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-                                  currentFocus.focusedChild.unfocus();                                           
-                                }},
+                                FocusScopeNode currentFocus =
+                                    FocusScope.of(context);
+                                if (!currentFocus.hasPrimaryFocus &&
+                                    currentFocus.focusedChild != null) {
+                                  currentFocus.focusedChild.unfocus();
+                                }
+                              },
                               child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColor.primary, 
-                                  borderRadius: AppBorderRadius.all_15),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(20,19.5,19,19.5),
-                                  child: Icon(Icons.search_rounded, color: AppColor.white,),
-                                )),
+                                  decoration: BoxDecoration(
+                                      color: AppColor.primary,
+                                      borderRadius: AppBorderRadius.all_15),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 19.5, 19, 19.5),
+                                    child: Icon(
+                                      Icons.search_rounded,
+                                      color: AppColor.white,
+                                    ),
+                                  )),
                             ),
                           )
-                          ],
-                        );
-                        }),
-                    ),
+                        ],
+                      );
+                    }),
+                  ),
                   Container(
                     height: 150,
                     child: ListView.separated(
@@ -123,35 +165,38 @@ class ServicesHome extends StatelessWidget {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:16.0),
-                      child: Text('Popular services',
-                      style: AppFont.h4Light(AppColor.color_font_dark)),
-                    )),
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text('Popular services',
+                            style: AppFont.h4Light(AppColor.color_font_dark)),
+                      )),
                   Container(
                     height: 385,
                     padding: EdgeInsets.all(16),
                     child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => ServiceCard(service: service,), 
-                      separatorBuilder: (context, index) => SizedBox(width: 16,), 
-                      itemCount: 10),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => ServiceCard(
+                              service: service[index],
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              width: 16,
+                            ),
+                        itemCount: 3),
                   )
-                  ],
-                ),
+                ],
               ),
             ),
-            
-
           ),
         ),
-      );
+      ),
+    );
   }
 }
+
 class CategoryCard extends StatelessWidget {
   final Category category;
   CategoryCard({this.category});
@@ -191,18 +236,23 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
+
 class Category {
   String imLink = '';
   String name = '';
   String link = '/home';
   Color color;
-  Category({this.imLink, this.name, this.link, this.color: AppColor.primary_light});
+  Category(
+      {this.imLink, this.name, this.link, this.color: AppColor.primary_light});
 }
 
 class CategoryData {
   List<Category> categoryList = [
     Category(
-        imLink: 'assets/stethoscope.png', name: 'Vet', link: '/maintenance', color: AppColor.primary),
+        imLink: 'assets/stethoscope.png',
+        name: 'Vet',
+        link: '/maintenance',
+        color: AppColor.primary),
     Category(
         imLink: 'assets/daycare-center.png',
         name: 'Daycare',
@@ -220,17 +270,15 @@ class CategoryData {
   ];
 }
 
-
-
 class ServiceCard extends StatelessWidget {
   final ServiceInfo service;
-  const ServiceCard({ Key key , this.service}) : super(key: key);
+  const ServiceCard({Key key, this.service}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.of(context).pushNamed('/servicePage');
+      onTap: () {
+        Navigator.of(context).pushNamed('/servicePage', arguments: service);
       },
       child: Container(
         width: 250,
@@ -287,7 +335,6 @@ class ServiceCard extends StatelessWidget {
                 children: [
                   Text('Rs ${service.rate}/hr',
                       style: AppFont.h5(AppColor.primary)),
-                  
                 ],
               ),
             )
@@ -298,7 +345,7 @@ class ServiceCard extends StatelessWidget {
   }
 }
 
-class ServiceInfo{
+class ServiceInfo {
   final String name;
   final String description;
   final String type;
@@ -307,6 +354,12 @@ class ServiceInfo{
   final double rating;
   final String contact;
 
-  ServiceInfo({this.name, this.description, this.type, this.rate, this.imLink, this.rating:4, this.contact:'0300-4023456'});
-
+  ServiceInfo(
+      {this.name,
+      this.description,
+      this.type,
+      this.rate,
+      this.imLink,
+      this.rating,
+      this.contact});
 }
