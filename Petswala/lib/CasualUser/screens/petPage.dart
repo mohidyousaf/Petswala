@@ -5,13 +5,17 @@ import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:petswala/CasualUser/blocs/adoption_bloc.dart';
 import 'package:petswala/CasualUser/models/petInfo.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Repository/users_list_page.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
+
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class PetPage extends StatefulWidget {
   const PetPage({ Key key}) : super(key: key);
@@ -105,8 +109,14 @@ class _PetPageState extends State<PetPage> {
               child: Row(
                 children: [
                   GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).pop();
+                        onTap: () async{
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          String userID = prefs.getString('name');
+                          StreamChatClient client = await getChatClient();
+                          Channel channel = await navigateToChannel(client, userID, pet.ownerName);
+                          Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
+                                    settings: RouteSettings(name: '/channel',arguments: channel)),);
                         },
                         child: Container(
                           height: 60,

@@ -7,11 +7,17 @@ import 'package:petswala/CasualUser/screens/servicesHome.dart';
 // import 'package:petswala/CasualUser/events/userMarketplaceEvent.dart';
 // import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Repository/users_list_page.dart';
 import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
+
+import 'dart:math' as math;
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ServicePage extends StatelessWidget {
   ServicePage({Key key}) : super(key: key);
@@ -185,7 +191,39 @@ class ServicePage extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
 
-                        buildButton('Book', service, context)
+                        Row(
+                          children: [
+                             GestureDetector(
+                        onTap: () async{
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          String userID = prefs.getString('name');
+                          StreamChatClient client = await getChatClient();
+                          Channel channel = await navigateToChannel(client, userID, service.name);
+                          Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
+                                    settings: RouteSettings(name: '/channel',arguments: channel)),);
+                        },
+                        child: Container(
+                          height: 60,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: AppBorderRadius.all_20
+                          ),
+                          child: Transform.rotate(
+                            angle: -math.pi/4,
+                            child: Icon(
+                            Icons.send_rounded,
+                            color: AppColor.white,
+                            size: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16,),
+                            buildButton('Book', service, context),
+                          ],
+                        )
                       ],
                     ),
                   ),

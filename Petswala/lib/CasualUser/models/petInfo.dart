@@ -15,8 +15,9 @@ class PetInfo{
   List<Map<String, String>> medHistory;
   ObjectId petId;
   ObjectId ownerID;
+  String ownerName;
 
-  PetInfo({this.forAdoption:false, this.name, this.category, this.breed, this.dateOfBirth, this.years, this.months, 
+  PetInfo({this.ownerName, this.forAdoption:false, this.name, this.category, this.breed, this.dateOfBirth, this.years, this.months, 
   this.status, this.vaccinations, this.allergies, this.medHistory, this.petId, this.ownerID});
 
 }

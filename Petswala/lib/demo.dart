@@ -73,6 +73,8 @@ class DBConnection {
           petId: element['_id'],
           name: element['name'],
           category: element['category'],
+          years: element['age'],
+          ownerName: element['ownerName']
       ));
     });
     // print(finalList[0].category);

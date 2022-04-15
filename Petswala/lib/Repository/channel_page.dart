@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-import 'package:stream_chat_flutter/src/stream_chat_theme.dart';
 
 class ChannelPage extends StatelessWidget {
   const ChannelPage({
@@ -14,7 +13,8 @@ class ChannelPage extends StatelessWidget {
     return StreamChannel(
       channel: channel,
       child: Scaffold(
-        appBar: StreamChannelHeader(),
+        appBar: StreamChannelHeader(
+          onBackPressed: () => Navigator.of(context).pop()),
         body: Column(
           children: <Widget>[
             Expanded(
