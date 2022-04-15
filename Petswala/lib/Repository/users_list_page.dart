@@ -32,6 +32,7 @@ class _ChatNavigatorState extends State<ChatNavigator> {
   @override
   Widget build(BuildContext context) {
     RouteSettings passedSettings = ModalRoute.of(context).settings;
+    print(passedSettings.name);
     return StreamChat(
       client: widget.client,
       streamChatThemeData: StreamChatThemeData(
@@ -44,12 +45,14 @@ class _ChatNavigatorState extends State<ChatNavigator> {
           borderRadius: BorderRadius.circular(20)))),
                                                   
       child: Navigator(
-          initialRoute: '/',
+          initialRoute: passedSettings.name,
            onGenerateRoute: (settings) {
               Widget page;
-              switch (settings.name){
+              switch (passedSettings.name){
                 case '/': page = UsersListPage();break;
-                case '/channel': page = ChannelPage();break;
+                case '/channel': 
+                page = ChannelPage();
+                break;
     
               }
               return CupertinoPageRoute(builder: (context) => page, 
@@ -168,32 +171,6 @@ class _UsersListPageState extends State<UsersListPage> {
   //   });
   // }
 
-  // void _navigateToChannel(int index, context) async {
-  //   var client = StreamChat.of(context).client;
-  //   var currentUser = StreamChat.of(context).currentUser;
-
-  //   Channel channel;
-
-  //   await client
-  //       .channel("messaging", extraData: {
-  //         "members": [currentUser.id, _usersList[index].id]
-  //       })
-  //       .create()
-  //       .then((response) {
-  //         channel = Channel.fromState(client, response);
-  //         channel.watch();
-  //       })
-  //       .catchError((error) {
-  //         print(error);
-  //       });
-
-  //   if (channel != null) {
-  //     print('channel is created');
-  //     Navigator.of(context).pushNamed('/channel', arguments: channel);
-  //   } else {
-  //     // Could not find a channel;
-  //   }
-  // }
 }
 
 
@@ -213,4 +190,17 @@ Future<StreamChatClient> getChatClient() async{
     print('dsds');
     await client.connectUser(User(id: userID), userToken);
     return client;
+  }
+  Future<Channel> navigateToChannel(StreamChatClient client , String currUserId, String userId) async {
+
+    Channel channel;
+    await client.channel("messaging", extraData: {
+          "members": [currUserId, userId]}).create().then((response) {
+          channel = Channel.fromState(client, response);
+          channel.watch();
+        })
+        .catchError((error) {
+          print(error);
+        });
+    return channel;
   }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:petswala/Authentication/signup.dart';
+import 'package:petswala/Repository/channel_page.dart';
 import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Repository/users_list_page.dart';
 import 'package:petswala/bloc/login_bloc.dart';
@@ -143,9 +144,11 @@ class _LoginState extends State<Login> {
                                       setState(() {
                                         circular = true;
                                       });
-                                       StreamChatClient client = await getChatClient();
+                                    StreamChatClient client = await getChatClient();
+                                    Channel channel = await navigateToChannel(client, 'adilslam7', 'mohid');
                                     Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => ChatNavigator(client: client),),);
+                                    MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
+                                              settings: RouteSettings(name: '/channel',arguments: channel)),);
                                       // Navigator.pushNamed(context, '/boarding');
                                     } else {
                                       setState(() {

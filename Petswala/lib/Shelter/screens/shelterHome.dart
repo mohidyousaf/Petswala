@@ -65,7 +65,7 @@ class _ShelterHomeState extends State<ShelterHome> {
             padding: const EdgeInsets.all(16.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text('Harold\'s Shelter', style: AppFont.h4Light(AppColor.color_font_dark),)),
+              child: Text('Harold\'s Shelter', style: AppFont.h4(AppColor.color_font_dark),)),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -135,9 +135,56 @@ class _ShelterHomeState extends State<ShelterHome> {
                 ],
               ),
             ),
-          )
-      ]),
-      
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: ((context, index) => ShelterPetCard()),
+              itemCount: 5,
+                  ),
+          ),
+      ])
     );
   }
 }
+
+
+class ShelterPetCard extends StatelessWidget {
+  const ShelterPetCard({ Key key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: AppBorderRadius.all_20),
+            height: 100,
+            width: 100,
+            child: Image.asset('assets/cat.png', fit: BoxFit.fill,),
+            clipBehavior: Clip.hardEdge,
+          ),
+          Column(
+            
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Howard the Duck', style: AppFont.bodyLarge(AppColor.color_font_dark),),
+              Text('Cat', style: AppFont.bodySmall(AppColor.gray_light),),
+            ],
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: AppColor.red,
+              borderRadius: AppBorderRadius.all_20),
+            height: 30,
+            width: 100,
+            child: Text('Injured', style: AppFont.button(AppColor.white),),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// class 

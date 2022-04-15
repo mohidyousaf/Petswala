@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petswala/themes/colors.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:stream_chat_flutter/src/stream_chat_theme.dart';
 
@@ -9,7 +10,7 @@ class ChannelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Channel channel = ModalRoute.of(context).settings.arguments as Channel;
+    Channel channel = ModalRoute.of(context).settings.arguments;
     return StreamChannel(
       channel: channel,
       child: Scaffold(
