@@ -16,6 +16,7 @@ import 'package:petswala/CasualUser/screens/userMarketplace.dart';
 import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Seller/screens/addProduct.dart';
 import 'package:petswala/Seller/screens/shopProductPage.dart';
+import 'package:petswala/Shelter/screens/shelterHome.dart';
 import 'package:petswala/bloc/pet_bloc.dart';
 import 'package:petswala/bloc/register_bloc.dart';
 import 'package:provider/provider.dart';
@@ -76,9 +77,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          '/': (context) => ServicesHome(),
-          // '/': (context) => HomeScreen(),
-          // '/': (context) => LandingPage(),
+          // '/': (context) => ServicesHome(),
+          // '/': (context) => UserProfile(),
+          // '/':(context) => ShelterHome(),
+          '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),

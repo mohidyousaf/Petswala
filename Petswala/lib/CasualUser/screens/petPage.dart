@@ -7,7 +7,11 @@ import 'package:petswala/CasualUser/models/petInfo.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
+import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:math' as math;
 
 class PetPage extends StatefulWidget {
   const PetPage({ Key key}) : super(key: key);
@@ -43,62 +47,107 @@ class _PetPageState extends State<PetPage> {
     return Scaffold(
       bottomNavigationBar: HideableNavBar(
             controller: controller, child: BottomNavBar(context)),
-      body: CustomScrollView(
-        controller: controller,
-          slivers: [
-            SliverAppBar(
-              backgroundColor: AppColor.white,
-              pinned: true, 
-              automaticallyImplyLeading: false,
-                title: Row(
-                  children: [
-                    Icon(
-                    CupertinoIcons.back,
-                    color: AppColor.primary,
-                    size: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:30.0),
-                      child: Logo(color:AppColor.primary),
-                    ),
-                  ],
-                ),
-                expandedHeight: 200.0,
-                flexibleSpace: FlexibleSpaceBar(
-                  expandedTitleScale: 1,
-                  title: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).pop();
-                      },
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomScrollView(
+            controller: controller,
+  
+              slivers: [
+                SliverAppBar(
+                  stretch: true,
+                expandedHeight: MediaQuery.of(context).size.height * 0.4,
+                backgroundColor: const Color(0xff1c0436),
+                pinned: true,
+                floating: true,
+                leading: GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColor.gray_dark.withOpacity(0.5),
+                        borderRadius: AppBorderRadius.all_25
+                      ),
                       child: Icon(
                       CupertinoIcons.back,
-                      color: AppColor.primary,
+                      color: AppColor.white,
                       size: 30,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:30.0),
-                      child: Logo(color:AppColor.primary),
-                    ),
-                  ],
-                ),
-                  background: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: pet.category == 'Cat' ? Image.asset('assets/cat.png'):
-                            Image.asset('assets/images.jpg', fit: BoxFit.fitWidth,)
-                      ),
-                      Positioned(
-                        bottom: 16,
-                        child: Text('Available seats')),
-                    ]
                   ),
-                )
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Opacity(
+                    opacity: 0.2,
+                    child: Text('helloS')),
+                  background: CarouselSlider(
+                    
+                      options: CarouselOptions(
+                        height: 350,
+                        viewportFraction: 1,
+                        // aspectRatio: MediaQuery.of(context).size.width/MediaQuery.of(context).size.height,
+                        ),
+                      items: [
+                        pet.category == 'Cat' ? 
+                        Image.asset('assets/cat.png',fit: BoxFit.cover,width: MediaQuery.of(context).size.width,):
+                        Image.asset('assets/images.jpg', width: MediaQuery.of(context).size.width,fit: BoxFit.cover,)
+                        ]
+                    ),
+                ),
+                ),
+                SliverList(delegate: SliverChildListDelegate(List.generate(10, (index) => CustomWidget(index)).toList())),
+              ]),
+              Positioned(
+            bottom: 20,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal:16.0),
+              child: Row(
+                children: [
+                  GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 60,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: AppBorderRadius.all_20
+                          ),
+                          child: Transform.rotate(
+                            angle: -math.pi/4,
+                            child: Icon(
+                            Icons.send_rounded,
+                            color: AppColor.white,
+                            size: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16,),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 60,
+                          width: 300,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: AppBorderRadius.all_20
+                          ),
+                          child: Center(child: Text('Adopt Pet', style: AppFont.h5(AppColor.white)))
+                        ),
+                      ),
+                  
+                ],
+              ),
             ),
-            SliverList(delegate: SliverChildListDelegate(List.generate(10, (index) => CustomWidget(index)).toList())),
-          ])
+          ),
+        ],
+      )
     );
   }
 }

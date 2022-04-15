@@ -143,31 +143,9 @@ class _LoginState extends State<Login> {
                                       setState(() {
                                         circular = true;
                                       });
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      String userID = prefs.getString('name');
-
-                                      Map<String, String> body = {
-                                        'userId': userID
-                                      };
-                                      NetworkHandler nw = NetworkHandler();
-                                      var tokenResponse = await nw.post(
-                                          'streamClient/token', body);
-                                      var userToken = jsonDecode(
-                                          tokenResponse.body)['token'];
-
-                                      await _client
-                                          .connectUser(
-                                              User(id: userID), userToken)
-                                          .then((response) {
-                                        print(response);
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => ChatNavigator(client: _client,),
-                                              ),
-                                              
-                                        );
-                                      });
+                                       StreamChatClient client = await getChatClient();
+                                    Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => ChatNavigator(client: client),),);
                                       // Navigator.pushNamed(context, '/boarding');
                                     } else {
                                       setState(() {
