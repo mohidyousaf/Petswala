@@ -76,9 +76,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: {
           // These are all the routes , which will used in navigation
-          // '/': (context) => ServicesHome(),
-          // '/': (context) => UserProfile(),
-          '/': (context) => LandingPage(),
+          '/': (context) => ServicesHome(),
+          // '/': (context) => HomeScreen(),
+          // '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),
@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           '/addpet2': (context) => AddPet2(),
           '/serviceHome': (context) => ServicesHome(),
           '/servicePage': (context) => ServicePage(),
-          '/adoption':(context) => AdoptionRouter()
+          '/adoption': (context) => AdoptionRouter()
         },
       ),
     );

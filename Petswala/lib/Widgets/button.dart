@@ -4,7 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/Authentication/addPet.dart';
 import 'package:petswala/CasualUser/blocs/settingsBloc.dart';
 import 'package:petswala/CasualUser/events/ChangeSettingsEvent.dart';
+import 'package:petswala/CasualUser/screens/servicesHome.dart';
 import 'package:petswala/CasualUser/states/ChangeSettingsState.dart';
+import 'package:petswala/Repository/networkHandler.dart';
+import 'package:petswala/themes/colors.dart';
+import 'package:petswala/themes/fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BuildButton extends StatefulWidget {
@@ -95,10 +99,49 @@ class _BuildButtonState extends State<BuildButton> {
   }
 }
 
-Widget buildButton(String text) {
+Widget buildButton(String text, ServiceInfo service, BuildContext context) {
   return GestureDetector(
-    onTap: () => {
+    onTap: () async {
+      // ignore: todo
       //TODO : Login
+      // add end point logic here
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String name = prefs.getString('name');
+      NetworkHandler nw = NetworkHandler();
+      Map<String, String> body = {
+        'veterinaryName': service.name,
+        'personName': name,
+        'rate': service.rate.toString(),
+        'rating': service.rating.toString()
+      };
+
+      var res =
+          await nw.post('appointment/addAppointment', body).then((value) => {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        alignment: Alignment.bottomCenter,
+                        backgroundColor: Colors.white24,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Container(
+                          height: 70,
+                          width: 50,
+                          child: Center(
+                            child: Text('Booking successful',
+                                style: AppFont.bodySmall(AppColor.white)),
+                          ),
+                        ),
+                      );
+                    })
+              });
+
+      print(service);
+
+      await Future.delayed(const Duration(seconds: 1), () {});
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => ServicesHome()));
     },
     child: Container(
       width: 300,
@@ -110,7 +153,7 @@ Widget buildButton(String text) {
           bottomLeft: Radius.circular(10),
           bottomRight: Radius.circular(10),
         ),
-        color: Color.fromRGBO(85, 68, 119, 1),
+        color: AppColor.primary,
       ),
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       child: Row(
@@ -119,13 +162,7 @@ Widget buildButton(String text) {
           Text(
             text,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 1),
-                fontFamily: 'Lato',
-                fontSize: 15,
-                letterSpacing: 1.25,
-                fontWeight: FontWeight.normal,
-                height: 1),
+            style: AppFont.button(AppColor.white),
           ),
         ],
       ),
