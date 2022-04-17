@@ -133,7 +133,8 @@ class _LoginState extends State<Login> {
                             onTap: snapshot.hasError
                                 ? null
                                 : () async {
-                                  FocusNode currentfocus = FocusScope.of(context);
+                                    FocusNode currentfocus =
+                                        FocusScope.of(context);
                                     if (!currentfocus.hasPrimaryFocus) {
                                       currentfocus.unfocus();
                                     }
@@ -144,12 +145,12 @@ class _LoginState extends State<Login> {
                                       setState(() {
                                         circular = true;
                                       });
-                                    StreamChatClient client = await getChatClient();
-                                    Channel channel = await navigateToChannel(client, 'adilslam7', 'mohid');
-                                    Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
-                                              settings: RouteSettings(name: '/channel',arguments: channel)),);
-                                      // Navigator.pushNamed(context, '/boarding');
+                                      // StreamChatClient client = await getChatClient();
+                                      // Channel channel = await navigateToChannel(client, 'adilslam7', 'mohid');
+                                      // Navigator.of(context).push(
+                                      // MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
+                                      //           settings: RouteSettings(name: '/channel',arguments: channel)),);
+                                      Navigator.pushNamed(context, '/boarding');
                                     } else {
                                       setState(() {
                                         circular = true;

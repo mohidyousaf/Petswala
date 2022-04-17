@@ -14,7 +14,8 @@ class ChannelPage extends StatelessWidget {
       channel: channel,
       child: Scaffold(
         appBar: StreamChannelHeader(
-          onBackPressed: () => Navigator.of(context).pop()),
+            onBackPressed: () =>
+                Navigator.of(context, rootNavigator: true).pop()),
         body: Column(
           children: <Widget>[
             Expanded(

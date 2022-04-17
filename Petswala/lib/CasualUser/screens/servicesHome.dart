@@ -16,7 +16,7 @@ class ServicesHome extends StatelessWidget {
     final categoryList = CategoryData().categoryList;
     final List<ServiceInfo> service = [
       ServiceInfo(
-          name: 'Rehan',
+          name: 'rehan',
           rate: 120,
           description:
               "Dedicated veterinarian seeking positions in the Seattle area. Skilled in treating animals, working in high-pressure environments and problem-solving. Passionate about educating pet owners on their pets' health and well-being, as well as advocating for animal rights.",

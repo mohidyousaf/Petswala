@@ -144,7 +144,7 @@ Widget buildButton(String text, ServiceInfo service, BuildContext context) {
           MaterialPageRoute(builder: (context) => ServicesHome()));
     },
     child: Container(
-      width: 300,
+      width: 200,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
