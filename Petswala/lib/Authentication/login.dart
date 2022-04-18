@@ -141,7 +141,9 @@ class _LoginState extends State<Login> {
                                     setState(() {
                                       circular = false;
                                     });
-                                    if (await bloc.submit()) {
+                                    var temp = await bloc.submit();
+                                    print(temp.text);
+                                    if (temp.val) {
                                       setState(() {
                                         circular = true;
                                       });
