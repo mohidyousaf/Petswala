@@ -5,6 +5,8 @@ import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/Widgets/textfield.dart';
 import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/bloc/register_bloc.dart';
+import 'package:petswala/themes/colors.dart';
+import 'package:petswala/themes/fonts.dart';
 import 'package:provider/provider.dart';
 
 // Signup of our app has validations as well for the username, email and password.
@@ -17,6 +19,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool visible = true;
+  String dropdownvalue = 'Simple User';
+  var items = ['Simple User', 'Vet', 'Shelter', 'Seller'];
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<RegisterBLoc>(context, listen: false);
@@ -121,6 +125,55 @@ class _SignUpState extends State<SignUp> {
                             onChanged: (value) => {bloc.changePassword(value)},
                           );
                         }),
+                    SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                          // color: AppColor.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text('Register as ',
+                                style: AppFont.bodyLarge(AppColor.primary)),
+                            StreamBuilder<Object>(
+                                stream: bloc.type,
+                                builder: (context, snapshot) {
+                                  bloc.changeType(dropdownvalue);
+                                  return DropdownButton(
+                                    // Initial Value
+                                    value: dropdownvalue,
+                                    hint: Text('Register as'),
+                                    style: AppFont.button(
+                                        Color.fromARGB(255, 80, 77, 77)),
+                                    borderRadius: BorderRadius.circular(20),
+
+                                    // Down Arrow Icon
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Color.fromARGB(255, 80, 77, 77),
+                                    ),
+
+                                    // Array list of items
+                                    items: items.map((String items) {
+                                      return DropdownMenuItem(
+                                        value: items,
+                                        child: Text(items),
+                                      );
+                                    }).toList(),
+                                    // After selecting the desired option,it will
+                                    // change button value to selected value
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        dropdownvalue = newValue;
+                                        bloc.changeType(dropdownvalue);
+                                        print(dropdownvalue);
+                                        print(bloc.type);
+                                      });
+                                    },
+                                  );
+                                }),
+                          ]),
+                    ),
                     SizedBox(height: 24),
                     StreamBuilder<bool>(
                         stream: bloc.isValid,
@@ -130,9 +183,11 @@ class _SignUpState extends State<SignUp> {
                                 ? null
                                 : () async {
                                     bloc.submit();
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => AddPet()));
+                                    dropdownvalue == 'Simple User'
+                                        ? Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) => AddPet()))
+                                        : Null;
                                   },
                             child: Container(
                               width: 300,

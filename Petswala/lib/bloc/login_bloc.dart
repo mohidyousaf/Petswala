@@ -5,7 +5,6 @@ import 'package:petswala/bloc/validation_login.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 // This is login bloc of our application where all the login logic is implemented that triggers updates in the states and fetch information from the backend and verify if
 // it is a authentic user.
@@ -37,7 +36,7 @@ class LoginBloc with Validator_login {
   NetworkHandler nw = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
-  Future<bool> submit() async {
+  Future<Tuple2> submit() async {
     // final userID = _loginUserName.value;
 
     // Map<String, String> body = {'userId': userID};
@@ -47,7 +46,7 @@ class LoginBloc with Validator_login {
     // await _client.connectUser(User(id: userID), userToken).then((response) {
     //   print(response);
     // });
-
+    var temp = [];
     print(_loginPassword.value);
     print(_loginUserName.value);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,12 +61,18 @@ class LoginBloc with Validator_login {
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> result = json.decode(response.body);
       print(result['token']);
+      print(result['type']);
+      temp.add(result['type']);
       await storage.write(key: 'token', value: result['token']);
-      return true;
+      temp.add(true);
+      return new Tuple2(true, result['type']);
+      // return true;
     } else {
       var output = json.decode(response.body);
       print(output);
-      return false;
+      temp.add(false);
+      return new Tuple2(false, 'none');
+      // return false;
     }
   }
 
@@ -77,4 +82,11 @@ class LoginBloc with Validator_login {
     _loginUserName.close();
     _loginState.close();
   }
+}
+
+class Tuple2 {
+  final bool val;
+  final String text;
+
+  Tuple2(this.val, this.text);
 }
