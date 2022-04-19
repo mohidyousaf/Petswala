@@ -79,8 +79,8 @@ class _MyAppState extends State<MyApp> {
           // These are all the routes , which will used in navigation
           // '/': (context) => ServicesHome(),
           // '/': (context) => UserProfile(),
-          // '/':(context) => ShelterHome(),
-          '/': (context) => LandingPage(),
+          '/':(context) => ShelterHome(),
+          // '/': (context) => LandingPage(),
           '/name': (context) => Name(),
           '/home': (context) => HomeScreen(),
           '/profile': (context) => UserProfile(),

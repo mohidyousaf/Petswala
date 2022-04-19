@@ -65,34 +65,36 @@ class _BuildButtonState extends State<BuildButton> {
               );
             });
       },
-      child: Container(
-        width: 300,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-          color: Color.fromRGBO(85, 68, 119, 1),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              widget.text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                  fontFamily: 'Lato',
-                  fontSize: 15,
-                  letterSpacing: 1.25,
-                  fontWeight: FontWeight.normal,
-                  height: 1),
+      child: Expanded(
+        child: Container(
+          // width: 250,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
             ),
-          ],
+            color: Color.fromRGBO(85, 68, 119, 1),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                widget.text,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontFamily: 'Lato',
+                    fontSize: 15,
+                    letterSpacing: 1.25,
+                    fontWeight: FontWeight.normal,
+                    height: 1),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -144,7 +146,7 @@ Widget buildButton(String text, ServiceInfo service, BuildContext context) {
           MaterialPageRoute(builder: (context) => ServicesHome()));
     },
     child: Container(
-      width: 300,
+      width: 250,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
