@@ -13,6 +13,7 @@ import 'package:petswala/CasualUser/screens/servicePage.dart';
 import 'package:petswala/CasualUser/screens/servicesHome.dart';
 import 'package:petswala/CasualUser/screens/userProfile.dart';
 import 'package:petswala/CasualUser/screens/userMarketplace.dart';
+import 'package:petswala/CasualUser/screens/vetHome.dart';
 import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Seller/screens/addProduct.dart';
 import 'package:petswala/Seller/screens/shopProductPage.dart';
@@ -100,7 +101,11 @@ class _MyAppState extends State<MyApp> {
           '/addpet2': (context) => AddPet2(),
           '/serviceHome': (context) => ServicesHome(),
           '/servicePage': (context) => ServicePage(),
+          '/shelterHome': (context) => ShelterHome(),
+          '/sellerHome':(context) => SellerHome(),
+          '/vetHome': (context) => VetHome(),
           '/adoption': (context) => AdoptionRouter(),
+
         },
       ),
     );

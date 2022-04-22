@@ -12,6 +12,7 @@ import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:petswala/themes/spacingAndBorders.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ProductPage extends StatelessWidget {
   @override
@@ -80,7 +81,7 @@ class ProductPage extends StatelessWidget {
                                         Text('Name:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
                                         state.editable == null ? Text('name')
                                         :state.editable ? 
-                                        CustomTextField(hintText:'name', func: AddProductFuncs.changeName)
+                                        CustomTextField(hintText:'${state.product.name}', func: AddProductFuncs.changeName)
                                         :Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 20),
                                             child: Text('${state.product.name}',
@@ -98,7 +99,7 @@ class ProductPage extends StatelessWidget {
                                         Text('Category:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
                                         state.editable == null ? Text('name')
                                         :state.editable ? 
-                                        CustomTextField(hintText:'category', func: AddProductFuncs.changeCategory)
+                                        CustomTextField(hintText:'${state.product.category}', func: AddProductFuncs.changeCategory)
                                         :Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 20),
                                             child: Text('${state.product.category}',
@@ -116,7 +117,7 @@ class ProductPage extends StatelessWidget {
                                         Text('Price:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
                                         state.editable == null ? Text('name')
                                         :state.editable ? 
-                                        CustomTextField(hintText:'price (rs)', func: AddProductFuncs.changePrice)
+                                        CustomTextField(hintText:'${state.product.price}', func: AddProductFuncs.changePrice)
                                         :Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 20),
                                             child: Text('${state.product.price}',
@@ -134,7 +135,7 @@ class ProductPage extends StatelessWidget {
                                         Text('Quantity:  ',style: AppFont.bodyLarge(AppColor.gray_dark)),
                                         state.editable == null ? Text('name')
                                         :state.editable ? 
-                                        CustomTextField(hintText:'quantity', func: AddProductFuncs.changeQuantity)
+                                        CustomTextField(hintText:'${state.product.quantity}', func: AddProductFuncs.changeQuantity)
                                         :Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 20),
                                             child: Text('${state.product.quantity}',
@@ -201,10 +202,24 @@ class ProductPage extends StatelessWidget {
   }
 }
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final Function func;
   final hintText;
+
   const CustomTextField({Key key,this.hintText, this.func}) : super(key: key);
+
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text:widget.hintText);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,14 +228,15 @@ class CustomTextField extends StatelessWidget {
       child: BlocBuilder<ProductBloc,ProductState>(
         builder:(context, state) {
           return TextField(
+            controller: controller,
             onChanged: (text) {
-              func(context, text);
+              widget.func(context, text);
             },
             decoration:InputDecoration(
               contentPadding:EdgeInsets.all(20),
               fillColor: AppColor.gray_transparent,
               filled: true,
-              hintText:hintText,
+              hintText:widget.hintText,
               hintStyle: AppFont.bodyLarge(AppColor.gray_light),
               border: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColor.primary),

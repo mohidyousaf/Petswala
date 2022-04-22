@@ -152,7 +152,22 @@ class _LoginState extends State<Login> {
                                       // Navigator.of(context).push(
                                       // MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
                                       //           settings: RouteSettings(name: '/channel',arguments: channel)),);
-                                      Navigator.pushNamed(context, '/boarding');
+                                      String page = '';
+                                      if (temp.text == "Simple User"){
+                                        page = '/home';
+                                      }
+                                      else if (temp.text == "Shelter"){
+                                        page = '/shelterHome';
+                                      }
+                                      else if (temp.text == "Vet"){
+                                        page = '/vetHome';
+                                      }
+                                      else if (temp.text == "Seller"){
+                                        page = '/sellerHome';
+                                      }
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      prefs.setString('type', temp.text);
+                                      Navigator.pushNamed(context, page);
                                     } else {
                                       setState(() {
                                         circular = true;

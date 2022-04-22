@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> {
                                         ? Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) => AddPet()))
-                                        : Null;
+                                        : Navigator.of(context).pushNamed('/login');
                                   },
                             child: Container(
                               width: 300,

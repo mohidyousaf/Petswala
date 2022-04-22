@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
 import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
+import 'package:petswala/CasualUser/widgets/navBars.dart';
 import 'package:petswala/homescreen_Casual.dart';
 import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:petswala/Seller/widgets/chinbar.dart';
 import 'package:petswala/CasualUser/widgets/productCard.dart';
@@ -16,12 +18,27 @@ import 'package:petswala/CasualUser/models/productItem.dart';
 
 class SellerHome extends StatefulWidget {
   //const SellerHome({Key? key}) : super(key: key);
+  
 
   @override
   _SellerHomeState createState() => _SellerHomeState();
 }
 
 class _SellerHomeState extends State<SellerHome> {
+  String name = '';
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString("name");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSharedPrefs();
+  }
   @override
   Widget build(BuildContext context) {
     //phone_height = 820.5714285714286
@@ -36,7 +53,7 @@ class _SellerHomeState extends State<SellerHome> {
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      bottomNavigationBar: bottomAppBar(context),
+      bottomNavigationBar: BottomNavBar(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -45,7 +62,7 @@ class _SellerHomeState extends State<SellerHome> {
               color: Colors.white,
               width: MediaQuery.of(context).size.width,
               child: Text(
-                "Hi! Mohid Yousaf",
+                "Hi! $name",
                 style: AppFont.h4(AppColor.primary),
               ),
             ),
@@ -176,7 +193,9 @@ class _SellerHomeState extends State<SellerHome> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){print("inventory printed");},
+                    onTap: (){
+                      Navigator.of(context).pushNamed('/shop');
+                      },
                     child: Container(
                       height: phone_width*0.1869,
                       width: phone_width*0.1869,

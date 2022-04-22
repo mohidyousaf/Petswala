@@ -2,9 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:petswala/Repository/users_list_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-class BottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatefulWidget {
   BottomNavBar(context);
+
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  String type = '';
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      type = prefs.getString("type");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSharedPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +48,20 @@ class BottomNavBar extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).pushNamed('/home');
+                String page = '';
+                if (type == "Simple User"){
+                  page = '/home';
+                }
+                else if (type == "Shelter"){
+                  page = '/shelterHome';
+                }
+                else if (type == "Vet"){
+                  page = '/vetHome';
+                }
+                else if (type == "Seller"){
+                  page = '/sellerHome';
+                }
+                Navigator.of(context, rootNavigator: true).pushNamed(page);
               }
           ),
           TextButton(

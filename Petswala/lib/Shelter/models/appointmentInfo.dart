@@ -1,1 +1,4 @@
-class AppointmentInfo
+class AppointmentInfo{
+
+  
+}

@@ -5,8 +5,10 @@ import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/screens/settings.dart';
 import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
 import 'package:petswala/homescreen_Casual.dart';
+import 'package:petswala/themes/branding.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
+import 'package:petswala/themes/spacingAndBorders.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:petswala/Seller/widgets/chinbar.dart';
 import 'package:petswala/CasualUser/widgets/productCard.dart';
@@ -24,15 +26,32 @@ class _StoreState extends State<Store>{
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: AppBar(
-          title: Image.asset('assets/logo2.png', fit: BoxFit.cover),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
         bottomNavigationBar: bottomAppBar(context),
         body: Column(
           children: [
+            Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(color: AppColor.primary,borderRadius: AppBorderRadius.all_25),
+                                child: Center(child: Icon(CupertinoIcons.back,color: AppColor.white,size: 30,
+                                ))),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 50),
+                              child: Logo(color: AppColor.primary)),
+                        ],
+                      ),
+                    ),
+                  ),
             Container(
               height: 242,
               width: MediaQuery.of(context).size.width,
