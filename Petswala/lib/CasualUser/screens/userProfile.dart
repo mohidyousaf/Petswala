@@ -1,6 +1,8 @@
 //import 'dart:html';
 
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,7 +210,7 @@ Future<dynamic> bottomDrawer(BuildContext context) {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-      backgroundColor: AppColor.primary_dark,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       context: context,
       builder: (BuildContext context) {
         return Wrap(
@@ -217,11 +219,12 @@ Future<dynamic> bottomDrawer(BuildContext context) {
             ListTile(
                 leading: Icon(
                   Icons.account_circle_rounded,
-                  color: AppColor.white,
+                  color: AppColor.primary_dark,
                 ),
                 dense: true,
                 // tileColor: AppColor.primary,
-                title: Text('User', style: AppFont.bodySmall(AppColor.white)),
+                title: Text('User',
+                    style: AppFont.bodySmall(AppColor.primary_dark)),
                 onTap: () {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -229,11 +232,12 @@ Future<dynamic> bottomDrawer(BuildContext context) {
             ListTile(
                 leading: Icon(
                   Icons.monetization_on,
-                  color: AppColor.white,
+                  color: AppColor.primary_dark,
                 ),
                 dense: true,
                 // tileColor: AppColor.primary,
-                title: Text('Seller', style: AppFont.bodySmall(AppColor.white)),
+                title: Text('Seller',
+                    style: AppFont.bodySmall(AppColor.primary_dark)),
                 onTap: () {
                   'pressed';
                   Navigator.of(context).pushReplacement(
@@ -369,11 +373,58 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   var _imageFile;
   var path;
-  // final ImagePicker _picker = ImagePicker();
+
+  String name = '';
+  String email = '';
+  Uint8List image;
+
+  List<ProductItem> animals = [
+    ProductItem(name: 'Cats', category: 'Animal', price: 25.5, rating: 8.5)
+  ];
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString("name");
+    });
+  }
+
+  void checkEmail() async {
+    await getSharedPrefs();
+    NetworkHandler nw = NetworkHandler();
+    print('name is ${name}');
+    Map<String, dynamic> result = await nw.get('user/${name}');
+
+    print('email is');
+    print(result['data']['email']);
+
+    setState(() {
+      email = result['data']['email'];
+      List<int> image_list = <int>[];
+      try {
+        List<dynamic> list = result['data']['img']['data']['data'];
+        list.forEach((element) {
+          image_list.add(element as int);
+        });
+        image = Uint8List.fromList(image_list);
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getSharedPrefs();
+    checkEmail();
+  }
+
   @override
   Widget build(BuildContext context) {
     double phone_width = MediaQuery.of(context).size.width;
-
+    final bloc = Provider.of<RegisterBLoc>(context);
     final product = ShopProductItem(
       name: 'Royal\'s Cat Food',
       category: 'Food',
@@ -411,7 +462,7 @@ class _UserProfileState extends State<UserProfile> {
               IconButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => Settings()));
+                        CupertinoPageRoute(builder: (context) => Settings()));
                   },
                   icon: Icon(
                     Icons.settings,
@@ -456,7 +507,9 @@ class _UserProfileState extends State<UserProfile> {
                               CircleAvatar(
                                 radius: 50.0,
                                 backgroundImage: path == null
-                                    ? AssetImage('assets/User.png')
+                                    ? image == null
+                                        ? AssetImage('assets/User.png')
+                                        : Image.memory(image).image
                                     : FileImage(File(path)),
                               ),
                               Container(
@@ -493,10 +546,13 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         Container(
                           padding: EdgeInsets.only(top: 30.0),
-                          child: Text(
-                            'Mohid Yousaf',
-                            style: AppFont.h4(AppColor.black),
-                          ),
+                          child: name == ''
+                              ? Text(
+                                  'Mohid Yousaf',
+                                  style: AppFont.h4(AppColor.black),
+                                )
+                              : Text('$name',
+                                  style: AppFont.h5(AppColor.black)),
                         ),
                         Container(
                           width: phone_width * 0.65,
@@ -511,11 +567,17 @@ class _UserProfileState extends State<UserProfile> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          'mohidyousaf@gmail.com',
-                                          style: AppFont.subtitle(
-                                              AppColor.gray_light),
-                                        ),
+                                        email == ''
+                                            ? Text(
+                                                '....@gmail.com',
+                                                style: AppFont.subtitle(
+                                                    AppColor.gray_light),
+                                              )
+                                            : Text(
+                                                email,
+                                                style: AppFont.subtitle(
+                                                    AppColor.gray_light),
+                                              ),
                                         Container(
                                           child: Icon(
                                             CupertinoIcons.down_arrow,
@@ -821,6 +883,8 @@ Widget Pets(context, phone_width) {
               FlatButton(
                   onPressed: () {
                     print('Add Pets');
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => AddPet2()));
                   },
                   child: Container(
                     height: 41,

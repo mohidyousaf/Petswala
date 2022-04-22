@@ -274,6 +274,8 @@ Future signIn() async {
   print(data);
   NetworkHandler nw = NetworkHandler();
   nw.post('user/register', data);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('name', user.displayName);
   await GoogleSignInApi.logout();
   return user;
 }

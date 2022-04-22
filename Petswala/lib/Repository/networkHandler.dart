@@ -12,6 +12,7 @@ class NetworkHandler {
 
   Future<dynamic> get(String url) async {
     url = formatter(url);
+    // String token = await storage.read(key: 'token');
     var resp = await http.get(Uri.parse(url));
 
     if (resp.statusCode == 200 || resp.statusCode == 201) {
@@ -20,9 +21,40 @@ class NetworkHandler {
     }
   }
 
+  Future<http.StreamedResponse> postPet(
+      String url, Map<String, String> body, String path) async {
+    url = formatter(url);
+    // String token = await storage.read(key: 'token');
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.fields['ownerName'] = body['ownerName'];
+    request.fields['petName'] = body['petName'];
+    request.fields['age'] = body['age'];
+    request.fields['category'] = body['category'];
+
+    request.files.add(await http.MultipartFile.fromPath("img", path));
+    request.headers.addAll({
+      "Content-type": "multipart/form-data",
+    });
+    var response = request.send();
+    print(response);
+    return response;
+  }
+
   Future<http.Response> post(String url, Map<String, String> body) async {
     url = formatter(url);
+    // String token = await storage.read(key: 'token');
     var response = await http.post(Uri.parse(url),
+        headers: {"Content-type": "application/json"}, body: json.encode(body));
+
+    print(response);
+    return response;
+  }
+
+  Future<http.Response> patch(String url, Map<String, String> body) async {
+    url = formatter(url);
+    String token = await storage.read(key: 'token');
+    var response = await http.patch(Uri.parse(url),
         headers: {"Content-type": "application/json"}, body: json.encode(body));
 
     print(response);

@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
           '/addpet2': (context) => AddPet2(),
           '/serviceHome': (context) => ServicesHome(),
           '/servicePage': (context) => ServicePage(),
-          '/adoption': (context) => AdoptionRouter()
+          '/adoption': (context) => AdoptionRouter(),
         },
       ),
     );

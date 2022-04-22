@@ -2,6 +2,11 @@ abstract class AddPetEvent {}
 
 // These are the possible events when user can call on adding pets
 
+class ChangePathEvent extends AddPetEvent {
+  String path;
+  ChangePathEvent({this.path});
+}
+
 class ChangeCategoryEvent extends AddPetEvent {
   String category;
 
