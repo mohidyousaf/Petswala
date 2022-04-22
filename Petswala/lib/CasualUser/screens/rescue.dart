@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/CasualUser/blocs/rescueBloc.dart';
-import 'package:petswala/CasualUser/blocs/userMarketplaceBloc.dart';
 import 'package:petswala/CasualUser/events/rescueEvent.dart';
 import 'package:petswala/CasualUser/states/rescueState.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';

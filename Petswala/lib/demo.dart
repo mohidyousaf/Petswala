@@ -80,6 +80,25 @@ class DBConnection {
     // print(finalList[0].category);
     return finalList;
   }
+  // Future getAppointments(String name) async {
+  //   if (_db == null) {
+  //     await getConnection();
+  //   }
+  //   dynamic coll1 = _db.collection('appointments');
+  //   final pets = await coll1.find({"veterinaryName":name}).toList();
+  //   List<PetInfo> finalList = [];
+  //   var poignant = pets.forEach((element) {
+  //     finalList.add(PetInfo(
+  //         petId: element['_id'],
+  //         name: element['name'],
+  //         category: element['category'],
+  //         years: element['age'],
+  //         ownerName: element['ownerName']
+  //     ));
+  //   });
+  //   // print(finalList[0].category);
+  //   return finalList;
+  // }
     Future getAllRequests() async {
     if (_db == null) {
       await getConnection();
@@ -129,6 +148,7 @@ class DBConnection {
     finalList.sort((b,a) => a.time.compareTo(b.time));
     return finalList;
   }
+
   Future getProduct(id) async {
     if (_db == null) {
       await getConnection();

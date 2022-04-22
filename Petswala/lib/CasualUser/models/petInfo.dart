@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:petswala/CasualUser/models/vaccinationInfo.dart';
 
@@ -13,6 +14,7 @@ class PetInfo{
   List<VaccinationInfo> vaccinations;
   List<String> allergies;
   List<Map<String, String>> medHistory;
+  List<Image> petImages;
   ObjectId petId;
   ObjectId ownerID;
   String ownerName;

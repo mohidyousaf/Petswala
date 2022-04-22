@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:petswala/Repository/users_list_page.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 class BottomNavBar extends StatelessWidget {
   BottomNavBar(context);
   @override
@@ -64,14 +66,16 @@ class BottomNavBar extends StatelessWidget {
               child:Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Image.asset('assets/icons/icons8-activity-feed-32.png',
-                height: 28,
-                width: 28,),
+                 Icon(
+                    Icons.chat_outlined,
+                    color: Color.fromRGBO(84, 84, 84, .6),
+                    size: 28
+                  ),
                 ],
               ),
-              onPressed: () {
+              onPressed: () async{
                 Navigator.of(context, rootNavigator: true).pushNamed('/feed');
-              }
+            }
           ),
           TextButton(
             child: Column(
