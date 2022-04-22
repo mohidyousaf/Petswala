@@ -68,6 +68,11 @@ class _SettingsState extends State<Settings> {
                 title: 'Enter new Password',
                 label: 'New Password',
               ),
+              ChangeWidget(
+                text: 'Become a Volunteer',
+                title: 'Write Confirm',
+                label: 'Your location will be used in this regards',
+              ),
               SizedBox(height: 36),
               buildButton2("Log Out", AppColor.primary_dark, context, Login())
             ],
