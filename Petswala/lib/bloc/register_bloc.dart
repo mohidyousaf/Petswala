@@ -30,6 +30,7 @@ class RegisterBLoc with Validator {
   //logic for resgitsering and adding details to the database
 
   NetworkHandler nw = NetworkHandler();
+
   void submit() async {
     print(_userName.value);
     print(_email.value);

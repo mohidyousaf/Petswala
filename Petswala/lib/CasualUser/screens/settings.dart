@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petswala/Authentication/login.dart';
 import 'package:petswala/CasualUser/blocs/settingsBloc.dart';
 import 'package:petswala/CasualUser/events/ChangeSettingsEvent.dart';
 import 'package:petswala/CasualUser/events/addPetEvent.dart';
@@ -66,7 +67,9 @@ class _SettingsState extends State<Settings> {
                 text: 'Change Password',
                 title: 'Enter new Password',
                 label: 'New Password',
-              )
+              ),
+              SizedBox(height: 36),
+              buildButton2("Log Out", AppColor.primary_dark, context, Login())
             ],
           ),
         ),

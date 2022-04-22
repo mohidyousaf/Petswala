@@ -94,7 +94,7 @@ class _AddPet2State extends State<AddPet2> {
                               height: 150,
                               width: 150,
                               child: GestureDetector(
-                                onTap: () => {
+                                onTap: () {
                                   //TODO: Upload Image here
                                   showModalBottomSheet(
                                       shape: RoundedRectangleBorder(
@@ -103,7 +103,7 @@ class _AddPet2State extends State<AddPet2> {
                                               topRight: Radius.circular(30))),
                                       context: context,
                                       builder: ((builder) =>
-                                          bottom_sheet(context)))
+                                          bottom_sheet(context)));
                                 },
                                 child: path == null
                                     ? new Image.asset('assets/uploadimage.png')
@@ -206,8 +206,12 @@ class _AddPet2State extends State<AddPet2> {
                               return GestureDetector(
                                 onTap: () {
                                   // bloc.submit();
+
+                                  BlocProvider.of<AddPetBloc>(context)
+                                      .add(ChangePathEvent(path: path));
                                   BlocProvider.of<AddPetBloc>(context)
                                       .add(SubmitEvent());
+
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) => Login()));
@@ -276,7 +280,7 @@ class _AddPet2State extends State<AddPet2> {
             children: <Widget>[
               TextButton.icon(
                   onPressed: () {
-                    takePhoto();
+                    takePhoto(context);
                     // if (path != null) {
                     //   NetworkHandler nw = NetworkHandler();
                     //   nw.patchImage('add/image', path);
@@ -293,7 +297,7 @@ class _AddPet2State extends State<AddPet2> {
               TextButton.icon(
                   onPressed: () async {
                     // TakePhoto(ImageSource.gallery);
-                    pickPhoto();
+                    pickPhoto(context);
                     // if (path != null) {
                     //   NetworkHandler nw = NetworkHandler();
                     //   nw.patchImage('add/image', path);
@@ -312,7 +316,7 @@ class _AddPet2State extends State<AddPet2> {
     );
   }
 
-  void pickPhoto() async {
+  void pickPhoto(context) async {
     List<Media> res = await ImagesPicker.pick(
       count: 1,
       pickType: PickType.all,
@@ -329,7 +333,7 @@ class _AddPet2State extends State<AddPet2> {
       print(res.map((e) => e.path).toList());
       setState(() {
         path = res[0].thumbPath;
-        NetworkHandler nw = NetworkHandler();
+        // BlocProvider.of<AddPetBloc>(context).add(ChangePathEvent(path: path));
         // nw.patchImage('user/add/image', path);
       });
       // bool status = await ImagesPicker.saveImageToAlbum(File(res[0]?.path));
@@ -337,7 +341,7 @@ class _AddPet2State extends State<AddPet2> {
     }
   }
 
-  void takePhoto() async {
+  void takePhoto(context) async {
     List<Media> res = await ImagesPicker.openCamera(
       // pickType: PickType.video,
       pickType: PickType.image,
@@ -353,7 +357,7 @@ class _AddPet2State extends State<AddPet2> {
       print(res[0].path);
       setState(() {
         path = res[0].thumbPath;
-        NetworkHandler nw = NetworkHandler();
+
         // nw.patchImage('user/add/image', path);
       });
     }

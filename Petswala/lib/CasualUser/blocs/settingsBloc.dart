@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petswala/CasualUser/events/ChangeSettingsEvent.dart';
 import 'package:petswala/CasualUser/states/ChangeSettingsState.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/demo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeSettingsBloc
     extends Bloc<ChangeSettingsEvent, ChangeSettingsState> {
+  NetworkHandler nw = NetworkHandler();
   ChangeSettingsBloc() : super(ChangeSettingsState()) {
     on<ConfirmUsernameChangeEvent>((event, emit) async {
-      final db = await DBConnection.getInstance();
-      db.changeUsername(event.currentName, state.newUsername);
+      // final db = await DBConnection.getInstance();
+      // db.changeUsername(event.currentName, state.newUsername);
+      Map<String, String> data = {'name': state.newUsername};
+      nw.patch('user/changeUserName/${event.currentName}', data);
       //updating new name
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('name', state.newUsername);
@@ -19,15 +23,19 @@ class ChangeSettingsBloc
     });
 
     on<ConfirmPasswordChangeEvent>((event, emit) async {
-      final db = await DBConnection.getInstance();
-      db.changePassword(event.currentName, state.newPassword);
+      // final db = await DBConnection.getInstance();
+      // db.changePassword(event.currentName, state.newPassword);
+      Map<String, String> data = {'password': state.newPassword};
+      nw.patch('user/changePassword/${event.currentName}', data);
       //updating new password
       print('in confirm state');
     });
 
     on<ConfirmEmailChangeEvent>((event, emit) async {
-      final db = await DBConnection.getInstance();
-      db.changeEmail(event.currentName, state.newEmail);
+      // final db = await DBConnection.getInstance();
+      // db.changeEmail(event.currentName, state.newEmail);
+      Map<String, String> data = {'email': state.newEmail};
+      nw.patch('user/changeEmail/${event.currentName}', data);
       //updating new email
       print('in confirm state');
     });

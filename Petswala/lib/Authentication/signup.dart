@@ -8,6 +8,7 @@ import 'package:petswala/bloc/register_bloc.dart';
 import 'package:petswala/themes/colors.dart';
 import 'package:petswala/themes/fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Signup of our app has validations as well for the username, email and password.
 
@@ -74,7 +75,12 @@ class _SignUpState extends State<SignUp> {
                                 errorText: snapshot.error,
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
-                            onChanged: (value) => {bloc.changeUserNAme(value)},
+                            onChanged: (value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString('name', value);
+                              bloc.changeUserNAme(value);
+                            },
                           );
                         }),
                     SizedBox(height: 16),
