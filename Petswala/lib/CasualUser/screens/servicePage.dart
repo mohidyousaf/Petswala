@@ -7,6 +7,8 @@ import 'package:petswala/CasualUser/screens/servicesHome.dart';
 // import 'package:petswala/CasualUser/events/userMarketplaceEvent.dart';
 // import 'package:petswala/CasualUser/states/userMarketplaceState.dart';
 import 'package:petswala/CasualUser/widgets/navBars.dart';
+import 'package:petswala/Repository/channel_page.dart';
+import 'package:petswala/Repository/networkHandler.dart';
 import 'package:petswala/Repository/users_list_page.dart';
 import 'package:petswala/Widgets/button.dart';
 import 'package:petswala/themes/branding.dart';
@@ -200,8 +202,8 @@ class ServicePage extends StatelessWidget {
                           StreamChatClient client = await getChatClient();
                           Channel channel = await navigateToChannel(client, userID, service.name);
                           Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ChatNavigator(client: client),
-                                    settings: RouteSettings(name: '/channel',arguments: channel)),);
+                          MaterialPageRoute(builder: (context) => StandAloneChannelPage(),
+                                    settings: RouteSettings(arguments: ChatArgs(channel: channel, client: client))),);
                         },
                         child: Container(
                           height: 60,

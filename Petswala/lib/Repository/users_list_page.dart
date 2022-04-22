@@ -32,7 +32,8 @@ class _ChatNavigatorState extends State<ChatNavigator> {
   @override
   Widget build(BuildContext context) {
     RouteSettings passedSettings = ModalRoute.of(context).settings;
-    print(passedSettings.name);
+    // print(passedSettings.name);
+    // print(settings.name);
     return StreamChat(
       client: widget.client,
       streamChatThemeData: StreamChatThemeData(
@@ -48,7 +49,9 @@ class _ChatNavigatorState extends State<ChatNavigator> {
           initialRoute: passedSettings.name,
            onGenerateRoute: (settings) {
               Widget page;
-              switch (passedSettings.name){
+              print(settings.arguments == null ? "bilyesss":"bilnoooo");
+              print(passedSettings.arguments == null ? "yesss":"noooo");
+              switch (settings.name){
                 case '/': page = UsersListPage();break;
                 case '/channel': 
                 page = ChannelPage();
@@ -56,7 +59,7 @@ class _ChatNavigatorState extends State<ChatNavigator> {
     
               }
               return CupertinoPageRoute(builder: (context) => page, 
-                    settings: passedSettings.arguments != null ? passedSettings:settings);
+                    settings:settings.arguments == null ? passedSettings:settings);
             },
           ),
     );
@@ -111,7 +114,7 @@ class _UsersListPageState extends State<UsersListPage> {
           leading: Padding(
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () => Navigator.of(context, rootNavigator: true).pop(),
               child: Container(
                   decoration: BoxDecoration(
                       color: AppColor.primary,

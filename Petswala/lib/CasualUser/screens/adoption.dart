@@ -16,7 +16,7 @@ import 'package:bottom_drawer/bottom_drawer.dart';
 
 class AdoptionRouter extends StatelessWidget {
   const AdoptionRouter({Key key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     final RouteSettings passedSettings = ModalRoute.of(context).settings;
