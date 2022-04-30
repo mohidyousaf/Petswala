@@ -59,6 +59,7 @@ class _ShelterHomeState extends State<ShelterHome> {
               ),
               appBar: AppBar(
                 title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
                       onTap: () => Navigator.of(context, rootNavigator: true)
@@ -66,7 +67,7 @@ class _ShelterHomeState extends State<ShelterHome> {
                       child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: AppColor.primary,
+                              color: Color.fromARGB(255, 128, 93, 90),
                               borderRadius: AppBorderRadius.all_20),
                           child: Icon(
                             CupertinoIcons.back,
@@ -159,7 +160,7 @@ class _ShelterHomeState extends State<ShelterHome> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "20",
+                                    "18",
                                     style: AppFont.h5(AppColor.color_font_dark),
                                   ),
                                   Text(

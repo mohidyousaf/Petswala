@@ -173,57 +173,19 @@ class _ShelterPetPageState extends State<ShelterPetPage> {
             padding: const EdgeInsets.symmetric(horizontal:16.0),
             child: Row(
               children: [
-                AbsorbPointer(
-                  absorbing: loading,
-                  child: GestureDetector(
-                        onTap: () async{
-                          setState(() {
-                            loading = true;
-                          });
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          String userID = prefs.getString('name');
-                          StreamChatClient client = await getChatClient();
-                          Channel channel = await navigateToChannel(client, userID, pet.ownerName);
-                          print("Users: " +userID + " " + pet.ownerName);
-                          setState(() {
-                            loading = false;
-                          });
-                          Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => StandAloneChannelPage(),
-                                    settings: RouteSettings(arguments: ChatArgs(channel: channel, client:client))),);
-                        },
-                        child: Container(
-                          height: 60,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColor.primary,
-                            borderRadius: AppBorderRadius.all_20
-                          ),
-                          child: loading?Container(height:30,width: 30,child: CircularProgressIndicator(color: Colors.white,)):Transform.rotate(
-                            angle: -math.pi/4,
-                            child: Icon(
-                            Icons.send_rounded,
-                            color: AppColor.white,
-                            size: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                ),
-                    SizedBox(width: 16,),
-                    GestureDetector(
+                GestureDetector(
                       onTap: (){
                         Navigator.of(context).pop();
                       },
                       child: Container(
                         height: 60,
-                        width: 300,
+                        width: 350,
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: AppColor.primary,
                           borderRadius: AppBorderRadius.all_20
                         ),
-                        child: Center(child: Text('Adopt Pet', style: AppFont.h5(AppColor.white)))
+                        child: Center(child: Text('Put for adoption', style: AppFont.h5(AppColor.white)))
                       ),
                     ),
                 
